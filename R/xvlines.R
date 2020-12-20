@@ -33,6 +33,26 @@ StatXvlines <- ggplot2::ggproto("StatXvlines", ggplot2::Stat,
 )
 
 
+#' Title
+#'
+#' @param mapping
+#' @param data
+#' @param stat
+#' @param position
+#' @param ...
+#' @param r
+#' @param n
+#' @param arrow
+#' @param lineend
+#' @param linejoin
+#' @param na.rm
+#' @param show.legend
+#' @param inherit.aes
+#'
+#' @return
+#' @export
+#'
+#' @examples
 geom_xvlines <- function(mapping = NULL, data = NULL, stat = "xvlines",
                          position = "identity", ..., r = 1,
                          n = 50, arrow = NULL, lineend = "butt", linejoin = "round",
@@ -85,6 +105,26 @@ StatXmean <- ggplot2::ggproto("StatXmean", ggplot2::Stat,
 
 
 
+#' Title
+#'
+#' @param mapping
+#' @param data
+#' @param stat
+#' @param position
+#' @param ...
+#' @param r
+#' @param n
+#' @param arrow
+#' @param lineend
+#' @param linejoin
+#' @param na.rm
+#' @param show.legend
+#' @param inherit.aes
+#'
+#' @return
+#' @export
+#'
+#' @examples
 geom_xmean <- function(mapping = NULL, data = NULL, stat = "xmean",
                        position = "identity", ..., r = 1,
                        n = 50, arrow = NULL, lineend = "butt", linejoin = "round",
