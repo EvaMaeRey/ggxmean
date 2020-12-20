@@ -7,7 +7,8 @@
 
 <!-- badges: end -->
 
-The goal of ggxmean is to …
+The goal of ggxmean is plot the mean of x - and some other things like
+y\!
 
 ## Installation
 
@@ -33,9 +34,9 @@ cars %>%
   aes(x = speed,
       y = dist) +
   geom_point() + 
-  ggxmean:::geom_xvlines(alpha = .1,
+  geom_xvlines(alpha = .1,
                linetype = "dashed") +
-  ggxmean:::geom_xmean(color = "firebrick",
+  geom_xmean(color = "firebrick",
              size = 2,
              linetype = "dotted")
 #> Warning: Duplicated aesthetics after name standardisation: y
