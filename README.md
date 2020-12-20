@@ -26,12 +26,19 @@ This is a basic example which shows you how to solve a common problem:
 library(ggplot2)
 #> Warning: package 'ggplot2' was built under R version 3.6.2
 library(ggxmean)
+
 ## basic example code
 cars %>% 
   ggplot() +
   aes(x = speed,
       y = dist) +
-  geom_point() 
+  geom_point() + 
+  ggxmean:::geom_xvlines(alpha = .1,
+               linetype = "dashed") +
+  ggxmean:::geom_xmean(color = "firebrick",
+             size = 2,
+             linetype = "dotted")
+#> Warning: Duplicated aesthetics after name standardisation: y
 ```
 
 <img src="man/figures/README-example-1.png" width="100%" />
