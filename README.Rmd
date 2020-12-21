@@ -33,7 +33,7 @@ devtools::install_github("EvaMaeRey/ggxmean")
 This is a basic example which shows you how to solve a common problem:
 
 ```{r example}
-library(ggplot2)
+library(tidyverse)
 library(ggxmean)
 
 ## basic example code
@@ -47,5 +47,18 @@ cars %>%
   geom_xmean(color = "firebrick",
              size = 2,
              linetype = "dotted")
+```
+
+
+# another case with faceting
+
+```{r}
+mtcars %>% 
+  ggplot() + 
+  aes(x = wt) + 
+  aes(y = mpg) +
+  geom_xmean(linetype = "dashed") + # won't appear w/o point, not sure why
+  geom_point() +
+  facet_grid(rows = vars(cyl))
 ```
 
