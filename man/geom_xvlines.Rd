@@ -5,9 +5,9 @@
 \title{Title}
 \usage{
 geom_xvlines(mapping = NULL, data = NULL, stat = "xvlines",
-  position = "identity", ..., r = 1, n = 50, arrow = NULL,
-  lineend = "butt", linejoin = "round", na.rm = FALSE,
-  show.legend = NA, inherit.aes = TRUE)
+  position = "identity", ..., arrow = NULL, lineend = "butt",
+  linejoin = "round", na.rm = FALSE, show.legend = NA,
+  inherit.aes = TRUE)
 }
 \arguments{
 \item{inherit.aes}{}

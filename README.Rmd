@@ -42,8 +42,8 @@ cars %>%
   aes(x = speed,
       y = dist) +
   geom_point() + 
-  geom_xvlines(alpha = .1,
-               linetype = "dashed") +
+  # geom_xvline(alpha = .1,
+  #              linetype = "dashed") +
   geom_xmean(color = "firebrick",
              size = 2,
              linetype = "dotted")
@@ -57,8 +57,31 @@ mtcars %>%
   ggplot() + 
   aes(x = wt) + 
   aes(y = mpg) +
-  geom_xmean(linetype = "dashed") + # won't appear w/o point, not sure why
+  geom_xmean() + # won't appear w/o point, probably as scale is not established
   geom_point() +
-  facet_grid(rows = vars(cyl))
+  facet_grid(rows = vars(cyl)) #+
+  # geom_ymean()
 ```
+
+# But:
+
+```{r}
+palmerpenguins::penguins %>% 
+  ggplot() +
+  aes(x = bill_length_mm) +
+  aes(y = flipper_length_mm) +
+  geom_point() +
+  # aes(color = species) + 
+  geom_xmean() #+
+  # geom_ymean() +
+  # geom_yhline(alpha = .1) +
+  # geom_xvline(alpha = .1) +
+  # geom_xdiff() +
+  # geom_ydiff() +
+  # geom_diffsmultiplied() +
+  # aes(x = rank(bill_length_mm)) +
+  # aes(y = mean(flipper_length_mm)) +
+  # coord_equal()
+```
+
 

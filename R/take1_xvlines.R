@@ -11,7 +11,7 @@ create_xvlines <- function(x){
 
 ####  Stat Xvlines ######
 
-StatXvlines <- ggplot2::ggproto("StatXvlines", ggplot2::Stat,
+StatXvline <- ggplot2::ggproto("StatXvline", ggplot2::Stat,
                        setup_params = function(data, params) {
                          params
                        },
@@ -53,7 +53,7 @@ StatXvlines <- ggplot2::ggproto("StatXvlines", ggplot2::Stat,
 #' @export
 #'
 #' @examples
-geom_xvlines <- function(mapping = NULL, data = NULL, stat = "xvlines",
+geom_xvline <- function(mapping = NULL, data = NULL, stat = "xvlines",
                          position = "identity", ..., arrow = NULL, lineend = "butt", linejoin = "round",
                          na.rm = FALSE, show.legend = NA, inherit.aes = TRUE) {
   ggplot2::layer(
