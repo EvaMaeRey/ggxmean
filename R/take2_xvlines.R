@@ -1,6 +1,6 @@
 #####  Xmean ######
 
-StatXmean <- ggproto("StatXmean", Stat,
+StatXmean <- ggplot2::ggproto("StatXmean", Stat,
                      compute_group = function(data, scales) {
                        mean(data$x) %>%
                          data.frame(x = ., xend = ., y = -Inf, yend = Inf)
@@ -154,7 +154,10 @@ StatXdifftimesydiff <- ggplot2::ggproto("StatYdiff",
                               ggplot2::Stat,
                               compute_group = function(data, scales) {
                                 data.frame(xmin = data$x, xmax = mean(data$x),
-                                           ymin = data$y, ymax = mean(data$y))
+                                           ymin = data$y, ymax = mean(data$y),
+                                           fill = ifelse((data$x - mean(data$x)) *
+                                                           (data$y - mean(data$y)) >0 ,
+                                                         "plum4", "goldenrod2"))
                               },
 
                               required_aes = c("x", "y")
@@ -167,7 +170,7 @@ GeomRecttransparent <- ggplot2::ggproto("GeomRecttransparent",
                                       default_aes = aes(colour = "black",
                                                         size = 0.3,
                                                         linetype = "dashed",
-                                                        alpha = .5)
+                                                        alpha = .25, fill = "grey35")
 )
 
 
