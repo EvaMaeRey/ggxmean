@@ -1,6 +1,6 @@
 #####  Xmean ######
 
-StatXmean <- ggplot2::ggproto("StatXmean", Stat,
+StatXmean <- ggplot2::ggproto("StatXmean", ggplot2::Stat,
                      compute_group = function(data, scales) {
                        mean(data$x) %>%
                          data.frame(x = ., xend = ., y = -Inf, yend = Inf)
@@ -10,14 +10,14 @@ StatXmean <- ggplot2::ggproto("StatXmean", Stat,
 )
 
 GeomSegmentdashed <- ggplot2::ggproto("GeomSegmentdashed", ggplot2::GeomSegment,
-  default_aes = aes(colour = "black", size = 0.5, linetype = "dashed",
+  default_aes = ggplot2::aes(colour = "black", size = 0.5, linetype = "dashed",
     alpha = NA)
   )
 
 geom_xmean <- function(mapping = NULL, data = NULL,
                        position = "identity", na.rm = FALSE, show.legend = NA,
                        inherit.aes = TRUE, ...) {
-  layer(
+  ggplot2::layer(
     stat = StatXmean, geom = GeomSegmentdashed, data = data, mapping = mapping,
     position = position, show.legend = show.legend, inherit.aes = inherit.aes,
     params = list(na.rm = na.rm, ...)
@@ -41,7 +41,7 @@ StatYmean <- ggplot2::ggproto("StatYmean",
 geom_ymean <- function(mapping = NULL, data = NULL,
                        position = "identity", na.rm = FALSE, show.legend = NA,
                        inherit.aes = TRUE, ...) {
-  layer(
+  ggplot2::layer(
     stat = StatYmean, geom = GeomSegmentdashed, data = data, mapping = mapping,
     position = position, show.legend = show.legend, inherit.aes = inherit.aes,
     params = list(na.rm = na.rm, ...)
@@ -65,7 +65,7 @@ StatXvline <- ggplot2::ggproto("StatXvline",
 geom_xvline <- function(mapping = NULL, data = NULL,
                        position = "identity", na.rm = FALSE, show.legend = NA,
                        inherit.aes = TRUE, ...) {
-  layer(
+  ggplot2::layer(
     stat = StatXvline, geom = ggplot2::GeomSegment, data = data, mapping = mapping,
     position = position, show.legend = show.legend, inherit.aes = inherit.aes,
     params = list(na.rm = na.rm, ...)
@@ -89,7 +89,7 @@ StatYhline <- ggplot2::ggproto("StatYhline",
 geom_yhline <- function(mapping = NULL, data = NULL,
                         position = "identity", na.rm = FALSE, show.legend = NA,
                         inherit.aes = TRUE, ...) {
-  layer(
+  ggplot2::layer(
     stat = StatYhline, geom = ggplot2::GeomSegment, data = data, mapping = mapping,
     position = position, show.legend = show.legend, inherit.aes = inherit.aes,
     params = list(na.rm = na.rm, ...)
@@ -114,7 +114,7 @@ StatXdiff <- ggplot2::ggproto("StatXdiff",
 geom_xdiff <- function(mapping = NULL, data = NULL,
                         position = "identity", na.rm = FALSE, show.legend = NA,
                         inherit.aes = TRUE, ...) {
-  layer(
+  ggplot2::layer(
     stat = StatXdiff, geom = ggplot2::GeomSegment, data = data, mapping = mapping,
     position = position, show.legend = show.legend, inherit.aes = inherit.aes,
     params = list(na.rm = na.rm, ...)
@@ -140,7 +140,7 @@ StatYdiff <- ggplot2::ggproto("StatYdiff",
 geom_ydiff <- function(mapping = NULL, data = NULL,
                        position = "identity", na.rm = FALSE, show.legend = NA,
                        inherit.aes = TRUE, ...) {
-  layer(
+  ggplot2::layer(
     stat = StatYdiff, geom = ggplot2::GeomSegment, data = data, mapping = mapping,
     position = position, show.legend = show.legend, inherit.aes = inherit.aes,
     params = list(na.rm = na.rm, ...)
@@ -167,7 +167,7 @@ StatXdifftimesydiff <- ggplot2::ggproto("StatYdiff",
 
 GeomRecttransparent <- ggplot2::ggproto("GeomRecttransparent",
                                       ggplot2::GeomRect,
-                                      default_aes = aes(colour = "black",
+                                      default_aes = ggplot2::aes(colour = "black",
                                                         size = 0.3,
                                                         linetype = "dashed",
                                                         alpha = .25, fill = "grey35")
@@ -178,7 +178,7 @@ GeomRecttransparent <- ggplot2::ggproto("GeomRecttransparent",
 geom_diffsmultiplied <- function(mapping = NULL, data = NULL,
                        position = "identity", na.rm = FALSE, show.legend = NA,
                        inherit.aes = TRUE, ...) {
-  layer(
+  ggplot2::layer(
     stat = StatXdifftimesydiff, geom = GeomRecttransparent, data = data, mapping = mapping,
     position = position, show.legend = show.legend, inherit.aes = inherit.aes,
     params = list(na.rm = na.rm, ...)
