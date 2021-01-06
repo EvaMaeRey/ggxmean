@@ -24,6 +24,7 @@ devtools::install_github("EvaMaeRey/ggxmean")
 This is a basic example which shows you how to solve a common problem:
 
 ``` r
+knitr::opts_chunk$set(eval = F)
 library(tidyverse)
 #> ── Attaching packages ─────────────────────────────────────── tidyverse 1.3.0 ──
 #> ✓ ggplot2 3.3.2     ✓ purrr   0.3.4
@@ -47,12 +48,49 @@ cars %>%
   geom_point() + 
   # geom_xvline(alpha = .1,
   #              linetype = "dashed") +
-  geom_xmean(color = "firebrick",
+  ggxmean:::geom_xmean(color = "firebrick",
              size = 2,
              linetype = "dotted")
 ```
 
 <img src="man/figures/README-example-1.png" width="100%" />
+
+-----
+
+# 
+
+``` r
+cars %>% 
+  ggplot() +
+  aes(x = speed) +
+  geom_blank() +
+  geom_xmean(color = "firebrick",
+             size = 2,
+             linetype = "dotted")
+
+cars %>% 
+  ggplot() +
+  aes(x = speed) +
+  geom_blank() +
+  geom_xmean(color = "firebrick",
+             size = 2,
+             linetype = "dotted")
+```
+
+-----
+
+``` r
+palmerpenguins::penguins %>% 
+  drop_na() %>% 
+  ggplot() +
+  aes(x = bill_length_mm) +
+  geom_rug(alpha = .3) +
+  geom_histogram(alpha = .4) +
+  ggxmean:::geom_xmean() +
+  aes(fill = species) + # unexpected behavior here
+  aes(color = species) +
+  facet_wrap(facets = vars(species))
+```
 
 # another case with faceting
 
@@ -64,38 +102,27 @@ mtcars %>%
   geom_xmean() + # won't appear w/o point, probably as scale is not established
   geom_point() +
   facet_grid(rows = vars(cyl)) #+
-```
-
-<img src="man/figures/README-unnamed-chunk-2-1.png" width="100%" />
-
-``` r
   # geom_ymean()
 ```
 
 # But:
 
 ``` r
+library(ggxmean)
 palmerpenguins::penguins %>% 
+  drop_na() %>% 
   ggplot() +
   aes(x = bill_length_mm) +
   aes(y = flipper_length_mm) +
   geom_point() +
-  # aes(color = species) + 
-  geom_xmean() #+
-#> Warning: Removed 2 rows containing non-finite values (stat_xmean).
-#> Warning: Removed 2 rows containing missing values (geom_point).
-```
-
-<img src="man/figures/README-unnamed-chunk-3-1.png" width="100%" />
-
-``` r
-  # geom_ymean() +
-  # geom_yhline(alpha = .1) +
-  # geom_xvline(alpha = .1) +
-  # geom_xdiff() +
-  # geom_ydiff() +
-  # geom_diffsmultiplied() +
-  # aes(x = rank(bill_length_mm)) +
-  # aes(y = mean(flipper_length_mm)) +
-  # coord_equal()
+  ggxmean:::geom_xmean() +
+  ggxmean:::geom_ymean() +
+  ggxmean:::geom_yhline(alpha = .02) +
+  ggxmean:::geom_xvline(alpha = .02) +
+  ggxmean:::geom_xdiff() +
+  ggxmean:::geom_ydiff() +
+  geom_x1sd() +
+  geom_y1sd() +
+  geom_rsq1() +
+  ggxmean:::geom_diffsmultiplied()
 ```

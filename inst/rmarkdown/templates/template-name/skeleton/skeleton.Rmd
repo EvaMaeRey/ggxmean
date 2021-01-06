@@ -20,13 +20,107 @@ output:
 knitr::opts_chunk$set(fig.width = 6, message = FALSE, warning = FALSE, comment = "", cache = F)
 library(flipbookr)
 library(tidyverse)
+
+```
+
+
+
+---
+
+# viz the means and conditional means
+
+
+---
+
+
+`r chunk_reveal("vizthemean1d")`
+
+```{r vizthemean1d, include = F}
+library(ggxmean)
+palmerpenguins::penguins %>% 
+  drop_na() %>% 
+  ggplot() +
+  aes(x = bill_length_mm) +
+  geom_rug(alpha = .3) +
+  geom_histogram(alpha = .4) +
+  ggxmean:::geom_xmean() +
+  aes(fill = species) + # unexpected behavior here
+  aes(color = species) +
+  facet_wrap(facets = vars(species)) +
+  facet_grid(cols = vars(species),
+             rows = vars(sex))
 ```
 
 
-## 
 
 
-```{r}
+---
 
+
+`r chunk_reveal("vizthemean2d")`
+
+```{r vizthemean2d, include = F}
+library(ggxmean)
+palmerpenguins::penguins %>% 
+  drop_na() %>% 
+  ggplot() +
+  aes(x = bill_length_mm) +
+  aes(y = flipper_length_mm) +
+  geom_point() +
+  ggxmean:::geom_xmean() +
+  aes(color = species) +
+  facet_wrap(facets = vars(species)) +
+  ggxmean:::geom_ymean() +
+  facet_grid(cols = vars(species),
+             rows = vars(sex))
 ```
+
+
+
+
+---
+
+
+`r chunk_reveal("vizthecorrelation", title = "## viz the correlation")`
+
+```{r vizthecorrelation, include=F}
+library(ggxmean)
+palmerpenguins::penguins %>% 
+  drop_na() %>% 
+  ggplot() +
+  aes(x = bill_length_mm) +
+  aes(y = flipper_length_mm) +
+  geom_point() +
+  ggxmean:::geom_xmean() +
+  ggxmean:::geom_ymean() +
+  ggxmean:::geom_yhline(alpha = .02) +
+  ggxmean:::geom_xvline(alpha = .02) +
+  ggxmean:::geom_xdiff() +
+  ggxmean:::geom_ydiff() +
+  ggxmean:::geom_diffsmultiplied() +
+  aes(x = ((bill_length_mm - mean(bill_length_mm)) / sd(bill_length_mm))) +
+  aes(y = (flipper_length_mm - mean(flipper_length_mm))/sd(flipper_length_mm))
+```
+
+---
+
+`r chunk_reveal("suprising", title = "## something surprising")`
+
+```{r suprising, include = F}
+cars %>% 
+  ggplot() +
+  aes(x = speed) +
+  ggxmean:::geom_xmean(color = "firebrick",
+             size = 2,
+             linetype = "dotted") +
+  # only x aes is required for xmean 
+  # by y is set to neg Inf and pos Inf
+  # means y needs activated
+  aes(y = dist) +
+  geom_blank() +
+  geom_point() + 
+  geom_rug()
+```
+
+
 

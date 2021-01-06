@@ -33,6 +33,7 @@ devtools::install_github("EvaMaeRey/ggxmean")
 This is a basic example which shows you how to solve a common problem:
 
 ```{r example}
+knitr::opts_chunk$set(eval = F)
 library(tidyverse)
 library(ggxmean)
 
@@ -44,10 +45,53 @@ cars %>%
   geom_point() + 
   # geom_xvline(alpha = .1,
   #              linetype = "dashed") +
+  ggxmean:::geom_xmean(color = "firebrick",
+             size = 2,
+             linetype = "dotted")
+```
+
+
+---
+
+#
+
+```{r}
+cars %>% 
+  ggplot() +
+  aes(x = speed) +
+  geom_blank() +
+  geom_xmean(color = "firebrick",
+             size = 2,
+             linetype = "dotted")
+
+cars %>% 
+  ggplot() +
+  aes(x = speed) +
+  geom_blank() +
   geom_xmean(color = "firebrick",
              size = 2,
              linetype = "dotted")
 ```
+
+
+
+---
+
+
+```{r}
+palmerpenguins::penguins %>% 
+  drop_na() %>% 
+  ggplot() +
+  aes(x = bill_length_mm) +
+  geom_rug(alpha = .3) +
+  geom_histogram(alpha = .4) +
+  ggxmean:::geom_xmean() +
+  aes(fill = species) + # unexpected behavior here
+  aes(color = species) +
+  facet_wrap(facets = vars(species))
+```
+
+
 
 
 # another case with faceting
@@ -66,22 +110,23 @@ mtcars %>%
 # But:
 
 ```{r}
+library(ggxmean)
 palmerpenguins::penguins %>% 
+  drop_na() %>% 
   ggplot() +
   aes(x = bill_length_mm) +
   aes(y = flipper_length_mm) +
   geom_point() +
-  # aes(color = species) + 
-  geom_xmean() #+
-  # geom_ymean() +
-  # geom_yhline(alpha = .1) +
-  # geom_xvline(alpha = .1) +
-  # geom_xdiff() +
-  # geom_ydiff() +
-  # geom_diffsmultiplied() +
-  # aes(x = rank(bill_length_mm)) +
-  # aes(y = mean(flipper_length_mm)) +
-  # coord_equal()
+  ggxmean:::geom_xmean() +
+  ggxmean:::geom_ymean() +
+  ggxmean:::geom_yhline(alpha = .02) +
+  ggxmean:::geom_xvline(alpha = .02) +
+  ggxmean:::geom_xdiff() +
+  ggxmean:::geom_ydiff() +
+  geom_x1sd() +
+  geom_y1sd() +
+  geom_rsq1() +
+  ggxmean:::geom_diffsmultiplied()
 ```
 
 

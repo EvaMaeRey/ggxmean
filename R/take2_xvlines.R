@@ -153,11 +153,15 @@ geom_ydiff <- function(mapping = NULL, data = NULL,
 StatXdifftimesydiff <- ggplot2::ggproto("StatYdiff",
                               ggplot2::Stat,
                               compute_group = function(data, scales) {
-                                data.frame(xmin = data$x, xmax = mean(data$x),
-                                           ymin = data$y, ymax = mean(data$y),
+
+                                data.frame(xmin = data$x,
+                                           xmax = mean(data$x),
+                                           ymin = data$y,
+                                           ymax = mean(data$y),
                                            fill = ifelse((data$x - mean(data$x)) *
-                                                           (data$y - mean(data$y)) >0 ,
+                                                           (data$y - mean(data$y)) > 0,
                                                          "plum4", "goldenrod2"))
+
                               },
 
                               required_aes = c("x", "y")
@@ -170,7 +174,8 @@ GeomRecttransparent <- ggplot2::ggproto("GeomRecttransparent",
                                       default_aes = ggplot2::aes(colour = "black",
                                                         size = 0.3,
                                                         linetype = "dashed",
-                                                        alpha = .25, fill = "grey35")
+                                                        alpha = .25,
+                                                        fill = "grey35")
 )
 
 
@@ -183,5 +188,112 @@ geom_diffsmultiplied <- function(mapping = NULL, data = NULL,
     position = position, show.legend = show.legend, inherit.aes = inherit.aes,
     params = list(na.rm = na.rm, ...)
   )
+
 }
+
+### x 1 sd
+
+StatX1sd <- ggplot2::ggproto("StatX1sd", ggplot2::Stat,
+                              compute_group = function(data, scales) {
+
+                                mean(data$x) + sd(data$x) %>%
+                                  data.frame(x = ., xend = ., y = -Inf, yend = Inf) ->
+                                upper
+
+                                mean(data$x) - sd(data$x) %>%
+                                  data.frame(x = ., xend = ., y = -Inf, yend = Inf) ->
+                                lower
+
+                                rbind(upper, lower)
+
+                              },
+
+                              required_aes = c("x")
+)
+
+GeomSegmentdashed <- ggplot2::ggproto("GeomSegmentdashed", ggplot2::GeomSegment,
+                                      default_aes = ggplot2::aes(colour = "black", size = 0.5, linetype = "dashed",
+                                                                 alpha = NA)
+)
+
+geom_x1sd <- function(mapping = NULL, data = NULL,
+                       position = "identity", na.rm = FALSE, show.legend = NA,
+                       inherit.aes = TRUE, ...) {
+  ggplot2::layer(
+    stat = StatX1sd, geom = GeomSegmentdashed, data = data, mapping = mapping,
+    position = position, show.legend = show.legend, inherit.aes = inherit.aes,
+    params = list(na.rm = na.rm, ...)
+  )
+}
+
+
+
+### y 1 sd
+
+StatY1sd <- ggplot2::ggproto("StatY1sd", ggplot2::Stat,
+                             compute_group = function(data, scales) {
+
+                               mean(data$y) + sd(data$y) %>%
+                                 data.frame(y = ., yend = ., x = -Inf, xend = Inf) ->
+                                 upper
+
+                               mean(data$y) - sd(data$y) %>%
+                                 data.frame(y = ., yend = ., x = -Inf, xend = Inf) ->
+                                 lower
+
+                               rbind(upper, lower)
+
+                             },
+
+                             required_aes = c("y")
+)
+
+GeomSegmentdashed <- ggplot2::ggproto("GeomSegmentdashed", ggplot2::GeomSegment,
+                                      default_aes = ggplot2::aes(colour = "black", size = 0.5, linetype = "dashed",
+                                                                 alpha = NA)
+)
+
+geom_y1sd <- function(mapping = NULL, data = NULL,
+                      position = "identity", na.rm = FALSE, show.legend = NA,
+                      inherit.aes = TRUE, ...) {
+  ggplot2::layer(
+    stat = StatY1sd, geom = GeomSegmentdashed, data = data, mapping = mapping,
+    position = position, show.legend = show.legend, inherit.aes = inherit.aes,
+    params = list(na.rm = na.rm, ...)
+  )
+}
+
+
+### r squared equals 1
+
+StatRsq1 <- ggplot2::ggproto("StatRsq1", ggplot2::Stat,
+                             compute_group = function(data, scales) {
+
+                                 data.frame(ymin = mean(data$y),
+                                            ymax = mean(data$y) + sd(data$y),
+                                            xmin = mean(data$x),
+                                            xmax = mean(data$x) + sd(data$x),
+                                            fill = "plum4")
+
+                             },
+
+                             required_aes = c("x", "y")
+)
+
+
+geom_rsq1 <- function(mapping = NULL, data = NULL,
+                      position = "identity", na.rm = FALSE, show.legend = NA,
+                      inherit.aes = TRUE, ...) {
+  ggplot2::layer(
+    stat = StatRsq1, geom = GeomRecttransparent, data = data, mapping = mapping,
+    position = position, show.legend = show.legend, inherit.aes = inherit.aes,
+    params = list(na.rm = na.rm, ...)
+  )
+}
+
+
+
+
+
+
 
