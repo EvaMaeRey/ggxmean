@@ -144,12 +144,12 @@ palmerpenguins::penguins %>%
   aes(x = flipper_length_mm) +
   aes(y = body_mass_g) +
   geom_point() +
-  geom_lm() +
-  geom_lmfitted(color = "blue",
-                size = 2) +
-  geom_lmresiduals(linetype = "dashed",
-                   color = "red") +
-  geom_lmformula(nudge_x = 300)
+  ggxmean:::geom_lm() +
+  geom_rug(aes(y = NULL)) + 
+  ggxmean:::geom_xvline(alpha = .1, linetype = "dotted") +
+  ggxmean:::geom_lmfitted(color = "blue",    size = 2) +
+  ggxmean:::geom_lmresiduals(linetype = "dashed", color = "red") +
+  ggxmean:::geom_lmformula()
 ```
 
 

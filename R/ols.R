@@ -1,15 +1,13 @@
 
 
 geom_lm <- function(formula = y ~ x, ...)  {
-  geom_smooth(formula = formula, method = "lm",
+  ggplot2::geom_smooth(formula = formula, method = "lm",
                ...)
 }
 
 
 #### fitted #####
 
-
-lm(cars$speed ~ cars$dist) -> model$fitted.values
 
 StatOlsfitted <- ggplot2::ggproto("StatOlsresiduals",
                                      ggplot2::Stat,
@@ -40,7 +38,6 @@ geom_lmfitted <- function(mapping = NULL, data = NULL,
 #### residuals #####
 
 
-# lm(cars$speed~ cars$dist) -> model$fitted.values
 
 StatOlsresiduals <- ggplot2::ggproto("StatOlsresiduals",
                                ggplot2::Stat,
