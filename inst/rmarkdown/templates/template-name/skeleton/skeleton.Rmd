@@ -1,10 +1,11 @@
 ---
-title: "Template Title"
+title: "{ggxmean}"
 author: "Your Name"
 date: "The Date"
 output: 
   xaringan::moon_reader:
     lib_dir: libs
+    seal: FALSE
     css: [default, hygge, ninjutsu]
     nature:
       ratio: 16:9
@@ -14,10 +15,22 @@ output:
 ---
 
 
+class: inverse
+background-image: url(https://images.unsplash.com/photo-1572291720677-d8d28ac52a5b?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=1556&q=80)
+background-size: cover
+
+# [{ggxmean}](https://github.com/EvaMaeRey/ggxmean)
+<br><br><br><br><br>
+<br><br><br><br><br>
+<br><br><br><br><br>
+<br><br><br><br><br>
+#### Photo credit: Hans Veth
+
+
 ```{r, include = F}
 # This is the recommended set up for flipbooks
 # you might think about setting cache to TRUE as you gain practice --- building flipbooks from scratch can be time consuming
-knitr::opts_chunk$set(fig.width = 6, message = FALSE, warning = FALSE, comment = "", cache = F)
+knitr::opts_chunk$set(fig.width = 8, message = FALSE, warning = FALSE, comment = "", cache = T)
 library(flipbookr)
 library(tidyverse)
 
@@ -33,7 +46,7 @@ library(tidyverse)
 ---
 
 
-`r chunk_reveal("vizthemean1d")`
+`r chunk_reveal("vizthemean1d", break_type = "user")`
 
 ```{r vizthemean1d, include = F}
 library(ggxmean)
@@ -42,13 +55,13 @@ palmerpenguins::penguins %>%
   ggplot() +
   aes(x = bill_length_mm) +
   geom_rug(alpha = .3) +
-  geom_histogram(alpha = .4) +
-  ggxmean:::geom_xmean() +
-  aes(fill = species) + # unexpected behavior here
-  aes(color = species) +
-  facet_wrap(facets = vars(species)) +
-  facet_grid(cols = vars(species),
-             rows = vars(sex))
+  geom_histogram(alpha = .4) + #BREAK
+  ggxmean:::geom_xmean() + #BREAK
+  # unexpected behavior here
+  aes(fill = species) + #BREAK
+  aes(color = species) + #BREAK
+  facet_grid(rows = vars(species)) + #BREAK
+  facet_grid(rows = vars(species, sex)) #BREAK
 ```
 
 
@@ -56,8 +69,7 @@ palmerpenguins::penguins %>%
 
 ---
 
-
-`r chunk_reveal("vizthemean2d")`
+`r chunk_reveal("vizthemean2d", break_type = "user")`
 
 ```{r vizthemean2d, include = F}
 library(ggxmean)
@@ -66,13 +78,13 @@ palmerpenguins::penguins %>%
   ggplot() +
   aes(x = bill_length_mm) +
   aes(y = flipper_length_mm) +
-  geom_point() +
-  ggxmean:::geom_xmean() +
-  aes(color = species) +
-  facet_wrap(facets = vars(species)) +
-  ggxmean:::geom_ymean() +
+  geom_point() + #BREAK
+  ggxmean:::geom_xmean() + #BREAK
+  aes(color = species) + #BREAK
+  facet_wrap(facets = vars(species)) + #BREAK
+  ggxmean:::geom_ymean() + #BREAK
   facet_grid(cols = vars(species),
-             rows = vars(sex))
+             rows = vars(sex)) #BREAK
 ```
 
 
@@ -81,7 +93,7 @@ palmerpenguins::penguins %>%
 ---
 
 
-`r chunk_reveal("vizthecorrelation", title = "## viz the correlation")`
+`r chunk_reveal("vizthecorrelation", title = "## viz the correlation" , break_type = "user")`
 
 ```{r vizthecorrelation, include=F}
 library(ggxmean)
@@ -89,27 +101,28 @@ palmerpenguins::penguins %>%
   drop_na() %>% 
   ggplot() +
   aes(x = bill_length_mm) +
-  aes(y = flipper_length_mm) +
-  geom_point() +
-  ggxmean:::geom_xmean() +
-  ggxmean:::geom_ymean() +
-  ggxmean:::geom_yhline(alpha = .02) +
-  ggxmean:::geom_xvline(alpha = .02) +
-  ggxmean:::geom_xdiff() +
-  ggxmean:::geom_ydiff() +
-  ggxmean:::geom_diffsmultiplied() +
-  aes(x = ((bill_length_mm - mean(bill_length_mm)) / sd(bill_length_mm))) +
-  aes(y = (flipper_length_mm - mean(flipper_length_mm))/sd(flipper_length_mm))
+  aes(y = flipper_length_mm) + 
+  geom_point() + #BREAK
+  ggxmean:::geom_xmean() + #BREAK
+  ggxmean:::geom_ymean() + #BREAK
+  ggxmean:::geom_yhline(alpha = .02) + #BREAK
+  ggxmean:::geom_xvline(alpha = .02) + #BREAK
+  ggxmean:::geom_xdiff() + #BREAK
+  ggxmean:::geom_ydiff() + #BREAK
+  ggxmean:::geom_diffsmultiplied() + #BREAK
+  aes(x = ((bill_length_mm - mean(bill_length_mm)) / sd(bill_length_mm))) + #BREAK
+  aes(y = (flipper_length_mm - mean(flipper_length_mm))/sd(flipper_length_mm)) #BREAK
 ```
 
 ---
 
-`r chunk_reveal("suprising", title = "## something surprising")`
+`r chunk_reveal("suprising", title = "### something surprising")`
 
 ```{r suprising, include = F}
 cars %>% 
   ggplot() +
   aes(x = speed) +
+  # we dont see it
   ggxmean:::geom_xmean(color = "firebrick",
              size = 2,
              linetype = "dotted") +
@@ -122,5 +135,21 @@ cars %>%
   geom_rug()
 ```
 
+
+```{r}
+palmerpenguins::penguins %>% 
+  filter(species == "Chinstrap") %>% 
+  filter(sex == "male") %>% 
+  ggplot() +
+  aes(x = flipper_length_mm) +
+  aes(y = body_mass_g) +
+  geom_point() +
+  geom_lm() +
+  geom_lmfitted(color = "blue",
+                size = 2) +
+  geom_lmresiduals(linetype = "dashed",
+                   color = "red") +
+  geom_lmformula(nudge_x = 300)
+```
 
 
