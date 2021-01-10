@@ -135,8 +135,11 @@ cars %>%
   geom_rug()
 ```
 
+---
 
-```{r}
+`r chunk_reveal("ols")`
+
+```{r ols, include = F}
 palmerpenguins::penguins %>% 
   filter(species == "Chinstrap") %>% 
   filter(sex == "male") %>% 
@@ -146,9 +149,12 @@ palmerpenguins::penguins %>%
   geom_point() +
   ggxmean:::geom_lm() +
   geom_rug(aes(y = NULL)) + 
-  ggxmean:::geom_xvline(alpha = .1, linetype = "dotted") +
-  ggxmean:::geom_lmfitted(color = "blue",    size = 2) +
-  ggxmean:::geom_lmresiduals(linetype = "dashed", color = "red") +
+  ggxmean:::geom_xvline(alpha = .1, 
+                        linetype = "dotted") +
+  ggxmean:::geom_lmfitted(color = "blue",    
+                          size = 2) +
+  ggxmean:::geom_lmresiduals(linetype = "dashed", 
+                             color = "red") +
   ggxmean:::geom_lmformula()
 ```
 
