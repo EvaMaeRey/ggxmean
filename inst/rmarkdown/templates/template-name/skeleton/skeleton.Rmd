@@ -61,7 +61,11 @@ palmerpenguins::penguins %>%
   aes(fill = species) + #BREAK
   aes(color = species) + #BREAK
   facet_grid(rows = vars(species)) + #BREAK
-  facet_grid(rows = vars(species, sex)) #BREAK
+  facet_grid(rows = vars(species, sex)) + #BREAK
+  geom_xq2575(linetype = "dotted") + #BREAK
+  geom_xmin(linetype = "solid") + #BREAK
+  geom_xmax(linetype = "solid",
+            color = "goldenrod") #BREAK
 ```
 
 
@@ -154,8 +158,14 @@ palmerpenguins::penguins %>%
   ggxmean:::geom_lmfitted(color = "blue",    
                           size = 2) +
   ggxmean:::geom_lmresiduals(linetype = "dashed", 
-                             color = "red") +
-  ggxmean:::geom_lmformula()
+                             color = "firebrick") +
+  ggxmean:::geom_ymean() +
+  ggxmean:::geom_xmean() +
+  geom_xymean(size = 3, color = "magenta") +
+  ggxmean:::geom_lmformula() +
+  ggxmean:::geom_lmrun(color = "magenta") +
+  ggxmean:::geom_lmrise(color = "magenta") +
+  ggxmean:::geom_lmintercept()
 ```
 
 

@@ -109,7 +109,7 @@ mtcars %>%
 
 # But:
 
-```{r}
+```{r, eval = F}
 library(ggxmean)
 palmerpenguins::penguins %>% 
   drop_na() %>% 
@@ -123,9 +123,9 @@ palmerpenguins::penguins %>%
   ggxmean:::geom_xvline(alpha = .02) +
   ggxmean:::geom_xdiff() +
   ggxmean:::geom_ydiff() +
-  # ggxmean:::geom_x1sd(color = "blue") +
-  # ggxmean:::geom_y1sd(color = "green") +
-  # ggxmean:::geom_rsq1() +
+  ggxmean:::geom_x1sd(color = "blue") +
+  ggxmean:::geom_y1sd(color = "green") +
+  ggxmean:::geom_rsq1() +
   ggxmean:::geom_diffsmultiplied()
 ```
 

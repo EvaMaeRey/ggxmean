@@ -141,4 +141,116 @@ geom_lmformula <- function(mapping = NULL, data = NULL,
 
 
 
+### run
+
+# lm(cars$dist ~cars$speed) -> model
+
+StatOlsrun <- ggplot2::ggproto("StatOlsrun",
+                                   ggplot2::Stat,
+                                   compute_group = function(data, scales) {
+
+                                     options(digits = 2)
+
+                                     model <- lm(data$y ~ data$x)
+
+
+                                     data.frame(x = min(data$x),
+                                                y = min(data$x) * model$coefficients[2] +
+                                                  model$coefficients[1],
+                                                yend = min(data$x) * model$coefficients[2] +
+                                                  model$coefficients[1],
+                                                xend = min(data$x) + 1)
+
+                                   },
+
+                                   required_aes = c("x", "y")
+)
+
+
+
+geom_lmrun <- function(mapping = NULL, data = NULL,
+                                           position = "identity", na.rm = FALSE, show.legend = NA,
+                                           inherit.aes = TRUE, ...) {
+  ggplot2::layer(
+    stat = StatOlsrun, geom = ggplot2::GeomSegment, data = data, mapping = mapping,
+    position = position, show.legend = show.legend, inherit.aes = inherit.aes,
+    params = list(na.rm = na.rm, ...)
+  )
+}
+
+
+
+## rise
+
+
+StatOlsrise <- ggplot2::ggproto("StatOlsrun",
+                               ggplot2::Stat,
+                               compute_group = function(data, scales) {
+
+                                 options(digits = 2)
+
+                                 model <- lm(data$y ~ data$x)
+
+
+                                 data.frame(xend = min(data$x) + 1,
+                                            yend = (min(data$x) + 1) * model$coefficients[2] +
+                                              model$coefficients[1],
+                                            y = min(data$x) * model$coefficients[2] +
+                                              model$coefficients[1],
+                                            x = min(data$x) + 1)
+
+                               },
+
+                               required_aes = c("x", "y")
+)
+
+
+
+geom_lmrise <- function(mapping = NULL, data = NULL,
+                       position = "identity", na.rm = FALSE, show.legend = NA,
+                       inherit.aes = TRUE, ...) {
+  ggplot2::layer(
+    stat = StatOlsrise, geom = ggplot2::GeomSegment, data = data, mapping = mapping,
+    position = position, show.legend = show.legend, inherit.aes = inherit.aes,
+    params = list(na.rm = na.rm, ...)
+  )
+}
+
+
+
+
+## intercept
+
+
+StatOlsintercept <- ggplot2::ggproto("StatOlsintercept",
+                                ggplot2::Stat,
+                                compute_group = function(data, scales) {
+
+
+                                  model <- lm(data$y ~ data$x)
+
+
+                                  data.frame(y = model$coefficients[1],
+                                             x = 0)
+
+                                },
+
+                                required_aes = c("x", "y")
+)
+
+
+
+geom_lmintercept <- function(mapping = NULL, data = NULL,
+                        position = "identity", na.rm = FALSE, show.legend = NA,
+                        inherit.aes = TRUE, ...) {
+  ggplot2::layer(
+    stat = StatOlsintercept, geom = ggplot2::GeomPoint, data = data, mapping = mapping,
+    position = position, show.legend = show.legend, inherit.aes = inherit.aes,
+    params = list(na.rm = na.rm, ...)
+  )
+}
+
+
+
+
 

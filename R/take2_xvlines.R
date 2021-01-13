@@ -173,7 +173,7 @@ GeomRecttransparent <- ggplot2::ggproto("GeomRecttransparent",
                                       ggplot2::GeomRect,
                                       default_aes = ggplot2::aes(colour = "black",
                                                         size = 0.3,
-                                                        linetype = "dashed",
+                                                        linetype = "solid",
                                                         alpha = .25,
                                                         fill = "grey35")
 )
@@ -291,6 +291,33 @@ geom_rsq1 <- function(mapping = NULL, data = NULL,
   )
 }
 
+
+### xymean
+
+StatXymean <- ggplot2::ggproto("StatXymean",
+                              ggplot2::Stat,
+                              compute_group = function(data, scales) {
+
+                                  data.frame(y = mean(data$y),
+                                             x = mean(data$x))
+
+                              },
+
+                              required_aes = c("x", "y")
+)
+
+
+geom_xymean <- function(mapping = NULL, data = NULL,
+                       position = "identity", na.rm = FALSE, show.legend = NA,
+                       inherit.aes = TRUE, ...) {
+
+  ggplot2::layer(
+    stat = StatXymean, geom = ggplot2::GeomPoint, data = data, mapping = mapping,
+    position = position, show.legend = show.legend, inherit.aes = inherit.aes,
+    params = list(na.rm = na.rm, ...)
+  )
+
+}
 
 
 
