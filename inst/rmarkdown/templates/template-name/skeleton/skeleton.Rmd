@@ -63,10 +63,10 @@ palmerpenguins::penguins %>%
   facet_grid(rows = vars(species)) + #BREAK
   facet_grid(rows = vars(species, sex)) + #BREAK
   geom_rug(alpha = .6) +
-  geom_xq2575(linetype = "dotted",
+  ggxmean:::geom_xq2575(linetype = "dotted",
               size = .75) + #BREAK
-  geom_xmin(linetype = "solid") + #BREAK
-  geom_xmax(linetype = "solid",
+  ggxmean:::geom_xmin(linetype = "solid") + #BREAK
+  ggxmean:::geom_xmax(linetype = "solid",
             color = "goldenrod") + #BREAK
   geom_boxplot(y = 0,
                width = 3,
@@ -103,18 +103,19 @@ palmerpenguins::penguins %>%
 ---
 
 
-`r chunk_reveal("vizthecorrelation", title = "## viz the correlation" , break_type = "user")`
+`r chunk_reveal("vizthecorrelation", title = "### viz the correlation" , break_type = "user")`
 
 ```{r vizthecorrelation, include=F}
-geoms_chalk()
+ggxmean:::geoms_chalk()
 library(ggxmean)
 palmerpenguins::penguins %>% 
   mutate(id = row_number()) %>% 
   drop_na() %>% 
-  ggplot() +
+  ggplot() + 
   aes(x = bill_length_mm) +
   aes(y = flipper_length_mm) + 
   geom_point() + #BREAK
+  ggxmean:::theme_chalkboard() + #BREAK
   ggxmean:::geom_xmean() + #BREAK
   ggxmean:::geom_ymean() + #BREAK
   ggxmean:::geom_yhline(alpha = .02) + #BREAK
@@ -122,15 +123,14 @@ palmerpenguins::penguins %>%
   ggxmean:::geom_xdiff() + #BREAK
   ggxmean:::geom_ydiff() + #BREAK
   ggxmean:::geom_diffsmultiplied() + #BREAK
-  ggxmean:::geom_x1sd() + 
-  ggxmean:::geom_y1sd() +
-  ggxmean:::geom_rsq1(fill = "blue") + 
-  geom_xy1sd(fill = "green") +
-  geom_xydiffsmean(alpha = 1,
+  ggxmean:::geom_x1sd() + #BREAK
+  ggxmean:::geom_y1sd() + #BREAK
+  ggxmean:::geom_rsq1(fill = "blue") + #BREAK
+  ggxmean:::geom_xy1sd(fill = "green") + #BREAK
+  ggxmean:::geom_xydiffsmean(alpha = 1,
                    fill = "plum3") + 
-  geom_corrlabel() +
-  ggxmean:::geom_lm() +
-  theme_chalkboard_slate()
+  ggxmean:::geom_corrlabel() + #BREAK
+  ggxmean:::geom_lm() #BREAK
 ```
 
 ---
@@ -140,6 +140,7 @@ palmerpenguins::penguins %>%
 ```{r suprising, include = F}
 cars %>% 
   ggplot() +
+  ggxmean:::theme_chalkboard_slate() +
   aes(x = speed) +
   # we dont see it
   ggxmean:::geom_xmean(color = "firebrick",
@@ -162,7 +163,9 @@ cars %>%
 palmerpenguins::penguins %>% 
   filter(species == "Chinstrap") %>% 
   filter(sex == "male") %>% 
+  mutate(id = row_number()) %>% 
   ggplot() +
+  ggxmean:::theme_chalkboard_slate() + 
   aes(x = flipper_length_mm) +
   aes(y = body_mass_g) +
   geom_point() +
@@ -180,11 +183,11 @@ palmerpenguins::penguins %>%
   ggxmean:::geom_lmformula() +
   ggxmean:::geom_lmrun(color = "magenta") +
   ggxmean:::geom_lmrise(color = "magenta") +
-  geom_lmrun10(color = "green") +
-  geom_lmrise10(color = "green") +
-  geom_lmpredictx(alpha = .2) +
-  geom_lmpredicty(alpha = .2) +
-  geom_lminterceptcoords(hjust = 0) +
+  ggxmean:::geom_lmrun10(color = "green") +
+  ggxmean:::geom_lmrise10(color = "green") +
+  ggxmean:::geom_lmpredictx(alpha = .2) +
+  ggxmean:::geom_lmpredicty(alpha = .2) +
+  ggxmean:::geom_lminterceptcoords(hjust = 0) +
   ggxmean:::geom_lmintercept()
 ```
 
