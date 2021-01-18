@@ -62,10 +62,16 @@ palmerpenguins::penguins %>%
   aes(color = species) + #BREAK
   facet_grid(rows = vars(species)) + #BREAK
   facet_grid(rows = vars(species, sex)) + #BREAK
-  geom_xq2575(linetype = "dotted") + #BREAK
+  geom_rug(alpha = .6) +
+  geom_xq2575(linetype = "dotted",
+              size = .75) + #BREAK
   geom_xmin(linetype = "solid") + #BREAK
   geom_xmax(linetype = "solid",
-            color = "goldenrod") #BREAK
+            color = "goldenrod") + #BREAK
+  geom_boxplot(y = 0,
+               width = 3,
+               fill = "white",
+               color = "black") #BREAK
 ```
 
 
@@ -100,8 +106,10 @@ palmerpenguins::penguins %>%
 `r chunk_reveal("vizthecorrelation", title = "## viz the correlation" , break_type = "user")`
 
 ```{r vizthecorrelation, include=F}
+geoms_chalk()
 library(ggxmean)
 palmerpenguins::penguins %>% 
+  mutate(id = row_number()) %>% 
   drop_na() %>% 
   ggplot() +
   aes(x = bill_length_mm) +
@@ -114,8 +122,15 @@ palmerpenguins::penguins %>%
   ggxmean:::geom_xdiff() + #BREAK
   ggxmean:::geom_ydiff() + #BREAK
   ggxmean:::geom_diffsmultiplied() + #BREAK
-  aes(x = ((bill_length_mm - mean(bill_length_mm)) / sd(bill_length_mm))) + #BREAK
-  aes(y = (flipper_length_mm - mean(flipper_length_mm))/sd(flipper_length_mm)) #BREAK
+  ggxmean:::geom_x1sd() + 
+  ggxmean:::geom_y1sd() +
+  ggxmean:::geom_rsq1(fill = "blue") + 
+  geom_xy1sd(fill = "green") +
+  geom_xydiffsmean(alpha = 1,
+                   fill = "plum3") + 
+  geom_corrlabel() +
+  ggxmean:::geom_lm() +
+  theme_chalkboard_slate()
 ```
 
 ---
@@ -128,8 +143,8 @@ cars %>%
   aes(x = speed) +
   # we dont see it
   ggxmean:::geom_xmean(color = "firebrick",
-             size = 2,
-             linetype = "dotted") +
+             linetype = "dotted",
+             size = 1) +
   # only x aes is required for xmean 
   # by y is set to neg Inf and pos Inf
   # means y needs activated
@@ -161,10 +176,15 @@ palmerpenguins::penguins %>%
                              color = "firebrick") +
   ggxmean:::geom_ymean() +
   ggxmean:::geom_xmean() +
-  geom_xymean(size = 3, color = "magenta") +
+  ggxmean:::geom_xymean(size = 3, color = "magenta") +
   ggxmean:::geom_lmformula() +
   ggxmean:::geom_lmrun(color = "magenta") +
   ggxmean:::geom_lmrise(color = "magenta") +
+  geom_lmrun10(color = "green") +
+  geom_lmrise10(color = "green") +
+  geom_lmpredictx(alpha = .2) +
+  geom_lmpredicty(alpha = .2) +
+  geom_lminterceptcoords(hjust = 0) +
   ggxmean:::geom_lmintercept()
 ```
 

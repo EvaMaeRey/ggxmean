@@ -96,7 +96,7 @@ geom_yhline <- function(mapping = NULL, data = NULL,
   )
 }
 
-### XDiff
+### XDiff #####
 
 
 StatXdiff <- ggplot2::ggproto("StatXdiff",
@@ -122,7 +122,7 @@ geom_xdiff <- function(mapping = NULL, data = NULL,
 }
 
 
-### YDiff
+### YDiff #####
 
 StatYdiff <- ggplot2::ggproto("StatYdiff",
                               ggplot2::Stat,
@@ -148,7 +148,7 @@ geom_ydiff <- function(mapping = NULL, data = NULL,
 }
 
 
-### xDiffTimeDiffy
+### xDiffTimeDiffy ####
 
 StatXdifftimesydiff <- ggplot2::ggproto("StatYdiff",
                               ggplot2::Stat,
@@ -191,7 +191,7 @@ geom_diffsmultiplied <- function(mapping = NULL, data = NULL,
 
 }
 
-### x 1 sd
+### x 1 sd #####
 
 StatX1sd <- ggplot2::ggproto("StatX1sd", ggplot2::Stat,
                               compute_group = function(data, scales) {
@@ -228,7 +228,7 @@ geom_x1sd <- function(mapping = NULL, data = NULL,
 
 
 
-### y 1 sd
+### y 1 sd #####
 
 StatY1sd <- ggplot2::ggproto("StatY1sd", ggplot2::Stat,
                              compute_group = function(data, scales) {
@@ -264,9 +264,9 @@ geom_y1sd <- function(mapping = NULL, data = NULL,
 }
 
 
-### r squared equals 1
+### r squared equals 1  #####
 
-StatRsq1 <- ggplot2::ggproto("StatRsq1", ggplot2::Stat,
+StatXy1sd <- ggplot2::ggproto("StatXy1sd", ggplot2::Stat,
                              compute_group = function(data, scales) {
 
                                  data.frame(ymin = mean(data$y),
@@ -274,6 +274,96 @@ StatRsq1 <- ggplot2::ggproto("StatRsq1", ggplot2::Stat,
                                             xmin = mean(data$x),
                                             xmax = mean(data$x) + sd(data$x),
                                             fill = "plum4")
+
+                             },
+
+                             required_aes = c("x", "y")
+)
+
+
+geom_xy1sd <- function(mapping = NULL, data = NULL,
+                      position = "identity", na.rm = FALSE, show.legend = NA,
+                      inherit.aes = TRUE, ...) {
+  ggplot2::layer(
+    stat = StatXy1sd, geom = GeomRecttransparent, data = data, mapping = mapping,
+    position = position, show.legend = show.legend, inherit.aes = inherit.aes,
+    params = list(na.rm = na.rm, ...)
+  )
+}
+
+
+
+#### mean average
+
+StatAveragearea <- ggplot2::ggproto("StatAveragearea", ggplot2::Stat,
+                              compute_group = function(data, scales) {
+
+                                mean_area <- mean((data$x - mean(data$x)) * (data$y - mean(data$y)))
+
+                                data.frame(ymin = mean(data$y),
+                                           ymax = mean(data$y) + mean_area/sd(data$x),
+                                           xmin = mean(data$x),
+                                           xmax = mean(data$x) + sd(data$x),
+                                           fill = "plum4")
+
+                              },
+
+                              required_aes = c("x", "y")
+)
+
+
+geom_xydiffsmean <- function(mapping = NULL, data = NULL,
+                       position = "identity", na.rm = FALSE, show.legend = NA,
+                       inherit.aes = TRUE, ...) {
+  ggplot2::layer(
+    stat = StatAveragearea, geom = GeomRecttransparent, data = data, mapping = mapping,
+    position = position, show.legend = show.legend, inherit.aes = inherit.aes,
+    params = list(na.rm = na.rm, ...)
+  )
+}
+
+
+
+#### corr label
+
+Corrlabel <- ggplot2::ggproto("Corrlabel", ggplot2::Stat,
+                                    compute_group = function(data, scales) {
+
+                                      mean_area <- mean((data$x - mean(data$x)) * (data$y - mean(data$y)))
+
+                                      data.frame(
+                                                 y = mean(data$y) + mean_area/sd(data$x)/2,
+                                                 x = mean(data$x) + sd(data$x)/2,
+                                                 label = cor(data$x, data$y) %>% good_digits())
+
+                                    },
+
+                                    required_aes = c("x", "y")
+)
+
+
+geom_corrlabel <- function(mapping = NULL, data = NULL,
+                             position = "identity", na.rm = FALSE, show.legend = NA,
+                             inherit.aes = TRUE, ...) {
+  ggplot2::layer(
+    stat = Corrlabel, geom = ggplot2::GeomLabel, data = data, mapping = mapping,
+    position = position, show.legend = show.legend, inherit.aes = inherit.aes,
+    params = list(na.rm = na.rm, ...)
+  )
+}
+
+
+
+### r squared equals 1 ######
+
+StatRsq1 <- ggplot2::ggproto("StatRsq1", ggplot2::Stat,
+                             compute_group = function(data, scales) {
+
+                               data.frame(ymin = mean(data$y),
+                                          ymax = mean(data$y) + sd(data$y),
+                                          xmin = mean(data$x),
+                                          xmax = mean(data$x) + sd(data$x),
+                                          fill = "plum4")
 
                              },
 
@@ -290,6 +380,9 @@ geom_rsq1 <- function(mapping = NULL, data = NULL,
     params = list(na.rm = na.rm, ...)
   )
 }
+
+
+
 
 
 ### xymean

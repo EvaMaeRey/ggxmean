@@ -15,4 +15,5 @@ RoxygenNote: 6.1.1
 Imports: 
     magrittr,
     ggplot2,
-    dplyr
+    dplyr,
+    stringr
