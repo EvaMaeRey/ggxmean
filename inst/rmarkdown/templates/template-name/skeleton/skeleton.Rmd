@@ -103,17 +103,16 @@ palmerpenguins::penguins %>%
 
 ---
 
-`r chunk_reveal("suprising", title = "### something surprising")`
+`r chunk_reveal("suprising")`
 
 ```{r suprising, include = F}
+ggxmean:::geoms_chalk()
 cars %>% 
   ggplot() +
   ggxmean:::theme_chalkboard_slate() +
   aes(x = speed) +
   # we dont see it
-  ggxmean:::geom_xmean(color = "firebrick",
-             linetype = "dotted",
-             size = 1) +
+  ggxmean:::geom_xmean() +
   # only x aes is required for xmean 
   # by y is set to neg Inf and pos Inf
   # means y needs activated
@@ -128,6 +127,7 @@ cars %>%
 `r chunk_reveal("ols")`
 
 ```{r ols, include = F}
+ggxmean:::geoms_chalk()  # let the default color be caulky
 palmerpenguins::penguins %>% 
   filter(species == "Chinstrap") %>% 
   filter(sex == "male") %>% 
@@ -169,7 +169,7 @@ palmerpenguins::penguins %>%
 `r chunk_reveal("vizthecorrelation", title = "### viz the correlation" , break_type = "user")`
 
 ```{r vizthecorrelation, include=F}
-ggxmean:::geoms_chalk()
+ggxmean:::geoms_chalk()  # let the default color be caulky
 library(ggxmean)
 palmerpenguins::penguins %>% 
   mutate(id = row_number()) %>% 
@@ -198,6 +198,6 @@ palmerpenguins::penguins %>%
 
 
 ---
+class: inverse, center, middle
 
-
-> Don't worry about the overall importance of the problem; work on it if it looks interesting. I think there's a sufficient correlation between interest and importance.  -- David Blackwell
+# > Don't worry about the overall importance of the problem; work on it if it looks interesting. I think there's a sufficient correlation between interest and importance.  -- David Blackwell

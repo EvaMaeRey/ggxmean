@@ -1,12 +1,13 @@
 
 
 
-geoms_chalk <- function(){
+geoms_chalk <- function(color = "lightyellow"){
 
 # https://stackoverflow.com/questions/21174625/ggplot-how-to-set-default-color-for-all-geoms
 
-  ggplot2::update_geom_defaults("point",   list(colour = "lightyellow"))
-  ggplot2::update_geom_defaults("segment",   list(colour = "lightyellow"))
+  ggplot2::update_geom_defaults("point",   list(colour = color, size = 2.5, alpha = .75))
+  ggplot2::update_geom_defaults("segment",   list(colour = color, size = 1.25, alpha = .75))
+  ggplot2::update_geom_defaults("rug",   list(colour = color, size = 1, alpha = .75))
 
 # params <- ls(pattern = '^geom_', env = as.environment('package:ggxmean'))
 # geoms <- gsub("geom_", "", params)
