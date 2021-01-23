@@ -1,0 +1,2351 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+  <head>
+    <title>{ggxmean}</title>
+    <meta charset="utf-8" />
+    <meta name="author" content="Your Name" />
+    <link href="libs/remark-css-0.0.1/default.css" rel="stylesheet" />
+    <link href="libs/remark-css-0.0.1/hygge.css" rel="stylesheet" />
+    <link href="libs/remark-css-0.0.1/ninjutsu.css" rel="stylesheet" />
+  </head>
+  <body>
+    <textarea id="source">
+
+
+
+class: inverse
+background-image: url(https://images.unsplash.com/photo-1572291720677-d8d28ac52a5b?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&amp;ixlib=rb-1.2.1&amp;auto=format&amp;fit=crop&amp;w=1556&amp;q=80)
+background-size: cover
+
+# [{ggxmean}](https://github.com/EvaMaeRey/ggxmean)
+&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;
+&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;
+&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;
+&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;
+#### Photo credit: Hans Veth
+
+
+
+
+
+
+---
+
+# viz the means and conditional means
+
+
+---
+
+
+count: false
+ 
+
+.panel1-vizthemean1d-user[
+
+```r
+*library(ggxmean)
+*palmerpenguins::penguins %&gt;%
+* drop_na() %&gt;%
+* ggplot() +
+* aes(x = bill_length_mm) +
+* geom_rug(alpha = .3) +
+* geom_histogram(alpha = .4)
+```
+]
+ 
+.panel2-vizthemean1d-user[
+![](skeleton_files/figure-html/vizthemean1d_user_01_output-1.png)&lt;!-- --&gt;
+]
+
+---
+count: false
+ 
+
+.panel1-vizthemean1d-user[
+
+```r
+library(ggxmean)
+palmerpenguins::penguins %&gt;%
+  drop_na() %&gt;%
+  ggplot() +
+  aes(x = bill_length_mm) +
+  geom_rug(alpha = .3) +
+  geom_histogram(alpha = .4) +
+* ggxmean:::geom_xmean()
+```
+]
+ 
+.panel2-vizthemean1d-user[
+![](skeleton_files/figure-html/vizthemean1d_user_02_output-1.png)&lt;!-- --&gt;
+]
+
+---
+count: false
+ 
+
+.panel1-vizthemean1d-user[
+
+```r
+library(ggxmean)
+palmerpenguins::penguins %&gt;%
+  drop_na() %&gt;%
+  ggplot() +
+  aes(x = bill_length_mm) +
+  geom_rug(alpha = .3) +
+  geom_histogram(alpha = .4) +
+  ggxmean:::geom_xmean() +
+* aes(color = species)
+```
+]
+ 
+.panel2-vizthemean1d-user[
+![](skeleton_files/figure-html/vizthemean1d_user_03_output-1.png)&lt;!-- --&gt;
+]
+
+---
+count: false
+ 
+
+.panel1-vizthemean1d-user[
+
+```r
+library(ggxmean)
+palmerpenguins::penguins %&gt;%
+  drop_na() %&gt;%
+  ggplot() +
+  aes(x = bill_length_mm) +
+  geom_rug(alpha = .3) +
+  geom_histogram(alpha = .4) +
+  ggxmean:::geom_xmean() +
+  aes(color = species) +
+* aes(fill = species)
+```
+]
+ 
+.panel2-vizthemean1d-user[
+![](skeleton_files/figure-html/vizthemean1d_user_04_output-1.png)&lt;!-- --&gt;
+]
+
+---
+count: false
+ 
+
+.panel1-vizthemean1d-user[
+
+```r
+library(ggxmean)
+palmerpenguins::penguins %&gt;%
+  drop_na() %&gt;%
+  ggplot() +
+  aes(x = bill_length_mm) +
+  geom_rug(alpha = .3) +
+  geom_histogram(alpha = .4) +
+  ggxmean:::geom_xmean() +
+  aes(color = species) +
+  aes(fill = species) +
+* facet_grid(rows = vars(species))
+```
+]
+ 
+.panel2-vizthemean1d-user[
+![](skeleton_files/figure-html/vizthemean1d_user_05_output-1.png)&lt;!-- --&gt;
+]
+
+---
+count: false
+ 
+
+.panel1-vizthemean1d-user[
+
+```r
+library(ggxmean)
+palmerpenguins::penguins %&gt;%
+  drop_na() %&gt;%
+  ggplot() +
+  aes(x = bill_length_mm) +
+  geom_rug(alpha = .3) +
+  geom_histogram(alpha = .4) +
+  ggxmean:::geom_xmean() +
+  aes(color = species) +
+  aes(fill = species) +
+  facet_grid(rows = vars(species)) +
+* facet_grid(rows = vars(species, sex))
+```
+]
+ 
+.panel2-vizthemean1d-user[
+![](skeleton_files/figure-html/vizthemean1d_user_06_output-1.png)&lt;!-- --&gt;
+]
+
+---
+count: false
+ 
+
+.panel1-vizthemean1d-user[
+
+```r
+library(ggxmean)
+palmerpenguins::penguins %&gt;%
+  drop_na() %&gt;%
+  ggplot() +
+  aes(x = bill_length_mm) +
+  geom_rug(alpha = .3) +
+  geom_histogram(alpha = .4) +
+  ggxmean:::geom_xmean() +
+  aes(color = species) +
+  aes(fill = species) +
+  facet_grid(rows = vars(species)) +
+  facet_grid(rows = vars(species, sex)) +
+* geom_rug(alpha = .6) +
+* ggxmean:::geom_xq2575(linetype = "dotted",
+*             size = .75)
+```
+]
+ 
+.panel2-vizthemean1d-user[
+![](skeleton_files/figure-html/vizthemean1d_user_07_output-1.png)&lt;!-- --&gt;
+]
+
+---
+count: false
+ 
+
+.panel1-vizthemean1d-user[
+
+```r
+library(ggxmean)
+palmerpenguins::penguins %&gt;%
+  drop_na() %&gt;%
+  ggplot() +
+  aes(x = bill_length_mm) +
+  geom_rug(alpha = .3) +
+  geom_histogram(alpha = .4) +
+  ggxmean:::geom_xmean() +
+  aes(color = species) +
+  aes(fill = species) +
+  facet_grid(rows = vars(species)) +
+  facet_grid(rows = vars(species, sex)) +
+  geom_rug(alpha = .6) +
+  ggxmean:::geom_xq2575(linetype = "dotted",
+              size = .75) +
+* ggxmean:::geom_xmin(linetype = "solid")
+```
+]
+ 
+.panel2-vizthemean1d-user[
+![](skeleton_files/figure-html/vizthemean1d_user_08_output-1.png)&lt;!-- --&gt;
+]
+
+---
+count: false
+ 
+
+.panel1-vizthemean1d-user[
+
+```r
+library(ggxmean)
+palmerpenguins::penguins %&gt;%
+  drop_na() %&gt;%
+  ggplot() +
+  aes(x = bill_length_mm) +
+  geom_rug(alpha = .3) +
+  geom_histogram(alpha = .4) +
+  ggxmean:::geom_xmean() +
+  aes(color = species) +
+  aes(fill = species) +
+  facet_grid(rows = vars(species)) +
+  facet_grid(rows = vars(species, sex)) +
+  geom_rug(alpha = .6) +
+  ggxmean:::geom_xq2575(linetype = "dotted",
+              size = .75) +
+  ggxmean:::geom_xmin(linetype = "solid") +
+* ggxmean:::geom_xmax(linetype = "solid",
+*           color = "goldenrod")
+```
+]
+ 
+.panel2-vizthemean1d-user[
+![](skeleton_files/figure-html/vizthemean1d_user_09_output-1.png)&lt;!-- --&gt;
+]
+
+---
+count: false
+ 
+
+.panel1-vizthemean1d-user[
+
+```r
+library(ggxmean)
+palmerpenguins::penguins %&gt;%
+  drop_na() %&gt;%
+  ggplot() +
+  aes(x = bill_length_mm) +
+  geom_rug(alpha = .3) +
+  geom_histogram(alpha = .4) +
+  ggxmean:::geom_xmean() +
+  aes(color = species) +
+  aes(fill = species) +
+  facet_grid(rows = vars(species)) +
+  facet_grid(rows = vars(species, sex)) +
+  geom_rug(alpha = .6) +
+  ggxmean:::geom_xq2575(linetype = "dotted",
+              size = .75) +
+  ggxmean:::geom_xmin(linetype = "solid") +
+  ggxmean:::geom_xmax(linetype = "solid",
+            color = "goldenrod") +
+* geom_boxplot(y = 0,
+*              width = 3,
+*              fill = "white",
+*              color = "black")
+```
+]
+ 
+.panel2-vizthemean1d-user[
+![](skeleton_files/figure-html/vizthemean1d_user_10_output-1.png)&lt;!-- --&gt;
+]
+
+&lt;style&gt;
+.panel1-vizthemean1d-user {
+  color: black;
+  width: 38.6060606060606%;
+  hight: 32%;
+  float: left;
+  padding-left: 1%;
+  font-size: 80%
+}
+.panel2-vizthemean1d-user {
+  color: black;
+  width: 59.3939393939394%;
+  hight: 32%;
+  float: left;
+  padding-left: 1%;
+  font-size: 80%
+}
+.panel3-vizthemean1d-user {
+  color: black;
+  width: NA%;
+  hight: 33%;
+  float: left;
+  padding-left: 1%;
+  font-size: 80%
+}
+&lt;/style&gt;
+
+
+
+
+
+
+
+
+---
+
+count: false
+ 
+
+.panel1-vizthemean2d-user[
+
+```r
+*library(ggxmean)
+*palmerpenguins::penguins %&gt;%
+* drop_na() %&gt;%
+* ggplot() +
+* aes(x = bill_length_mm) +
+* aes(y = flipper_length_mm) +
+* geom_point()
+```
+]
+ 
+.panel2-vizthemean2d-user[
+![](skeleton_files/figure-html/vizthemean2d_user_01_output-1.png)&lt;!-- --&gt;
+]
+
+---
+count: false
+ 
+
+.panel1-vizthemean2d-user[
+
+```r
+library(ggxmean)
+palmerpenguins::penguins %&gt;%
+  drop_na() %&gt;%
+  ggplot() +
+  aes(x = bill_length_mm) +
+  aes(y = flipper_length_mm) +
+  geom_point() +
+* ggxmean:::geom_xmean()
+```
+]
+ 
+.panel2-vizthemean2d-user[
+![](skeleton_files/figure-html/vizthemean2d_user_02_output-1.png)&lt;!-- --&gt;
+]
+
+---
+count: false
+ 
+
+.panel1-vizthemean2d-user[
+
+```r
+library(ggxmean)
+palmerpenguins::penguins %&gt;%
+  drop_na() %&gt;%
+  ggplot() +
+  aes(x = bill_length_mm) +
+  aes(y = flipper_length_mm) +
+  geom_point() +
+  ggxmean:::geom_xmean() +
+* aes(color = species)
+```
+]
+ 
+.panel2-vizthemean2d-user[
+![](skeleton_files/figure-html/vizthemean2d_user_03_output-1.png)&lt;!-- --&gt;
+]
+
+---
+count: false
+ 
+
+.panel1-vizthemean2d-user[
+
+```r
+library(ggxmean)
+palmerpenguins::penguins %&gt;%
+  drop_na() %&gt;%
+  ggplot() +
+  aes(x = bill_length_mm) +
+  aes(y = flipper_length_mm) +
+  geom_point() +
+  ggxmean:::geom_xmean() +
+  aes(color = species) +
+* facet_wrap(facets = vars(species))
+```
+]
+ 
+.panel2-vizthemean2d-user[
+![](skeleton_files/figure-html/vizthemean2d_user_04_output-1.png)&lt;!-- --&gt;
+]
+
+---
+count: false
+ 
+
+.panel1-vizthemean2d-user[
+
+```r
+library(ggxmean)
+palmerpenguins::penguins %&gt;%
+  drop_na() %&gt;%
+  ggplot() +
+  aes(x = bill_length_mm) +
+  aes(y = flipper_length_mm) +
+  geom_point() +
+  ggxmean:::geom_xmean() +
+  aes(color = species) +
+  facet_wrap(facets = vars(species)) +
+* ggxmean:::geom_ymean()
+```
+]
+ 
+.panel2-vizthemean2d-user[
+![](skeleton_files/figure-html/vizthemean2d_user_05_output-1.png)&lt;!-- --&gt;
+]
+
+---
+count: false
+ 
+
+.panel1-vizthemean2d-user[
+
+```r
+library(ggxmean)
+palmerpenguins::penguins %&gt;%
+  drop_na() %&gt;%
+  ggplot() +
+  aes(x = bill_length_mm) +
+  aes(y = flipper_length_mm) +
+  geom_point() +
+  ggxmean:::geom_xmean() +
+  aes(color = species) +
+  facet_wrap(facets = vars(species)) +
+  ggxmean:::geom_ymean() +
+* facet_grid(cols = vars(species),
+*            rows = vars(sex))
+```
+]
+ 
+.panel2-vizthemean2d-user[
+![](skeleton_files/figure-html/vizthemean2d_user_06_output-1.png)&lt;!-- --&gt;
+]
+
+&lt;style&gt;
+.panel1-vizthemean2d-user {
+  color: black;
+  width: 38.6060606060606%;
+  hight: 32%;
+  float: left;
+  padding-left: 1%;
+  font-size: 80%
+}
+.panel2-vizthemean2d-user {
+  color: black;
+  width: 59.3939393939394%;
+  hight: 32%;
+  float: left;
+  padding-left: 1%;
+  font-size: 80%
+}
+.panel3-vizthemean2d-user {
+  color: black;
+  width: NA%;
+  hight: 33%;
+  float: left;
+  padding-left: 1%;
+  font-size: 80%
+}
+&lt;/style&gt;
+
+
+
+
+
+
+
+
+
+
+
+---
+
+count: false
+ 
+### something surprising
+.panel1-suprising-auto[
+
+```r
+*cars
+```
+]
+ 
+.panel2-suprising-auto[
+
+```
+   speed dist
+1      4    2
+2      4   10
+3      7    4
+4      7   22
+5      8   16
+6      9   10
+7     10   18
+8     10   26
+9     10   34
+10    11   17
+11    11   28
+12    12   14
+13    12   20
+14    12   24
+15    12   28
+16    13   26
+17    13   34
+18    13   34
+19    13   46
+20    14   26
+21    14   36
+22    14   60
+23    14   80
+24    15   20
+25    15   26
+26    15   54
+27    16   32
+28    16   40
+29    17   32
+30    17   40
+31    17   50
+32    18   42
+33    18   56
+34    18   76
+35    18   84
+36    19   36
+37    19   46
+38    19   68
+39    20   32
+40    20   48
+41    20   52
+42    20   56
+43    20   64
+44    22   66
+45    23   54
+46    24   70
+47    24   92
+48    24   93
+49    24  120
+50    25   85
+```
+]
+
+---
+count: false
+ 
+### something surprising
+.panel1-suprising-auto[
+
+```r
+cars %&gt;%
+* ggplot()
+```
+]
+ 
+.panel2-suprising-auto[
+![](skeleton_files/figure-html/suprising_auto_02_output-1.png)&lt;!-- --&gt;
+]
+
+---
+count: false
+ 
+### something surprising
+.panel1-suprising-auto[
+
+```r
+cars %&gt;%
+  ggplot() +
+* ggxmean:::theme_chalkboard_slate()
+```
+]
+ 
+.panel2-suprising-auto[
+![](skeleton_files/figure-html/suprising_auto_03_output-1.png)&lt;!-- --&gt;
+]
+
+---
+count: false
+ 
+### something surprising
+.panel1-suprising-auto[
+
+```r
+cars %&gt;%
+  ggplot() +
+  ggxmean:::theme_chalkboard_slate() +
+* aes(x = speed)
+```
+]
+ 
+.panel2-suprising-auto[
+![](skeleton_files/figure-html/suprising_auto_04_output-1.png)&lt;!-- --&gt;
+]
+
+---
+count: false
+ 
+### something surprising
+.panel1-suprising-auto[
+
+```r
+cars %&gt;%
+  ggplot() +
+  ggxmean:::theme_chalkboard_slate() +
+  aes(x = speed) +
+# we dont see it
+* ggxmean:::geom_xmean(color = "firebrick",
+*            linetype = "dotted",
+*            size = 1)
+```
+]
+ 
+.panel2-suprising-auto[
+![](skeleton_files/figure-html/suprising_auto_05_output-1.png)&lt;!-- --&gt;
+]
+
+---
+count: false
+ 
+### something surprising
+.panel1-suprising-auto[
+
+```r
+cars %&gt;%
+  ggplot() +
+  ggxmean:::theme_chalkboard_slate() +
+  aes(x = speed) +
+# we dont see it
+  ggxmean:::geom_xmean(color = "firebrick",
+             linetype = "dotted",
+             size = 1) +
+# only x aes is required for xmean
+# by y is set to neg Inf and pos Inf
+# means y needs activated
+* aes(y = dist)
+```
+]
+ 
+.panel2-suprising-auto[
+![](skeleton_files/figure-html/suprising_auto_06_output-1.png)&lt;!-- --&gt;
+]
+
+---
+count: false
+ 
+### something surprising
+.panel1-suprising-auto[
+
+```r
+cars %&gt;%
+  ggplot() +
+  ggxmean:::theme_chalkboard_slate() +
+  aes(x = speed) +
+# we dont see it
+  ggxmean:::geom_xmean(color = "firebrick",
+             linetype = "dotted",
+             size = 1) +
+# only x aes is required for xmean
+# by y is set to neg Inf and pos Inf
+# means y needs activated
+  aes(y = dist) +
+* geom_blank()
+```
+]
+ 
+.panel2-suprising-auto[
+![](skeleton_files/figure-html/suprising_auto_07_output-1.png)&lt;!-- --&gt;
+]
+
+---
+count: false
+ 
+### something surprising
+.panel1-suprising-auto[
+
+```r
+cars %&gt;%
+  ggplot() +
+  ggxmean:::theme_chalkboard_slate() +
+  aes(x = speed) +
+# we dont see it
+  ggxmean:::geom_xmean(color = "firebrick",
+             linetype = "dotted",
+             size = 1) +
+# only x aes is required for xmean
+# by y is set to neg Inf and pos Inf
+# means y needs activated
+  aes(y = dist) +
+  geom_blank() +
+* geom_point()
+```
+]
+ 
+.panel2-suprising-auto[
+![](skeleton_files/figure-html/suprising_auto_08_output-1.png)&lt;!-- --&gt;
+]
+
+---
+count: false
+ 
+### something surprising
+.panel1-suprising-auto[
+
+```r
+cars %&gt;%
+  ggplot() +
+  ggxmean:::theme_chalkboard_slate() +
+  aes(x = speed) +
+# we dont see it
+  ggxmean:::geom_xmean(color = "firebrick",
+             linetype = "dotted",
+             size = 1) +
+# only x aes is required for xmean
+# by y is set to neg Inf and pos Inf
+# means y needs activated
+  aes(y = dist) +
+  geom_blank() +
+  geom_point() +
+* geom_rug()
+```
+]
+ 
+.panel2-suprising-auto[
+![](skeleton_files/figure-html/suprising_auto_09_output-1.png)&lt;!-- --&gt;
+]
+
+&lt;style&gt;
+.panel1-suprising-auto {
+  color: black;
+  width: 38.6060606060606%;
+  hight: 32%;
+  float: left;
+  padding-left: 1%;
+  font-size: 80%
+}
+.panel2-suprising-auto {
+  color: black;
+  width: 59.3939393939394%;
+  hight: 32%;
+  float: left;
+  padding-left: 1%;
+  font-size: 80%
+}
+.panel3-suprising-auto {
+  color: black;
+  width: NA%;
+  hight: 33%;
+  float: left;
+  padding-left: 1%;
+  font-size: 80%
+}
+&lt;/style&gt;
+
+
+
+
+
+---
+
+count: false
+ 
+
+.panel1-ols-auto[
+
+```r
+*palmerpenguins::penguins
+```
+]
+ 
+.panel2-ols-auto[
+
+```
+# A tibble: 344 x 8
+   species island bill_length_mm bill_depth_mm flipper_length_… body_mass_g
+   &lt;fct&gt;   &lt;fct&gt;           &lt;dbl&gt;         &lt;dbl&gt;            &lt;int&gt;       &lt;int&gt;
+ 1 Adelie  Torge…           39.1          18.7              181        3750
+ 2 Adelie  Torge…           39.5          17.4              186        3800
+ 3 Adelie  Torge…           40.3          18                195        3250
+ 4 Adelie  Torge…           NA            NA                 NA          NA
+ 5 Adelie  Torge…           36.7          19.3              193        3450
+ 6 Adelie  Torge…           39.3          20.6              190        3650
+ 7 Adelie  Torge…           38.9          17.8              181        3625
+ 8 Adelie  Torge…           39.2          19.6              195        4675
+ 9 Adelie  Torge…           34.1          18.1              193        3475
+10 Adelie  Torge…           42            20.2              190        4250
+# … with 334 more rows, and 2 more variables: sex &lt;fct&gt;, year &lt;int&gt;
+```
+]
+
+---
+count: false
+ 
+
+.panel1-ols-auto[
+
+```r
+palmerpenguins::penguins %&gt;%
+* filter(species == "Chinstrap")
+```
+]
+ 
+.panel2-ols-auto[
+
+```
+# A tibble: 68 x 8
+   species island bill_length_mm bill_depth_mm flipper_length_… body_mass_g
+   &lt;fct&gt;   &lt;fct&gt;           &lt;dbl&gt;         &lt;dbl&gt;            &lt;int&gt;       &lt;int&gt;
+ 1 Chinst… Dream            46.5          17.9              192        3500
+ 2 Chinst… Dream            50            19.5              196        3900
+ 3 Chinst… Dream            51.3          19.2              193        3650
+ 4 Chinst… Dream            45.4          18.7              188        3525
+ 5 Chinst… Dream            52.7          19.8              197        3725
+ 6 Chinst… Dream            45.2          17.8              198        3950
+ 7 Chinst… Dream            46.1          18.2              178        3250
+ 8 Chinst… Dream            51.3          18.2              197        3750
+ 9 Chinst… Dream            46            18.9              195        4150
+10 Chinst… Dream            51.3          19.9              198        3700
+# … with 58 more rows, and 2 more variables: sex &lt;fct&gt;, year &lt;int&gt;
+```
+]
+
+---
+count: false
+ 
+
+.panel1-ols-auto[
+
+```r
+palmerpenguins::penguins %&gt;%
+  filter(species == "Chinstrap") %&gt;%
+* filter(sex == "male")
+```
+]
+ 
+.panel2-ols-auto[
+
+```
+# A tibble: 34 x 8
+   species island bill_length_mm bill_depth_mm flipper_length_… body_mass_g
+   &lt;fct&gt;   &lt;fct&gt;           &lt;dbl&gt;         &lt;dbl&gt;            &lt;int&gt;       &lt;int&gt;
+ 1 Chinst… Dream            50            19.5              196        3900
+ 2 Chinst… Dream            51.3          19.2              193        3650
+ 3 Chinst… Dream            52.7          19.8              197        3725
+ 4 Chinst… Dream            51.3          18.2              197        3750
+ 5 Chinst… Dream            51.3          19.9              198        3700
+ 6 Chinst… Dream            51.7          20.3              194        3775
+ 7 Chinst… Dream            52            18.1              201        4050
+ 8 Chinst… Dream            50.5          19.6              201        4050
+ 9 Chinst… Dream            50.3          20                197        3300
+10 Chinst… Dream            49.2          18.2              195        4400
+# … with 24 more rows, and 2 more variables: sex &lt;fct&gt;, year &lt;int&gt;
+```
+]
+
+---
+count: false
+ 
+
+.panel1-ols-auto[
+
+```r
+palmerpenguins::penguins %&gt;%
+  filter(species == "Chinstrap") %&gt;%
+  filter(sex == "male") %&gt;%
+* mutate(id = row_number())
+```
+]
+ 
+.panel2-ols-auto[
+
+```
+# A tibble: 34 x 9
+   species island bill_length_mm bill_depth_mm flipper_length_… body_mass_g
+   &lt;fct&gt;   &lt;fct&gt;           &lt;dbl&gt;         &lt;dbl&gt;            &lt;int&gt;       &lt;int&gt;
+ 1 Chinst… Dream            50            19.5              196        3900
+ 2 Chinst… Dream            51.3          19.2              193        3650
+ 3 Chinst… Dream            52.7          19.8              197        3725
+ 4 Chinst… Dream            51.3          18.2              197        3750
+ 5 Chinst… Dream            51.3          19.9              198        3700
+ 6 Chinst… Dream            51.7          20.3              194        3775
+ 7 Chinst… Dream            52            18.1              201        4050
+ 8 Chinst… Dream            50.5          19.6              201        4050
+ 9 Chinst… Dream            50.3          20                197        3300
+10 Chinst… Dream            49.2          18.2              195        4400
+# … with 24 more rows, and 3 more variables: sex &lt;fct&gt;, year &lt;int&gt;, id &lt;int&gt;
+```
+]
+
+---
+count: false
+ 
+
+.panel1-ols-auto[
+
+```r
+palmerpenguins::penguins %&gt;%
+  filter(species == "Chinstrap") %&gt;%
+  filter(sex == "male") %&gt;%
+  mutate(id = row_number()) %&gt;%
+* ggplot()
+```
+]
+ 
+.panel2-ols-auto[
+![](skeleton_files/figure-html/ols_auto_05_output-1.png)&lt;!-- --&gt;
+]
+
+---
+count: false
+ 
+
+.panel1-ols-auto[
+
+```r
+palmerpenguins::penguins %&gt;%
+  filter(species == "Chinstrap") %&gt;%
+  filter(sex == "male") %&gt;%
+  mutate(id = row_number()) %&gt;%
+  ggplot() +
+* ggxmean:::theme_chalkboard_slate()
+```
+]
+ 
+.panel2-ols-auto[
+![](skeleton_files/figure-html/ols_auto_06_output-1.png)&lt;!-- --&gt;
+]
+
+---
+count: false
+ 
+
+.panel1-ols-auto[
+
+```r
+palmerpenguins::penguins %&gt;%
+  filter(species == "Chinstrap") %&gt;%
+  filter(sex == "male") %&gt;%
+  mutate(id = row_number()) %&gt;%
+  ggplot() +
+  ggxmean:::theme_chalkboard_slate() +
+* aes(x = flipper_length_mm)
+```
+]
+ 
+.panel2-ols-auto[
+![](skeleton_files/figure-html/ols_auto_07_output-1.png)&lt;!-- --&gt;
+]
+
+---
+count: false
+ 
+
+.panel1-ols-auto[
+
+```r
+palmerpenguins::penguins %&gt;%
+  filter(species == "Chinstrap") %&gt;%
+  filter(sex == "male") %&gt;%
+  mutate(id = row_number()) %&gt;%
+  ggplot() +
+  ggxmean:::theme_chalkboard_slate() +
+  aes(x = flipper_length_mm) +
+* aes(y = body_mass_g)
+```
+]
+ 
+.panel2-ols-auto[
+![](skeleton_files/figure-html/ols_auto_08_output-1.png)&lt;!-- --&gt;
+]
+
+---
+count: false
+ 
+
+.panel1-ols-auto[
+
+```r
+palmerpenguins::penguins %&gt;%
+  filter(species == "Chinstrap") %&gt;%
+  filter(sex == "male") %&gt;%
+  mutate(id = row_number()) %&gt;%
+  ggplot() +
+  ggxmean:::theme_chalkboard_slate() +
+  aes(x = flipper_length_mm) +
+  aes(y = body_mass_g) +
+* geom_point()
+```
+]
+ 
+.panel2-ols-auto[
+![](skeleton_files/figure-html/ols_auto_09_output-1.png)&lt;!-- --&gt;
+]
+
+---
+count: false
+ 
+
+.panel1-ols-auto[
+
+```r
+palmerpenguins::penguins %&gt;%
+  filter(species == "Chinstrap") %&gt;%
+  filter(sex == "male") %&gt;%
+  mutate(id = row_number()) %&gt;%
+  ggplot() +
+  ggxmean:::theme_chalkboard_slate() +
+  aes(x = flipper_length_mm) +
+  aes(y = body_mass_g) +
+  geom_point() +
+* ggxmean:::geom_lm()
+```
+]
+ 
+.panel2-ols-auto[
+![](skeleton_files/figure-html/ols_auto_10_output-1.png)&lt;!-- --&gt;
+]
+
+---
+count: false
+ 
+
+.panel1-ols-auto[
+
+```r
+palmerpenguins::penguins %&gt;%
+  filter(species == "Chinstrap") %&gt;%
+  filter(sex == "male") %&gt;%
+  mutate(id = row_number()) %&gt;%
+  ggplot() +
+  ggxmean:::theme_chalkboard_slate() +
+  aes(x = flipper_length_mm) +
+  aes(y = body_mass_g) +
+  geom_point() +
+  ggxmean:::geom_lm() +
+* geom_rug(aes(y = NULL))
+```
+]
+ 
+.panel2-ols-auto[
+![](skeleton_files/figure-html/ols_auto_11_output-1.png)&lt;!-- --&gt;
+]
+
+---
+count: false
+ 
+
+.panel1-ols-auto[
+
+```r
+palmerpenguins::penguins %&gt;%
+  filter(species == "Chinstrap") %&gt;%
+  filter(sex == "male") %&gt;%
+  mutate(id = row_number()) %&gt;%
+  ggplot() +
+  ggxmean:::theme_chalkboard_slate() +
+  aes(x = flipper_length_mm) +
+  aes(y = body_mass_g) +
+  geom_point() +
+  ggxmean:::geom_lm() +
+  geom_rug(aes(y = NULL)) +
+* ggxmean:::geom_xvline(alpha = .1,
+*                       linetype = "dotted")
+```
+]
+ 
+.panel2-ols-auto[
+![](skeleton_files/figure-html/ols_auto_12_output-1.png)&lt;!-- --&gt;
+]
+
+---
+count: false
+ 
+
+.panel1-ols-auto[
+
+```r
+palmerpenguins::penguins %&gt;%
+  filter(species == "Chinstrap") %&gt;%
+  filter(sex == "male") %&gt;%
+  mutate(id = row_number()) %&gt;%
+  ggplot() +
+  ggxmean:::theme_chalkboard_slate() +
+  aes(x = flipper_length_mm) +
+  aes(y = body_mass_g) +
+  geom_point() +
+  ggxmean:::geom_lm() +
+  geom_rug(aes(y = NULL)) +
+  ggxmean:::geom_xvline(alpha = .1,
+                        linetype = "dotted") +
+* ggxmean:::geom_lmfitted(color = "blue",
+*                         size = 2)
+```
+]
+ 
+.panel2-ols-auto[
+![](skeleton_files/figure-html/ols_auto_13_output-1.png)&lt;!-- --&gt;
+]
+
+---
+count: false
+ 
+
+.panel1-ols-auto[
+
+```r
+palmerpenguins::penguins %&gt;%
+  filter(species == "Chinstrap") %&gt;%
+  filter(sex == "male") %&gt;%
+  mutate(id = row_number()) %&gt;%
+  ggplot() +
+  ggxmean:::theme_chalkboard_slate() +
+  aes(x = flipper_length_mm) +
+  aes(y = body_mass_g) +
+  geom_point() +
+  ggxmean:::geom_lm() +
+  geom_rug(aes(y = NULL)) +
+  ggxmean:::geom_xvline(alpha = .1,
+                        linetype = "dotted") +
+  ggxmean:::geom_lmfitted(color = "blue",
+                          size = 2) +
+* ggxmean:::geom_lmresiduals(linetype = "dashed",
+*                            color = "firebrick")
+```
+]
+ 
+.panel2-ols-auto[
+![](skeleton_files/figure-html/ols_auto_14_output-1.png)&lt;!-- --&gt;
+]
+
+---
+count: false
+ 
+
+.panel1-ols-auto[
+
+```r
+palmerpenguins::penguins %&gt;%
+  filter(species == "Chinstrap") %&gt;%
+  filter(sex == "male") %&gt;%
+  mutate(id = row_number()) %&gt;%
+  ggplot() +
+  ggxmean:::theme_chalkboard_slate() +
+  aes(x = flipper_length_mm) +
+  aes(y = body_mass_g) +
+  geom_point() +
+  ggxmean:::geom_lm() +
+  geom_rug(aes(y = NULL)) +
+  ggxmean:::geom_xvline(alpha = .1,
+                        linetype = "dotted") +
+  ggxmean:::geom_lmfitted(color = "blue",
+                          size = 2) +
+  ggxmean:::geom_lmresiduals(linetype = "dashed",
+                             color = "firebrick") +
+* ggxmean:::geom_ymean()
+```
+]
+ 
+.panel2-ols-auto[
+![](skeleton_files/figure-html/ols_auto_15_output-1.png)&lt;!-- --&gt;
+]
+
+---
+count: false
+ 
+
+.panel1-ols-auto[
+
+```r
+palmerpenguins::penguins %&gt;%
+  filter(species == "Chinstrap") %&gt;%
+  filter(sex == "male") %&gt;%
+  mutate(id = row_number()) %&gt;%
+  ggplot() +
+  ggxmean:::theme_chalkboard_slate() +
+  aes(x = flipper_length_mm) +
+  aes(y = body_mass_g) +
+  geom_point() +
+  ggxmean:::geom_lm() +
+  geom_rug(aes(y = NULL)) +
+  ggxmean:::geom_xvline(alpha = .1,
+                        linetype = "dotted") +
+  ggxmean:::geom_lmfitted(color = "blue",
+                          size = 2) +
+  ggxmean:::geom_lmresiduals(linetype = "dashed",
+                             color = "firebrick") +
+  ggxmean:::geom_ymean() +
+* ggxmean:::geom_xmean()
+```
+]
+ 
+.panel2-ols-auto[
+![](skeleton_files/figure-html/ols_auto_16_output-1.png)&lt;!-- --&gt;
+]
+
+---
+count: false
+ 
+
+.panel1-ols-auto[
+
+```r
+palmerpenguins::penguins %&gt;%
+  filter(species == "Chinstrap") %&gt;%
+  filter(sex == "male") %&gt;%
+  mutate(id = row_number()) %&gt;%
+  ggplot() +
+  ggxmean:::theme_chalkboard_slate() +
+  aes(x = flipper_length_mm) +
+  aes(y = body_mass_g) +
+  geom_point() +
+  ggxmean:::geom_lm() +
+  geom_rug(aes(y = NULL)) +
+  ggxmean:::geom_xvline(alpha = .1,
+                        linetype = "dotted") +
+  ggxmean:::geom_lmfitted(color = "blue",
+                          size = 2) +
+  ggxmean:::geom_lmresiduals(linetype = "dashed",
+                             color = "firebrick") +
+  ggxmean:::geom_ymean() +
+  ggxmean:::geom_xmean() +
+* ggxmean:::geom_xymean(size = 3, color = "magenta")
+```
+]
+ 
+.panel2-ols-auto[
+![](skeleton_files/figure-html/ols_auto_17_output-1.png)&lt;!-- --&gt;
+]
+
+---
+count: false
+ 
+
+.panel1-ols-auto[
+
+```r
+palmerpenguins::penguins %&gt;%
+  filter(species == "Chinstrap") %&gt;%
+  filter(sex == "male") %&gt;%
+  mutate(id = row_number()) %&gt;%
+  ggplot() +
+  ggxmean:::theme_chalkboard_slate() +
+  aes(x = flipper_length_mm) +
+  aes(y = body_mass_g) +
+  geom_point() +
+  ggxmean:::geom_lm() +
+  geom_rug(aes(y = NULL)) +
+  ggxmean:::geom_xvline(alpha = .1,
+                        linetype = "dotted") +
+  ggxmean:::geom_lmfitted(color = "blue",
+                          size = 2) +
+  ggxmean:::geom_lmresiduals(linetype = "dashed",
+                             color = "firebrick") +
+  ggxmean:::geom_ymean() +
+  ggxmean:::geom_xmean() +
+  ggxmean:::geom_xymean(size = 3, color = "magenta") +
+* ggxmean:::geom_lmformula()
+```
+]
+ 
+.panel2-ols-auto[
+![](skeleton_files/figure-html/ols_auto_18_output-1.png)&lt;!-- --&gt;
+]
+
+---
+count: false
+ 
+
+.panel1-ols-auto[
+
+```r
+palmerpenguins::penguins %&gt;%
+  filter(species == "Chinstrap") %&gt;%
+  filter(sex == "male") %&gt;%
+  mutate(id = row_number()) %&gt;%
+  ggplot() +
+  ggxmean:::theme_chalkboard_slate() +
+  aes(x = flipper_length_mm) +
+  aes(y = body_mass_g) +
+  geom_point() +
+  ggxmean:::geom_lm() +
+  geom_rug(aes(y = NULL)) +
+  ggxmean:::geom_xvline(alpha = .1,
+                        linetype = "dotted") +
+  ggxmean:::geom_lmfitted(color = "blue",
+                          size = 2) +
+  ggxmean:::geom_lmresiduals(linetype = "dashed",
+                             color = "firebrick") +
+  ggxmean:::geom_ymean() +
+  ggxmean:::geom_xmean() +
+  ggxmean:::geom_xymean(size = 3, color = "magenta") +
+  ggxmean:::geom_lmformula() +
+* annotate(geom = "point",
+*          x = 208,
+*          y = 40.3 * 208 - 4110,
+*          size = 5,
+*          shape = "diamond")
+```
+]
+ 
+.panel2-ols-auto[
+![](skeleton_files/figure-html/ols_auto_19_output-1.png)&lt;!-- --&gt;
+]
+
+---
+count: false
+ 
+
+.panel1-ols-auto[
+
+```r
+palmerpenguins::penguins %&gt;%
+  filter(species == "Chinstrap") %&gt;%
+  filter(sex == "male") %&gt;%
+  mutate(id = row_number()) %&gt;%
+  ggplot() +
+  ggxmean:::theme_chalkboard_slate() +
+  aes(x = flipper_length_mm) +
+  aes(y = body_mass_g) +
+  geom_point() +
+  ggxmean:::geom_lm() +
+  geom_rug(aes(y = NULL)) +
+  ggxmean:::geom_xvline(alpha = .1,
+                        linetype = "dotted") +
+  ggxmean:::geom_lmfitted(color = "blue",
+                          size = 2) +
+  ggxmean:::geom_lmresiduals(linetype = "dashed",
+                             color = "firebrick") +
+  ggxmean:::geom_ymean() +
+  ggxmean:::geom_xmean() +
+  ggxmean:::geom_xymean(size = 3, color = "magenta") +
+  ggxmean:::geom_lmformula() +
+  annotate(geom = "point",
+           x = 208,
+           y = 40.3 * 208 - 4110,
+           size = 5,
+           shape = "diamond") +
+* ggxmean:::geom_lmrun(color = "magenta")
+```
+]
+ 
+.panel2-ols-auto[
+![](skeleton_files/figure-html/ols_auto_20_output-1.png)&lt;!-- --&gt;
+]
+
+---
+count: false
+ 
+
+.panel1-ols-auto[
+
+```r
+palmerpenguins::penguins %&gt;%
+  filter(species == "Chinstrap") %&gt;%
+  filter(sex == "male") %&gt;%
+  mutate(id = row_number()) %&gt;%
+  ggplot() +
+  ggxmean:::theme_chalkboard_slate() +
+  aes(x = flipper_length_mm) +
+  aes(y = body_mass_g) +
+  geom_point() +
+  ggxmean:::geom_lm() +
+  geom_rug(aes(y = NULL)) +
+  ggxmean:::geom_xvline(alpha = .1,
+                        linetype = "dotted") +
+  ggxmean:::geom_lmfitted(color = "blue",
+                          size = 2) +
+  ggxmean:::geom_lmresiduals(linetype = "dashed",
+                             color = "firebrick") +
+  ggxmean:::geom_ymean() +
+  ggxmean:::geom_xmean() +
+  ggxmean:::geom_xymean(size = 3, color = "magenta") +
+  ggxmean:::geom_lmformula() +
+  annotate(geom = "point",
+           x = 208,
+           y = 40.3 * 208 - 4110,
+           size = 5,
+           shape = "diamond") +
+  ggxmean:::geom_lmrun(color = "magenta") +
+* ggxmean:::geom_lmrise(color = "magenta")
+```
+]
+ 
+.panel2-ols-auto[
+![](skeleton_files/figure-html/ols_auto_21_output-1.png)&lt;!-- --&gt;
+]
+
+---
+count: false
+ 
+
+.panel1-ols-auto[
+
+```r
+palmerpenguins::penguins %&gt;%
+  filter(species == "Chinstrap") %&gt;%
+  filter(sex == "male") %&gt;%
+  mutate(id = row_number()) %&gt;%
+  ggplot() +
+  ggxmean:::theme_chalkboard_slate() +
+  aes(x = flipper_length_mm) +
+  aes(y = body_mass_g) +
+  geom_point() +
+  ggxmean:::geom_lm() +
+  geom_rug(aes(y = NULL)) +
+  ggxmean:::geom_xvline(alpha = .1,
+                        linetype = "dotted") +
+  ggxmean:::geom_lmfitted(color = "blue",
+                          size = 2) +
+  ggxmean:::geom_lmresiduals(linetype = "dashed",
+                             color = "firebrick") +
+  ggxmean:::geom_ymean() +
+  ggxmean:::geom_xmean() +
+  ggxmean:::geom_xymean(size = 3, color = "magenta") +
+  ggxmean:::geom_lmformula() +
+  annotate(geom = "point",
+           x = 208,
+           y = 40.3 * 208 - 4110,
+           size = 5,
+           shape = "diamond") +
+  ggxmean:::geom_lmrun(color = "magenta") +
+  ggxmean:::geom_lmrise(color = "magenta") +
+* ggxmean:::geom_lmrun10(color = "green")
+```
+]
+ 
+.panel2-ols-auto[
+![](skeleton_files/figure-html/ols_auto_22_output-1.png)&lt;!-- --&gt;
+]
+
+---
+count: false
+ 
+
+.panel1-ols-auto[
+
+```r
+palmerpenguins::penguins %&gt;%
+  filter(species == "Chinstrap") %&gt;%
+  filter(sex == "male") %&gt;%
+  mutate(id = row_number()) %&gt;%
+  ggplot() +
+  ggxmean:::theme_chalkboard_slate() +
+  aes(x = flipper_length_mm) +
+  aes(y = body_mass_g) +
+  geom_point() +
+  ggxmean:::geom_lm() +
+  geom_rug(aes(y = NULL)) +
+  ggxmean:::geom_xvline(alpha = .1,
+                        linetype = "dotted") +
+  ggxmean:::geom_lmfitted(color = "blue",
+                          size = 2) +
+  ggxmean:::geom_lmresiduals(linetype = "dashed",
+                             color = "firebrick") +
+  ggxmean:::geom_ymean() +
+  ggxmean:::geom_xmean() +
+  ggxmean:::geom_xymean(size = 3, color = "magenta") +
+  ggxmean:::geom_lmformula() +
+  annotate(geom = "point",
+           x = 208,
+           y = 40.3 * 208 - 4110,
+           size = 5,
+           shape = "diamond") +
+  ggxmean:::geom_lmrun(color = "magenta") +
+  ggxmean:::geom_lmrise(color = "magenta") +
+  ggxmean:::geom_lmrun10(color = "green") +
+* ggxmean:::geom_lmrise10(color = "green")
+```
+]
+ 
+.panel2-ols-auto[
+![](skeleton_files/figure-html/ols_auto_23_output-1.png)&lt;!-- --&gt;
+]
+
+---
+count: false
+ 
+
+.panel1-ols-auto[
+
+```r
+palmerpenguins::penguins %&gt;%
+  filter(species == "Chinstrap") %&gt;%
+  filter(sex == "male") %&gt;%
+  mutate(id = row_number()) %&gt;%
+  ggplot() +
+  ggxmean:::theme_chalkboard_slate() +
+  aes(x = flipper_length_mm) +
+  aes(y = body_mass_g) +
+  geom_point() +
+  ggxmean:::geom_lm() +
+  geom_rug(aes(y = NULL)) +
+  ggxmean:::geom_xvline(alpha = .1,
+                        linetype = "dotted") +
+  ggxmean:::geom_lmfitted(color = "blue",
+                          size = 2) +
+  ggxmean:::geom_lmresiduals(linetype = "dashed",
+                             color = "firebrick") +
+  ggxmean:::geom_ymean() +
+  ggxmean:::geom_xmean() +
+  ggxmean:::geom_xymean(size = 3, color = "magenta") +
+  ggxmean:::geom_lmformula() +
+  annotate(geom = "point",
+           x = 208,
+           y = 40.3 * 208 - 4110,
+           size = 5,
+           shape = "diamond") +
+  ggxmean:::geom_lmrun(color = "magenta") +
+  ggxmean:::geom_lmrise(color = "magenta") +
+  ggxmean:::geom_lmrun10(color = "green") +
+  ggxmean:::geom_lmrise10(color = "green") +
+* ggxmean:::geom_lmpredictx(alpha = .2)
+```
+]
+ 
+.panel2-ols-auto[
+![](skeleton_files/figure-html/ols_auto_24_output-1.png)&lt;!-- --&gt;
+]
+
+---
+count: false
+ 
+
+.panel1-ols-auto[
+
+```r
+palmerpenguins::penguins %&gt;%
+  filter(species == "Chinstrap") %&gt;%
+  filter(sex == "male") %&gt;%
+  mutate(id = row_number()) %&gt;%
+  ggplot() +
+  ggxmean:::theme_chalkboard_slate() +
+  aes(x = flipper_length_mm) +
+  aes(y = body_mass_g) +
+  geom_point() +
+  ggxmean:::geom_lm() +
+  geom_rug(aes(y = NULL)) +
+  ggxmean:::geom_xvline(alpha = .1,
+                        linetype = "dotted") +
+  ggxmean:::geom_lmfitted(color = "blue",
+                          size = 2) +
+  ggxmean:::geom_lmresiduals(linetype = "dashed",
+                             color = "firebrick") +
+  ggxmean:::geom_ymean() +
+  ggxmean:::geom_xmean() +
+  ggxmean:::geom_xymean(size = 3, color = "magenta") +
+  ggxmean:::geom_lmformula() +
+  annotate(geom = "point",
+           x = 208,
+           y = 40.3 * 208 - 4110,
+           size = 5,
+           shape = "diamond") +
+  ggxmean:::geom_lmrun(color = "magenta") +
+  ggxmean:::geom_lmrise(color = "magenta") +
+  ggxmean:::geom_lmrun10(color = "green") +
+  ggxmean:::geom_lmrise10(color = "green") +
+  ggxmean:::geom_lmpredictx(alpha = .2) +
+* ggxmean:::geom_lmpredicty(alpha = .2)
+```
+]
+ 
+.panel2-ols-auto[
+![](skeleton_files/figure-html/ols_auto_25_output-1.png)&lt;!-- --&gt;
+]
+
+---
+count: false
+ 
+
+.panel1-ols-auto[
+
+```r
+palmerpenguins::penguins %&gt;%
+  filter(species == "Chinstrap") %&gt;%
+  filter(sex == "male") %&gt;%
+  mutate(id = row_number()) %&gt;%
+  ggplot() +
+  ggxmean:::theme_chalkboard_slate() +
+  aes(x = flipper_length_mm) +
+  aes(y = body_mass_g) +
+  geom_point() +
+  ggxmean:::geom_lm() +
+  geom_rug(aes(y = NULL)) +
+  ggxmean:::geom_xvline(alpha = .1,
+                        linetype = "dotted") +
+  ggxmean:::geom_lmfitted(color = "blue",
+                          size = 2) +
+  ggxmean:::geom_lmresiduals(linetype = "dashed",
+                             color = "firebrick") +
+  ggxmean:::geom_ymean() +
+  ggxmean:::geom_xmean() +
+  ggxmean:::geom_xymean(size = 3, color = "magenta") +
+  ggxmean:::geom_lmformula() +
+  annotate(geom = "point",
+           x = 208,
+           y = 40.3 * 208 - 4110,
+           size = 5,
+           shape = "diamond") +
+  ggxmean:::geom_lmrun(color = "magenta") +
+  ggxmean:::geom_lmrise(color = "magenta") +
+  ggxmean:::geom_lmrun10(color = "green") +
+  ggxmean:::geom_lmrise10(color = "green") +
+  ggxmean:::geom_lmpredictx(alpha = .2) +
+  ggxmean:::geom_lmpredicty(alpha = .2) +
+* ggxmean:::geom_lmintercept()
+```
+]
+ 
+.panel2-ols-auto[
+![](skeleton_files/figure-html/ols_auto_26_output-1.png)&lt;!-- --&gt;
+]
+
+---
+count: false
+ 
+
+.panel1-ols-auto[
+
+```r
+palmerpenguins::penguins %&gt;%
+  filter(species == "Chinstrap") %&gt;%
+  filter(sex == "male") %&gt;%
+  mutate(id = row_number()) %&gt;%
+  ggplot() +
+  ggxmean:::theme_chalkboard_slate() +
+  aes(x = flipper_length_mm) +
+  aes(y = body_mass_g) +
+  geom_point() +
+  ggxmean:::geom_lm() +
+  geom_rug(aes(y = NULL)) +
+  ggxmean:::geom_xvline(alpha = .1,
+                        linetype = "dotted") +
+  ggxmean:::geom_lmfitted(color = "blue",
+                          size = 2) +
+  ggxmean:::geom_lmresiduals(linetype = "dashed",
+                             color = "firebrick") +
+  ggxmean:::geom_ymean() +
+  ggxmean:::geom_xmean() +
+  ggxmean:::geom_xymean(size = 3, color = "magenta") +
+  ggxmean:::geom_lmformula() +
+  annotate(geom = "point",
+           x = 208,
+           y = 40.3 * 208 - 4110,
+           size = 5,
+           shape = "diamond") +
+  ggxmean:::geom_lmrun(color = "magenta") +
+  ggxmean:::geom_lmrise(color = "magenta") +
+  ggxmean:::geom_lmrun10(color = "green") +
+  ggxmean:::geom_lmrise10(color = "green") +
+  ggxmean:::geom_lmpredictx(alpha = .2) +
+  ggxmean:::geom_lmpredicty(alpha = .2) +
+  ggxmean:::geom_lmintercept() +
+* ggxmean:::geom_lminterceptcoords(hjust = 0)
+```
+]
+ 
+.panel2-ols-auto[
+![](skeleton_files/figure-html/ols_auto_27_output-1.png)&lt;!-- --&gt;
+]
+
+&lt;style&gt;
+.panel1-ols-auto {
+  color: black;
+  width: 38.6060606060606%;
+  hight: 32%;
+  float: left;
+  padding-left: 1%;
+  font-size: 80%
+}
+.panel2-ols-auto {
+  color: black;
+  width: 59.3939393939394%;
+  hight: 32%;
+  float: left;
+  padding-left: 1%;
+  font-size: 80%
+}
+.panel3-ols-auto {
+  color: black;
+  width: NA%;
+  hight: 33%;
+  float: left;
+  padding-left: 1%;
+  font-size: 80%
+}
+&lt;/style&gt;
+
+
+
+
+
+---
+
+count: false
+ 
+### viz the correlation
+.panel1-vizthecorrelation-user[
+
+```r
+*ggxmean:::geoms_chalk()
+*library(ggxmean)
+*palmerpenguins::penguins %&gt;%
+* mutate(id = row_number()) %&gt;%
+* drop_na() %&gt;%
+* ggplot() +
+* aes(x = bill_length_mm) +
+* aes(y = flipper_length_mm) +
+* geom_point()
+```
+]
+ 
+.panel2-vizthecorrelation-user[
+![](skeleton_files/figure-html/vizthecorrelation_user_01_output-1.png)&lt;!-- --&gt;
+]
+
+---
+count: false
+ 
+### viz the correlation
+.panel1-vizthecorrelation-user[
+
+```r
+ggxmean:::geoms_chalk()
+library(ggxmean)
+palmerpenguins::penguins %&gt;%
+  mutate(id = row_number()) %&gt;%
+  drop_na() %&gt;%
+  ggplot() +
+  aes(x = bill_length_mm) +
+  aes(y = flipper_length_mm) +
+  geom_point() +
+* ggxmean:::theme_chalkboard()
+```
+]
+ 
+.panel2-vizthecorrelation-user[
+![](skeleton_files/figure-html/vizthecorrelation_user_02_output-1.png)&lt;!-- --&gt;
+]
+
+---
+count: false
+ 
+### viz the correlation
+.panel1-vizthecorrelation-user[
+
+```r
+ggxmean:::geoms_chalk()
+library(ggxmean)
+palmerpenguins::penguins %&gt;%
+  mutate(id = row_number()) %&gt;%
+  drop_na() %&gt;%
+  ggplot() +
+  aes(x = bill_length_mm) +
+  aes(y = flipper_length_mm) +
+  geom_point() +
+  ggxmean:::theme_chalkboard() +
+* ggxmean:::geom_xmean()
+```
+]
+ 
+.panel2-vizthecorrelation-user[
+![](skeleton_files/figure-html/vizthecorrelation_user_03_output-1.png)&lt;!-- --&gt;
+]
+
+---
+count: false
+ 
+### viz the correlation
+.panel1-vizthecorrelation-user[
+
+```r
+ggxmean:::geoms_chalk()
+library(ggxmean)
+palmerpenguins::penguins %&gt;%
+  mutate(id = row_number()) %&gt;%
+  drop_na() %&gt;%
+  ggplot() +
+  aes(x = bill_length_mm) +
+  aes(y = flipper_length_mm) +
+  geom_point() +
+  ggxmean:::theme_chalkboard() +
+  ggxmean:::geom_xmean() +
+* ggxmean:::geom_ymean()
+```
+]
+ 
+.panel2-vizthecorrelation-user[
+![](skeleton_files/figure-html/vizthecorrelation_user_04_output-1.png)&lt;!-- --&gt;
+]
+
+---
+count: false
+ 
+### viz the correlation
+.panel1-vizthecorrelation-user[
+
+```r
+ggxmean:::geoms_chalk()
+library(ggxmean)
+palmerpenguins::penguins %&gt;%
+  mutate(id = row_number()) %&gt;%
+  drop_na() %&gt;%
+  ggplot() +
+  aes(x = bill_length_mm) +
+  aes(y = flipper_length_mm) +
+  geom_point() +
+  ggxmean:::theme_chalkboard() +
+  ggxmean:::geom_xmean() +
+  ggxmean:::geom_ymean() +
+* ggxmean:::geom_yhline(alpha = .02)
+```
+]
+ 
+.panel2-vizthecorrelation-user[
+![](skeleton_files/figure-html/vizthecorrelation_user_05_output-1.png)&lt;!-- --&gt;
+]
+
+---
+count: false
+ 
+### viz the correlation
+.panel1-vizthecorrelation-user[
+
+```r
+ggxmean:::geoms_chalk()
+library(ggxmean)
+palmerpenguins::penguins %&gt;%
+  mutate(id = row_number()) %&gt;%
+  drop_na() %&gt;%
+  ggplot() +
+  aes(x = bill_length_mm) +
+  aes(y = flipper_length_mm) +
+  geom_point() +
+  ggxmean:::theme_chalkboard() +
+  ggxmean:::geom_xmean() +
+  ggxmean:::geom_ymean() +
+  ggxmean:::geom_yhline(alpha = .02) +
+* ggxmean:::geom_xvline(alpha = .02)
+```
+]
+ 
+.panel2-vizthecorrelation-user[
+![](skeleton_files/figure-html/vizthecorrelation_user_06_output-1.png)&lt;!-- --&gt;
+]
+
+---
+count: false
+ 
+### viz the correlation
+.panel1-vizthecorrelation-user[
+
+```r
+ggxmean:::geoms_chalk()
+library(ggxmean)
+palmerpenguins::penguins %&gt;%
+  mutate(id = row_number()) %&gt;%
+  drop_na() %&gt;%
+  ggplot() +
+  aes(x = bill_length_mm) +
+  aes(y = flipper_length_mm) +
+  geom_point() +
+  ggxmean:::theme_chalkboard() +
+  ggxmean:::geom_xmean() +
+  ggxmean:::geom_ymean() +
+  ggxmean:::geom_yhline(alpha = .02) +
+  ggxmean:::geom_xvline(alpha = .02) +
+* ggxmean:::geom_xdiff()
+```
+]
+ 
+.panel2-vizthecorrelation-user[
+![](skeleton_files/figure-html/vizthecorrelation_user_07_output-1.png)&lt;!-- --&gt;
+]
+
+---
+count: false
+ 
+### viz the correlation
+.panel1-vizthecorrelation-user[
+
+```r
+ggxmean:::geoms_chalk()
+library(ggxmean)
+palmerpenguins::penguins %&gt;%
+  mutate(id = row_number()) %&gt;%
+  drop_na() %&gt;%
+  ggplot() +
+  aes(x = bill_length_mm) +
+  aes(y = flipper_length_mm) +
+  geom_point() +
+  ggxmean:::theme_chalkboard() +
+  ggxmean:::geom_xmean() +
+  ggxmean:::geom_ymean() +
+  ggxmean:::geom_yhline(alpha = .02) +
+  ggxmean:::geom_xvline(alpha = .02) +
+  ggxmean:::geom_xdiff() +
+* ggxmean:::geom_ydiff()
+```
+]
+ 
+.panel2-vizthecorrelation-user[
+![](skeleton_files/figure-html/vizthecorrelation_user_08_output-1.png)&lt;!-- --&gt;
+]
+
+---
+count: false
+ 
+### viz the correlation
+.panel1-vizthecorrelation-user[
+
+```r
+ggxmean:::geoms_chalk()
+library(ggxmean)
+palmerpenguins::penguins %&gt;%
+  mutate(id = row_number()) %&gt;%
+  drop_na() %&gt;%
+  ggplot() +
+  aes(x = bill_length_mm) +
+  aes(y = flipper_length_mm) +
+  geom_point() +
+  ggxmean:::theme_chalkboard() +
+  ggxmean:::geom_xmean() +
+  ggxmean:::geom_ymean() +
+  ggxmean:::geom_yhline(alpha = .02) +
+  ggxmean:::geom_xvline(alpha = .02) +
+  ggxmean:::geom_xdiff() +
+  ggxmean:::geom_ydiff() +
+* ggxmean:::geom_diffsmultiplied()
+```
+]
+ 
+.panel2-vizthecorrelation-user[
+![](skeleton_files/figure-html/vizthecorrelation_user_09_output-1.png)&lt;!-- --&gt;
+]
+
+---
+count: false
+ 
+### viz the correlation
+.panel1-vizthecorrelation-user[
+
+```r
+ggxmean:::geoms_chalk()
+library(ggxmean)
+palmerpenguins::penguins %&gt;%
+  mutate(id = row_number()) %&gt;%
+  drop_na() %&gt;%
+  ggplot() +
+  aes(x = bill_length_mm) +
+  aes(y = flipper_length_mm) +
+  geom_point() +
+  ggxmean:::theme_chalkboard() +
+  ggxmean:::geom_xmean() +
+  ggxmean:::geom_ymean() +
+  ggxmean:::geom_yhline(alpha = .02) +
+  ggxmean:::geom_xvline(alpha = .02) +
+  ggxmean:::geom_xdiff() +
+  ggxmean:::geom_ydiff() +
+  ggxmean:::geom_diffsmultiplied() +
+* ggxmean:::geom_x1sd()
+```
+]
+ 
+.panel2-vizthecorrelation-user[
+![](skeleton_files/figure-html/vizthecorrelation_user_10_output-1.png)&lt;!-- --&gt;
+]
+
+---
+count: false
+ 
+### viz the correlation
+.panel1-vizthecorrelation-user[
+
+```r
+ggxmean:::geoms_chalk()
+library(ggxmean)
+palmerpenguins::penguins %&gt;%
+  mutate(id = row_number()) %&gt;%
+  drop_na() %&gt;%
+  ggplot() +
+  aes(x = bill_length_mm) +
+  aes(y = flipper_length_mm) +
+  geom_point() +
+  ggxmean:::theme_chalkboard() +
+  ggxmean:::geom_xmean() +
+  ggxmean:::geom_ymean() +
+  ggxmean:::geom_yhline(alpha = .02) +
+  ggxmean:::geom_xvline(alpha = .02) +
+  ggxmean:::geom_xdiff() +
+  ggxmean:::geom_ydiff() +
+  ggxmean:::geom_diffsmultiplied() +
+  ggxmean:::geom_x1sd() +
+* ggxmean:::geom_y1sd()
+```
+]
+ 
+.panel2-vizthecorrelation-user[
+![](skeleton_files/figure-html/vizthecorrelation_user_11_output-1.png)&lt;!-- --&gt;
+]
+
+---
+count: false
+ 
+### viz the correlation
+.panel1-vizthecorrelation-user[
+
+```r
+ggxmean:::geoms_chalk()
+library(ggxmean)
+palmerpenguins::penguins %&gt;%
+  mutate(id = row_number()) %&gt;%
+  drop_na() %&gt;%
+  ggplot() +
+  aes(x = bill_length_mm) +
+  aes(y = flipper_length_mm) +
+  geom_point() +
+  ggxmean:::theme_chalkboard() +
+  ggxmean:::geom_xmean() +
+  ggxmean:::geom_ymean() +
+  ggxmean:::geom_yhline(alpha = .02) +
+  ggxmean:::geom_xvline(alpha = .02) +
+  ggxmean:::geom_xdiff() +
+  ggxmean:::geom_ydiff() +
+  ggxmean:::geom_diffsmultiplied() +
+  ggxmean:::geom_x1sd() +
+  ggxmean:::geom_y1sd() +
+* ggxmean:::geom_rsq1(fill = "blue")
+```
+]
+ 
+.panel2-vizthecorrelation-user[
+![](skeleton_files/figure-html/vizthecorrelation_user_12_output-1.png)&lt;!-- --&gt;
+]
+
+---
+count: false
+ 
+### viz the correlation
+.panel1-vizthecorrelation-user[
+
+```r
+ggxmean:::geoms_chalk()
+library(ggxmean)
+palmerpenguins::penguins %&gt;%
+  mutate(id = row_number()) %&gt;%
+  drop_na() %&gt;%
+  ggplot() +
+  aes(x = bill_length_mm) +
+  aes(y = flipper_length_mm) +
+  geom_point() +
+  ggxmean:::theme_chalkboard() +
+  ggxmean:::geom_xmean() +
+  ggxmean:::geom_ymean() +
+  ggxmean:::geom_yhline(alpha = .02) +
+  ggxmean:::geom_xvline(alpha = .02) +
+  ggxmean:::geom_xdiff() +
+  ggxmean:::geom_ydiff() +
+  ggxmean:::geom_diffsmultiplied() +
+  ggxmean:::geom_x1sd() +
+  ggxmean:::geom_y1sd() +
+  ggxmean:::geom_rsq1(fill = "blue") +
+* ggxmean:::geom_xy1sd(fill = "green")
+```
+]
+ 
+.panel2-vizthecorrelation-user[
+![](skeleton_files/figure-html/vizthecorrelation_user_13_output-1.png)&lt;!-- --&gt;
+]
+
+---
+count: false
+ 
+### viz the correlation
+.panel1-vizthecorrelation-user[
+
+```r
+ggxmean:::geoms_chalk()
+library(ggxmean)
+palmerpenguins::penguins %&gt;%
+  mutate(id = row_number()) %&gt;%
+  drop_na() %&gt;%
+  ggplot() +
+  aes(x = bill_length_mm) +
+  aes(y = flipper_length_mm) +
+  geom_point() +
+  ggxmean:::theme_chalkboard() +
+  ggxmean:::geom_xmean() +
+  ggxmean:::geom_ymean() +
+  ggxmean:::geom_yhline(alpha = .02) +
+  ggxmean:::geom_xvline(alpha = .02) +
+  ggxmean:::geom_xdiff() +
+  ggxmean:::geom_ydiff() +
+  ggxmean:::geom_diffsmultiplied() +
+  ggxmean:::geom_x1sd() +
+  ggxmean:::geom_y1sd() +
+  ggxmean:::geom_rsq1(fill = "blue") +
+  ggxmean:::geom_xy1sd(fill = "green") +
+* ggxmean:::geom_xydiffsmean(alpha = 1,
+*                  fill = "plum3") +
+* ggxmean:::geom_corrlabel()
+```
+]
+ 
+.panel2-vizthecorrelation-user[
+![](skeleton_files/figure-html/vizthecorrelation_user_14_output-1.png)&lt;!-- --&gt;
+]
+
+---
+count: false
+ 
+### viz the correlation
+.panel1-vizthecorrelation-user[
+
+```r
+ggxmean:::geoms_chalk()
+library(ggxmean)
+palmerpenguins::penguins %&gt;%
+  mutate(id = row_number()) %&gt;%
+  drop_na() %&gt;%
+  ggplot() +
+  aes(x = bill_length_mm) +
+  aes(y = flipper_length_mm) +
+  geom_point() +
+  ggxmean:::theme_chalkboard() +
+  ggxmean:::geom_xmean() +
+  ggxmean:::geom_ymean() +
+  ggxmean:::geom_yhline(alpha = .02) +
+  ggxmean:::geom_xvline(alpha = .02) +
+  ggxmean:::geom_xdiff() +
+  ggxmean:::geom_ydiff() +
+  ggxmean:::geom_diffsmultiplied() +
+  ggxmean:::geom_x1sd() +
+  ggxmean:::geom_y1sd() +
+  ggxmean:::geom_rsq1(fill = "blue") +
+  ggxmean:::geom_xy1sd(fill = "green") +
+  ggxmean:::geom_xydiffsmean(alpha = 1,
+                   fill = "plum3") +
+  ggxmean:::geom_corrlabel() +
+* ggxmean:::geom_lm()
+```
+]
+ 
+.panel2-vizthecorrelation-user[
+![](skeleton_files/figure-html/vizthecorrelation_user_15_output-1.png)&lt;!-- --&gt;
+]
+
+&lt;style&gt;
+.panel1-vizthecorrelation-user {
+  color: black;
+  width: 38.6060606060606%;
+  hight: 32%;
+  float: left;
+  padding-left: 1%;
+  font-size: 80%
+}
+.panel2-vizthecorrelation-user {
+  color: black;
+  width: 59.3939393939394%;
+  hight: 32%;
+  float: left;
+  padding-left: 1%;
+  font-size: 80%
+}
+.panel3-vizthecorrelation-user {
+  color: black;
+  width: NA%;
+  hight: 33%;
+  float: left;
+  padding-left: 1%;
+  font-size: 80%
+}
+&lt;/style&gt;
+
+
+
+
+
+
+---
+
+
+&gt; Don't worry about the overall importance of the problem; work on it if it looks interesting. I think there's a sufficient correlation between interest and importance.  -- David Blackwell
+    </textarea>
+<style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
+<script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
+<script>var slideshow = remark.create({
+"ratio": "16:9",
+"highlightStyle": "github",
+"highlightLines": true,
+"countIncrementalSlides": false
+});
+if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
+  window.dispatchEvent(new Event('resize'));
+});
+(function(d) {
+  var s = d.createElement("style"), r = d.querySelector(".remark-slide-scaler");
+  if (!r) return;
+  s.type = "text/css"; s.innerHTML = "@page {size: " + r.style.width + " " + r.style.height +"; }";
+  d.head.appendChild(s);
+})(document);
+
+(function(d) {
+  var el = d.getElementsByClassName("remark-slides-area");
+  if (!el) return;
+  var slide, slides = slideshow.getSlides(), els = el[0].children;
+  for (var i = 1; i < slides.length; i++) {
+    slide = slides[i];
+    if (slide.properties.continued === "true" || slide.properties.count === "false") {
+      els[i - 1].className += ' has-continuation';
+    }
+  }
+  var s = d.createElement("style");
+  s.type = "text/css"; s.innerHTML = "@media print { .has-continuation { display: none; } }";
+  d.head.appendChild(s);
+})(document);
+// delete the temporary CSS (for displaying all slides initially) when the user
+// starts to view slides
+(function() {
+  var deleted = false;
+  slideshow.on('beforeShowSlide', function(slide) {
+    if (deleted) return;
+    var sheets = document.styleSheets, node;
+    for (var i = 0; i < sheets.length; i++) {
+      node = sheets[i].ownerNode;
+      if (node.dataset["target"] !== "print-only") continue;
+      node.parentNode.removeChild(node);
+    }
+    deleted = true;
+  });
+})();
+(function() {
+  "use strict"
+  // Replace <script> tags in slides area to make them executable
+  var scripts = document.querySelectorAll(
+    '.remark-slides-area .remark-slide-container script'
+  );
+  if (!scripts.length) return;
+  for (var i = 0; i < scripts.length; i++) {
+    var s = document.createElement('script');
+    var code = document.createTextNode(scripts[i].textContent);
+    s.appendChild(code);
+    var scriptAttrs = scripts[i].attributes;
+    for (var j = 0; j < scriptAttrs.length; j++) {
+      s.setAttribute(scriptAttrs[j].name, scriptAttrs[j].value);
+    }
+    scripts[i].parentElement.replaceChild(s, scripts[i]);
+  }
+})();
+(function() {
+  var links = document.getElementsByTagName('a');
+  for (var i = 0; i < links.length; i++) {
+    if (/^(https?:)?\/\//.test(links[i].getAttribute('href'))) {
+      links[i].target = '_blank';
+    }
+  }
+})();
+// adds .remark-code-has-line-highlighted class to <pre> parent elements
+// of code chunks containing highlighted lines with class .remark-code-line-highlighted
+(function(d) {
+  const hlines = d.querySelectorAll('.remark-code-line-highlighted');
+  const preParents = [];
+  const findPreParent = function(line, p = 0) {
+    if (p > 1) return null; // traverse up no further than grandparent
+    const el = line.parentElement;
+    return el.tagName === "PRE" ? el : findPreParent(el, ++p);
+  };
+
+  for (let line of hlines) {
+    let pre = findPreParent(line);
+    if (pre && !preParents.includes(pre)) preParents.push(pre);
+  }
+  preParents.forEach(p => p.classList.add("remark-code-has-line-highlighted"));
+})(document);</script>
+
+<script>
+slideshow._releaseMath = function(el) {
+  var i, text, code, codes = el.getElementsByTagName('code');
+  for (i = 0; i < codes.length;) {
+    code = codes[i];
+    if (code.parentNode.tagName !== 'PRE' && code.childElementCount === 0) {
+      text = code.textContent;
+      if (/^\\\((.|\s)+\\\)$/.test(text) || /^\\\[(.|\s)+\\\]$/.test(text) ||
+          /^\$\$(.|\s)+\$\$$/.test(text) ||
+          /^\\begin\{([^}]+)\}(.|\s)+\\end\{[^}]+\}$/.test(text)) {
+        code.outerHTML = code.innerHTML;  // remove <code></code>
+        continue;
+      }
+    }
+    i++;
+  }
+};
+slideshow._releaseMath(document);
+</script>
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+(function () {
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src  = 'https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML';
+  if (location.protocol !== 'file:' && /^https?:/.test(script.src))
+    script.src  = script.src.replace(/^https?:/, '');
+  document.getElementsByTagName('head')[0].appendChild(script);
+})();
+</script>
+  </body>
+</html>

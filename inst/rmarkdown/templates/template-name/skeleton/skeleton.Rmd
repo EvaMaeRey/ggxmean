@@ -33,7 +33,6 @@ background-size: cover
 knitr::opts_chunk$set(fig.width = 8, message = FALSE, warning = FALSE, comment = "", cache = T)
 library(flipbookr)
 library(tidyverse)
-
 ```
 
 
@@ -57,9 +56,8 @@ palmerpenguins::penguins %>%
   geom_rug(alpha = .3) +
   geom_histogram(alpha = .4) + #BREAK
   ggxmean:::geom_xmean() + #BREAK
-  # unexpected behavior here
-  aes(fill = species) + #BREAK
   aes(color = species) + #BREAK
+  aes(fill = species) + #BREAK
   facet_grid(rows = vars(species)) + #BREAK
   facet_grid(rows = vars(species, sex)) + #BREAK
   geom_rug(alpha = .6) +
@@ -100,38 +98,8 @@ palmerpenguins::penguins %>%
 
 
 
----
 
 
-`r chunk_reveal("vizthecorrelation", title = "### viz the correlation" , break_type = "user")`
-
-```{r vizthecorrelation, include=F}
-ggxmean:::geoms_chalk()
-library(ggxmean)
-palmerpenguins::penguins %>% 
-  mutate(id = row_number()) %>% 
-  drop_na() %>% 
-  ggplot() + 
-  aes(x = bill_length_mm) +
-  aes(y = flipper_length_mm) + 
-  geom_point() + #BREAK
-  ggxmean:::theme_chalkboard() + #BREAK
-  ggxmean:::geom_xmean() + #BREAK
-  ggxmean:::geom_ymean() + #BREAK
-  ggxmean:::geom_yhline(alpha = .02) + #BREAK
-  ggxmean:::geom_xvline(alpha = .02) + #BREAK
-  ggxmean:::geom_xdiff() + #BREAK
-  ggxmean:::geom_ydiff() + #BREAK
-  ggxmean:::geom_diffsmultiplied() + #BREAK
-  ggxmean:::geom_x1sd() + #BREAK
-  ggxmean:::geom_y1sd() + #BREAK
-  ggxmean:::geom_rsq1(fill = "blue") + #BREAK
-  ggxmean:::geom_xy1sd(fill = "green") + #BREAK
-  ggxmean:::geom_xydiffsmean(alpha = 1,
-                   fill = "plum3") + 
-  ggxmean:::geom_corrlabel() + #BREAK
-  ggxmean:::geom_lm() #BREAK
-```
 
 ---
 
@@ -181,14 +149,55 @@ palmerpenguins::penguins %>%
   ggxmean:::geom_xmean() +
   ggxmean:::geom_xymean(size = 3, color = "magenta") +
   ggxmean:::geom_lmformula() +
+  annotate(geom = "point", 
+           x = 208, 
+           y = 40.3 * 208 - 4110, 
+           size = 5,
+           shape = "diamond") +
   ggxmean:::geom_lmrun(color = "magenta") +
   ggxmean:::geom_lmrise(color = "magenta") +
   ggxmean:::geom_lmrun10(color = "green") +
   ggxmean:::geom_lmrise10(color = "green") +
   ggxmean:::geom_lmpredictx(alpha = .2) +
   ggxmean:::geom_lmpredicty(alpha = .2) +
-  ggxmean:::geom_lminterceptcoords(hjust = 0) +
-  ggxmean:::geom_lmintercept()
+  ggxmean:::geom_lmintercept() +
+  ggxmean:::geom_lminterceptcoords(hjust = 0)
+```
+
+---
+
+`r chunk_reveal("vizthecorrelation", title = "### viz the correlation" , break_type = "user")`
+
+```{r vizthecorrelation, include=F}
+ggxmean:::geoms_chalk()
+library(ggxmean)
+palmerpenguins::penguins %>% 
+  mutate(id = row_number()) %>% 
+  drop_na() %>% 
+  ggplot() + 
+  aes(x = bill_length_mm) +
+  aes(y = flipper_length_mm) + 
+  geom_point() + #BREAK
+  ggxmean:::theme_chalkboard() + #BREAK
+  ggxmean:::geom_xmean() + #BREAK
+  ggxmean:::geom_ymean() + #BREAK
+  ggxmean:::geom_yhline(alpha = .02) + #BREAK
+  ggxmean:::geom_xvline(alpha = .02) + #BREAK
+  ggxmean:::geom_xdiff() + #BREAK
+  ggxmean:::geom_ydiff() + #BREAK
+  ggxmean:::geom_diffsmultiplied() + #BREAK
+  ggxmean:::geom_x1sd() + #BREAK
+  ggxmean:::geom_y1sd() + #BREAK
+  ggxmean:::geom_rsq1(fill = "blue") + #BREAK
+  ggxmean:::geom_xy1sd(fill = "green") + #BREAK
+  ggxmean:::geom_xydiffsmean(alpha = 1,
+                   fill = "plum3") + 
+  ggxmean:::geom_corrlabel() + #BREAK
+  ggxmean:::geom_lm() #BREAK
 ```
 
 
+---
+
+
+> Don't worry about the overall importance of the problem; work on it if it looks interesting. I think there's a sufficient correlation between interest and importance.  -- David Blackwell

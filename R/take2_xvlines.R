@@ -9,16 +9,16 @@ StatXmean <- ggplot2::ggproto("StatXmean", ggplot2::Stat,
                      required_aes = c("x")
 )
 
-GeomSegmentdashed <- ggplot2::ggproto("GeomSegmentdashed", ggplot2::GeomSegment,
-  default_aes = ggplot2::aes(colour = "black", size = 0.5, linetype = "dashed",
-    alpha = NA)
-  )
+# GeomSegmentdashed <- ggplot2::ggproto("GeomSegmentdashed", ggplot2::GeomSegment,
+#   default_aes = ggplot2::aes(colour = "black", size = 0.5, linetype = "dashed",
+#     alpha = NA)
+#   )
 
 geom_xmean <- function(mapping = NULL, data = NULL,
                        position = "identity", na.rm = FALSE, show.legend = NA,
                        inherit.aes = TRUE, ...) {
   ggplot2::layer(
-    stat = StatXmean, geom = GeomSegmentdashed, data = data, mapping = mapping,
+    stat = StatXmean, geom = ggplot2::GeomSegment, data = data, mapping = mapping,
     position = position, show.legend = show.legend, inherit.aes = inherit.aes,
     params = list(na.rm = na.rm, ...)
   )
@@ -42,7 +42,7 @@ geom_ymean <- function(mapping = NULL, data = NULL,
                        position = "identity", na.rm = FALSE, show.legend = NA,
                        inherit.aes = TRUE, ...) {
   ggplot2::layer(
-    stat = StatYmean, geom = GeomSegmentdashed, data = data, mapping = mapping,
+    stat = StatYmean, geom = ggplot2::GeomSegment, data = data, mapping = mapping,
     position = position, show.legend = show.legend, inherit.aes = inherit.aes,
     params = list(na.rm = na.rm, ...)
   )
@@ -220,7 +220,7 @@ geom_x1sd <- function(mapping = NULL, data = NULL,
                        position = "identity", na.rm = FALSE, show.legend = NA,
                        inherit.aes = TRUE, ...) {
   ggplot2::layer(
-    stat = StatX1sd, geom = GeomSegmentdashed, data = data, mapping = mapping,
+    stat = StatX1sd, geom = ggplot2::GeomSegment, data = data, mapping = mapping,
     position = position, show.legend = show.legend, inherit.aes = inherit.aes,
     params = list(na.rm = na.rm, ...)
   )
@@ -257,7 +257,7 @@ geom_y1sd <- function(mapping = NULL, data = NULL,
                       position = "identity", na.rm = FALSE, show.legend = NA,
                       inherit.aes = TRUE, ...) {
   ggplot2::layer(
-    stat = StatY1sd, geom = GeomSegmentdashed, data = data, mapping = mapping,
+    stat = StatY1sd, geom = ggplot2::GeomSegment, data = data, mapping = mapping,
     position = position, show.legend = show.legend, inherit.aes = inherit.aes,
     params = list(na.rm = na.rm, ...)
   )
