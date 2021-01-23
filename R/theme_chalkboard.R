@@ -9,7 +9,7 @@ geoms_chalk <- function(color = "lightyellow", fill = color){
   ggplot2::update_geom_defaults("segment",   list(colour = color, size = 1.25, alpha = .75))
   ggplot2::update_geom_defaults("rug",   list(colour = color, size = 1, alpha = .75))
   ggplot2::update_geom_defaults("rect",   list(colour = color, size = 1, alpha = .75))
-  ggplot2::update_geom_defaults("label",   list(fill = color, size = 1, alpha = .75))
+  ggplot2::update_geom_defaults("label",   list(fill = fill, color = "grey35", size = 5))
 
 
 # params <- ls(pattern = '^geom_', env = as.environment('package:ggxmean'))

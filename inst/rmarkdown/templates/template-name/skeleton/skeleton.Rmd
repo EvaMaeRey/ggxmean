@@ -142,21 +142,20 @@ palmerpenguins::penguins %>%
                         linetype = "dotted") +
   ggxmean:::geom_lmfitted(color = "blue",    
                           size = 2) +
-  ggxmean:::geom_lmresiduals(linetype = "dashed", 
-                             color = "firebrick") +
+  ggxmean:::geom_lmresiduals(color = "tomato3") +
   ggxmean:::geom_ymean() +
   ggxmean:::geom_xmean() +
-  ggxmean:::geom_xymean(size = 3, color = "magenta") +
+  ggxmean:::geom_xymean(size = 3, color = "lightpink4") +
   ggxmean:::geom_lmformula() +
   annotate(geom = "point", 
            x = 208, 
            y = 40.3 * 208 - 4110, 
            size = 5,
            shape = "diamond") +
-  ggxmean:::geom_lmrun(color = "magenta") +
-  ggxmean:::geom_lmrise(color = "magenta") +
-  ggxmean:::geom_lmrun10(color = "green") +
-  ggxmean:::geom_lmrise10(color = "green") +
+  ggxmean:::geom_lmrun(color = "violetred4") +
+  ggxmean:::geom_lmrise(color = "violetred4") +
+  ggxmean:::geom_lmrun10(color = "chartreuse3") +
+  ggxmean:::geom_lmrise10(color = "chartreuse3") +
   ggxmean:::geom_lmpredictx(alpha = .2) +
   ggxmean:::geom_lmpredicty(alpha = .2) +
   ggxmean:::geom_lmintercept() +
@@ -168,10 +167,11 @@ palmerpenguins::penguins %>%
 `r chunk_reveal("vizthecorrelation", title = "### viz the correlation" , break_type = "user")`
 
 ```{r vizthecorrelation, include=F}
-ggxmean:::geoms_chalk()  # let the default color be caulky
+ggxmean:::geoms_chalk()  # let the default aesthetics be chalky
 library(ggxmean)
 palmerpenguins::penguins %>% 
   mutate(id = row_number()) %>% 
+  
   ggplot() + 
   aes(x = bill_length_mm) +
   aes(y = flipper_length_mm) + 
@@ -191,11 +191,18 @@ palmerpenguins::penguins %>%
   ggxmean:::geom_xydiffsmean(alpha = 1,
                    fill = "plum3") + 
   ggxmean:::geom_corrlabel() + #BREAK
-  ggxmean:::geom_lm() #BREAK
+  ggxmean:::geom_lm() + #BREAK
+  facet_wrap(facet = vars(species)) #BREAK
 ```
 
 
 ---
-class: inverse, center, middle
+class: inverse
 
-# > Don't worry about the overall importance of the problem; work on it if it looks interesting. I think there's a sufficient correlation between interest and importance.  -- David Blackwell
+# Don't worry about the overall importance of the problem; 
+--
+work on it if it looks interesting.  
+--
+I think there's a sufficient correlation between interest and importance.  
+--
+- David Blackwell
