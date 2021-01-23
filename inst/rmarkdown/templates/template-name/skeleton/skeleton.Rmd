@@ -60,12 +60,11 @@ palmerpenguins::penguins %>%
   aes(fill = species) + #BREAK
   facet_grid(rows = vars(species)) + #BREAK
   facet_grid(rows = vars(species, sex)) + #BREAK
-  geom_rug(alpha = .6) +
+  geom_rug(alpha = .6) + #BREAK
   ggxmean:::geom_xq2575(linetype = "dotted",
               size = .75) + #BREAK
-  ggxmean:::geom_xmin(linetype = "solid") + #BREAK
-  ggxmean:::geom_xmax(linetype = "solid",
-            color = "goldenrod") + #BREAK
+  ggxmean:::geom_xmin(linetype = "dashed") + #BREAK
+  ggxmean:::geom_xmax(color = "goldenrod") + #BREAK
   geom_boxplot(y = 0,
                width = 3,
                fill = "white",
@@ -173,11 +172,10 @@ ggxmean:::geoms_chalk()  # let the default color be caulky
 library(ggxmean)
 palmerpenguins::penguins %>% 
   mutate(id = row_number()) %>% 
-  drop_na() %>% 
   ggplot() + 
   aes(x = bill_length_mm) +
   aes(y = flipper_length_mm) + 
-  geom_point() + #BREAK
+  geom_point() + 
   ggxmean:::theme_chalkboard() + #BREAK
   ggxmean:::geom_xmean() + #BREAK
   ggxmean:::geom_ymean() + #BREAK
