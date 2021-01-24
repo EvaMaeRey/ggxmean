@@ -116,7 +116,7 @@ class: inverese, center, middle
 `r chunk_reveal("ols", break_type = "user")`
 
 ```{r ols, include = F}
-ggxmean:::geoms_chalk()  # let the default color be caulky
+ggxmean:::geoms_chalk()  # let the default color be chaulky
 palmerpenguins::penguins %>% 
   filter(species == "Chinstrap" & sex == "male") %>% 
   ggplot() +
