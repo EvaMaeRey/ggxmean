@@ -27,16 +27,16 @@ geom_brick <- function (mapping = NULL, data = NULL, stat = "bin", position = "s
 }
 
 
-ggplot(cars) +
-  aes(x = dist) +
-  geom_brick(group = -1L)
+# ggplot(cars) +
+#   aes(x = dist) +
+#   geom_brick(group = -1L)
 
-geom_xmax <- function(mapping = NULL, data = NULL,
-                       position = "identity", na.rm = FALSE, show.legend = NA,
-                       inherit.aes = TRUE, ...) {
-  ggplot2::layer(
-    stat = StatXmax, geom = ggplot2::GeomSegmentdashed, data = data, mapping = mapping,
-    position = position, show.legend = show.legend, inherit.aes = inherit.aes,
-    params = list(na.rm = na.rm, ...)
-  )
-}
+# geom_xmax <- function(mapping = NULL, data = NULL,
+#                        position = "identity", na.rm = FALSE, show.legend = NA,
+#                        inherit.aes = TRUE, ...) {
+#   ggplot2::layer(
+#     stat = StatXmax, geom = ggplot2::GeomSegmentdashed, data = data, mapping = mapping,
+#     position = position, show.legend = show.legend, inherit.aes = inherit.aes,
+#     params = list(na.rm = na.rm, ...)
+#   )
+# }
