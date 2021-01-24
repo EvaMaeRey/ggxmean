@@ -64,9 +64,11 @@ palmerpenguins::penguins %>%
   geom_rug(alpha = .6) + #BREAK
   geom_xmin(linetype = "dashed") + #BREAK
   geom_xmax(color = "goldenrod") + #BREAK
-  geom_xmedian() + #BREAK
-  ggxmean:::geom_xq2575(linetype = "dotted",
-              size = .75) + #BREAK
+  geom_xmedian(color = "black") + #BREAK
+  ggxmean:::geom_xq2575(
+    linetype = "dotted",
+    color = "black",
+    size = .75) + #BREAK
   geom_boxplot(y = 0,
                width = 3,
                fill = "white",
@@ -111,7 +113,7 @@ class: inverese, center, middle
 
 ---
 
-`r chunk_reveal("ols")`
+`r chunk_reveal("ols", break_type = "user")`
 
 ```{r ols, include = F}
 ggxmean:::geoms_chalk()  # let the default color be caulky
@@ -124,7 +126,7 @@ palmerpenguins::penguins %>%
   geom_point() + #BREAK
   ggxmean:::geom_lm() + #BREAK
   geom_rug(aes(y = NULL)) + #BREAK
-  geom_xvline(alpha = .1,  #BREAK
+  geom_xvline(alpha = .1,  
                         linetype = "dotted") + #BREAK
   ggxmean:::geom_lmfitted(color = "blue", size = 2.5) + #BREAK
   ggxmean:::geom_lmresiduals(color = "tomato3") + #BREAK
