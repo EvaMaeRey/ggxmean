@@ -38,8 +38,9 @@ library(tidyverse)
 
 
 ---
+class: inverse, center, middle
 
-# viz the means and conditional means
+# viz the mean and conditional means
 
 
 ---
@@ -75,6 +76,12 @@ palmerpenguins::penguins %>%
 
 
 ---
+class: inverse, center, middle
+
+
+# y
+
+---
 
 `r chunk_reveal("vizthemean2d", break_type = "user")`
 
@@ -94,32 +101,12 @@ palmerpenguins::penguins %>%
              rows = vars(sex)) #BREAK
 ```
 
-
-
-
-
-
-
 ---
+class: inverese, center, middle
 
-`r chunk_reveal("suprising")`
+# OLS
 
-```{r suprising, include = F}
-ggxmean:::geoms_chalk()
-cars %>% 
-  ggplot() +
-  ggxmean:::theme_chalkboard_slate() +
-  aes(x = speed) +
-  # we dont see it
-  ggxmean:::geom_xmean() +
-  # only x aes is required for xmean 
-  # by y is set to neg Inf and pos Inf
-  # means y needs activated
-  aes(y = dist) +
-  geom_blank() +
-  geom_point() + 
-  geom_rug()
-```
+
 
 ---
 
@@ -162,16 +149,34 @@ palmerpenguins::penguins %>%
   ggxmean:::geom_lminterceptcoords(hjust = 0)
 ```
 
+
+---
+class: inverse
+
+# Correlation
+
+--
+
+# Don't worry about the overall importance of the problem; 
+--
+work on it if it looks interesting.  
+--
+I think there's a sufficient correlation between interest and importance.  
+--
+- David Blackwell
+
+
+
+
 ---
 
-`r chunk_reveal("vizthecorrelation", title = "### viz the correlation" , break_type = "user")`
+`r chunk_reveal("vizthecorrelation", break_type = "user")`
 
 ```{r vizthecorrelation, include=F}
 ggxmean:::geoms_chalk()  # let the default aesthetics be chalky
 library(ggxmean)
 palmerpenguins::penguins %>% 
   mutate(id = row_number()) %>% 
-  
   ggplot() + 
   aes(x = bill_length_mm) +
   aes(y = flipper_length_mm) + 
@@ -197,12 +202,30 @@ palmerpenguins::penguins %>%
 
 
 ---
-class: inverse
+class: inverse, middle, center
 
-# Don't worry about the overall importance of the problem; 
---
-work on it if it looks interesting.  
---
-I think there's a sufficient correlation between interest and importance.  
---
-- David Blackwell
+# A behavior that is a little weird:  the vline at x requires y to exist
+
+This is because the verticle line inherits from segment, and y is Inf and yend is -Inf.  W/o some kind of y scale, we don't see anything. 
+
+---
+
+`r chunk_reveal("suprising")`
+
+```{r suprising, include = F}
+ggxmean:::geoms_chalk()
+cars %>% 
+  ggplot() +
+  ggxmean:::theme_chalkboard_slate() + 
+  aes(x = speed) +
+  # we dont see it
+  ggxmean:::geom_xmean() +
+  # only x aes is required for xmean 
+  # by y is set to neg Inf and pos Inf
+  # means y needs activated
+  aes(y = dist) +
+  geom_blank() +
+  geom_point() + 
+  geom_rug()
+```
+
