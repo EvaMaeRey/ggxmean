@@ -1,100 +1,7 @@
-#####  Xmean ######
-
-StatXmean <- ggplot2::ggproto("StatXmean", ggplot2::Stat,
-                     compute_group = function(data, scales) {
-                       mean(data$x) %>%
-                         data.frame(x = ., xend = ., y = -Inf, yend = Inf)
-                     },
-
-                     required_aes = c("x")
-)
-
-# GeomSegmentdashed <- ggplot2::ggproto("GeomSegmentdashed", ggplot2::GeomSegment,
-#   default_aes = ggplot2::aes(colour = "black", size = 0.5, linetype = "dashed",
-#     alpha = NA)
-#   )
-
-geom_xmean <- function(mapping = NULL, data = NULL,
-                       position = "identity", na.rm = FALSE, show.legend = NA,
-                       inherit.aes = TRUE, ...) {
-  ggplot2::layer(
-    stat = StatXmean, geom = ggplot2::GeomSegment, data = data, mapping = mapping,
-    position = position, show.legend = show.legend, inherit.aes = inherit.aes,
-    params = list(na.rm = na.rm, ...)
-  )
-}
-
-##### Ymean ######
+##### These are the geoms that you can use to talk about ####
+### covariance, variance, standard deviation, and correlation ####
 
 
-StatYmean <- ggplot2::ggproto("StatYmean",
-                              ggplot2::Stat,
-                     compute_group = function(data, scales) {
-                       mean(data$y) %>%
-                         data.frame(y = ., yend = ., x = -Inf, xend = Inf)
-                     },
-
-                     required_aes = c("y")
-)
-
-
-geom_ymean <- function(mapping = NULL, data = NULL,
-                       position = "identity", na.rm = FALSE, show.legend = NA,
-                       inherit.aes = TRUE, ...) {
-  ggplot2::layer(
-    stat = StatYmean, geom = ggplot2::GeomSegment, data = data, mapping = mapping,
-    position = position, show.legend = show.legend, inherit.aes = inherit.aes,
-    params = list(na.rm = na.rm, ...)
-  )
-}
-
-
-#### Xvline #####
-
-StatXvline <- ggplot2::ggproto("StatXvline",
-                               ggplot2::Stat,
-                     compute_group = function(data, scales) {
-                       data$x %>%
-                         data.frame(x = ., xend = ., y = -Inf, yend = Inf)
-                     },
-
-                     required_aes = c("x")
-)
-
-
-geom_xvline <- function(mapping = NULL, data = NULL,
-                       position = "identity", na.rm = FALSE, show.legend = NA,
-                       inherit.aes = TRUE, ...) {
-  ggplot2::layer(
-    stat = StatXvline, geom = ggplot2::GeomSegment, data = data, mapping = mapping,
-    position = position, show.legend = show.legend, inherit.aes = inherit.aes,
-    params = list(na.rm = na.rm, ...)
-  )
-}
-
-
-#### Yhline #####
-
-StatYhline <- ggplot2::ggproto("StatYhline",
-                               ggplot2::Stat,
-                               compute_group = function(data, scales) {
-                                 data$y %>%
-                                   data.frame(x = -Inf, xend = Inf, y = ., yend = .)
-                               },
-
-                               required_aes = c("y")
-)
-
-
-geom_yhline <- function(mapping = NULL, data = NULL,
-                        position = "identity", na.rm = FALSE, show.legend = NA,
-                        inherit.aes = TRUE, ...) {
-  ggplot2::layer(
-    stat = StatYhline, geom = ggplot2::GeomSegment, data = data, mapping = mapping,
-    position = position, show.legend = show.legend, inherit.aes = inherit.aes,
-    params = list(na.rm = na.rm, ...)
-  )
-}
 
 ### XDiff #####
 
@@ -231,15 +138,16 @@ geom_x1sd <- function(mapping = NULL, data = NULL,
 ### y 1 sd #####
 
 StatY1sd <- ggplot2::ggproto("StatY1sd", ggplot2::Stat,
+
                              compute_group = function(data, scales) {
 
                                mean(data$y) + sd(data$y) %>%
                                  data.frame(y = ., yend = ., x = -Inf, xend = Inf) ->
-                                 upper
+                               upper
 
                                mean(data$y) - sd(data$y) %>%
                                  data.frame(y = ., yend = ., x = -Inf, xend = Inf) ->
-                                 lower
+                               lower
 
                                rbind(upper, lower)
 
@@ -280,7 +188,6 @@ StatXy1sd <- ggplot2::ggproto("StatXy1sd", ggplot2::Stat,
                              required_aes = c("x", "y")
 )
 
-
 geom_xy1sd <- function(mapping = NULL, data = NULL,
                       position = "identity", na.rm = FALSE, show.legend = NA,
                       inherit.aes = TRUE, ...) {
@@ -294,6 +201,7 @@ geom_xy1sd <- function(mapping = NULL, data = NULL,
 
 
 #### mean average
+##### This is the simple average - no Bessel correction n-1, but above our sd is just base r which is
 
 StatAveragearea <- ggplot2::ggproto("StatAveragearea", ggplot2::Stat,
                               compute_group = function(data, scales) {
@@ -385,35 +293,36 @@ geom_rsq1 <- function(mapping = NULL, data = NULL,
 
 
 
-### xymean
+return_md_equation_steps <- function(equation = "cov"){
 
-StatXymean <- ggplot2::ggproto("StatXymean",
-                              ggplot2::Stat,
-                              compute_group = function(data, scales) {
+if(equation == "cov"){
+c("",
+  "## $$\\mu_x$$",
+  "## $$\\mu_y$$",
+  "## $$x_i-\\mu_x$$",
+  "## $$y_i-\\mu_y$$",
+  "## $$\\sum_{i=1}^n (x_i-\\mu_x)(y_i-\\mu_y)$$",
+  "## $$\\frac{\\sum_{i=1}^n (x_i-\\mu_x)(y_i-\\mu_y)}{n}$$")
+}
 
-                                  data.frame(y = mean(data$y),
-                                             x = mean(data$x))
-
-                              },
-
-                              required_aes = c("x", "y")
+var_equation <- c("",
+                  "## $$\\mu_x$$",
+                  "## $$\\mu_x$$",
+                  "## $$x_i-\\mu_x$$",
+                  "## $$x_i-\\mu_x$$",
+                  "## $$\\sum_{i=1}^n (x_i-\\mu_x)^2$$",
+                  "## $$\\frac{\\sum_{i=1}^n (x_i-\\mu_x)^2}{n}$$"
 )
 
 
-geom_xymean <- function(mapping = NULL, data = NULL,
-                       position = "identity", na.rm = FALSE, show.legend = NA,
-                       inherit.aes = TRUE, ...) {
+sd_equation <- c("## $$\\frac{\\sum_{i=1}^n (x_i-\\mu_x)^2}{n}$$",
+                 "## $$\\sqrt\\frac{\\sum_{i=1}^n (x_i-\\mu_x)^2}{n}$$")
 
-  ggplot2::layer(
-    stat = StatXymean, geom = ggplot2::GeomPoint, data = data, mapping = mapping,
-    position = position, show.legend = show.legend, inherit.aes = inherit.aes,
-    params = list(na.rm = na.rm, ...)
-  )
+cov_to_cor_equation <- c("## $$\\frac{\\sum_{i=1}^n (x_i-\\mu_x)(y_i-\\mu_y)}{n}$$",
+                         "## $$\\frac{\\sum_{i=1}^n (x_i-\\mu_x)(y_i-\\mu_y)}{n*\\sigma_x}$$",
+                         "## $$\\frac{\\sum_{i=1}^n (x_i-\\mu_x)(y_i-\\mu_y)}{n*\\sigma_x\\sigma_y}$$",
+                         "## $$\\frac{\\sum_{i=1}^n (x_i-\\mu_x)(y_i-\\mu_y)}{n*\\sigma_x\\sigma_y}$$")
+
 
 }
-
-
-
-
-
 
