@@ -118,10 +118,6 @@ StatX1sd <- ggplot2::ggproto("StatX1sd", ggplot2::Stat,
                               required_aes = c("x")
 )
 
-GeomSegmentdashed <- ggplot2::ggproto("GeomSegmentdashed", ggplot2::GeomSegment,
-                                      default_aes = ggplot2::aes(colour = "black", size = 0.5, linetype = "dashed",
-                                                                 alpha = NA)
-)
 
 geom_x1sd <- function(mapping = NULL, data = NULL,
                        position = "identity", na.rm = FALSE, show.legend = NA,
@@ -133,6 +129,70 @@ geom_x1sd <- function(mapping = NULL, data = NULL,
   )
 }
 
+
+
+### x 2 sd #####
+
+StatX2sd <- ggplot2::ggproto("StatX2sd", ggplot2::Stat,
+                             compute_group = function(data, scales) {
+
+                               mean(data$x) + 2*sd(data$x) %>%
+                                 data.frame(x = ., xend = ., y = -Inf, yend = Inf) ->
+                                 upper
+
+                               mean(data$x) - 2*sd(data$x) %>%
+                                 data.frame(x = ., xend = ., y = -Inf, yend = Inf) ->
+                                 lower
+
+                               rbind(upper, lower)
+
+                             },
+
+                             required_aes = c("x")
+)
+
+
+geom_x2sd <- function(mapping = NULL, data = NULL,
+                      position = "identity", na.rm = FALSE, show.legend = NA,
+                      inherit.aes = TRUE, ...) {
+  ggplot2::layer(
+    stat = StatX2sd, geom = ggplot2::GeomSegment, data = data, mapping = mapping,
+    position = position, show.legend = show.legend, inherit.aes = inherit.aes,
+    params = list(na.rm = na.rm, ...)
+  )
+}
+
+
+### x 2 sd #####
+
+StatX3sd <- ggplot2::ggproto("StatX3sd", ggplot2::Stat,
+                             compute_group = function(data, scales) {
+
+                               mean(data$x) + 3*sd(data$x) %>%
+                                 data.frame(x = ., xend = ., y = -Inf, yend = Inf) ->
+                                 upper
+
+                               mean(data$x) - 3*sd(data$x) %>%
+                                 data.frame(x = ., xend = ., y = -Inf, yend = Inf) ->
+                                 lower
+
+                               rbind(upper, lower)
+
+                             },
+
+                             required_aes = c("x")
+)
+
+
+geom_x3sd <- function(mapping = NULL, data = NULL,
+                      position = "identity", na.rm = FALSE, show.legend = NA,
+                      inherit.aes = TRUE, ...) {
+  ggplot2::layer(
+    stat = StatX3sd, geom = ggplot2::GeomSegment, data = data, mapping = mapping,
+    position = position, show.legend = show.legend, inherit.aes = inherit.aes,
+    params = list(na.rm = na.rm, ...)
+  )
+}
 
 
 ### y 1 sd #####
