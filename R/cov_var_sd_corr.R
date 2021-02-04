@@ -195,6 +195,68 @@ geom_x3sd <- function(mapping = NULL, data = NULL,
 }
 
 
+
+StatX4sd <- ggplot2::ggproto("StatX4sd", ggplot2::Stat,
+                             compute_group = function(data, scales) {
+
+                               mean(data$x) + 4*sd(data$x) %>%
+                                 data.frame(x = ., xend = ., y = -Inf, yend = Inf) ->
+                                 upper
+
+                               mean(data$x) - 4*sd(data$x) %>%
+                                 data.frame(x = ., xend = ., y = -Inf, yend = Inf) ->
+                                 lower
+
+                               rbind(upper, lower)
+
+                             },
+
+                             required_aes = c("x")
+)
+
+
+geom_x4sd <- function(mapping = NULL, data = NULL,
+                      position = "identity", na.rm = FALSE, show.legend = NA,
+                      inherit.aes = TRUE, ...) {
+  ggplot2::layer(
+    stat = StatX4sd, geom = ggplot2::GeomSegment, data = data, mapping = mapping,
+    position = position, show.legend = show.legend, inherit.aes = inherit.aes,
+    params = list(na.rm = na.rm, ...)
+  )
+}
+
+
+
+
+StatX5sd <- ggplot2::ggproto("StatX5sd", ggplot2::Stat,
+                             compute_group = function(data, scales) {
+
+                               mean(data$x) + 5*sd(data$x) %>%
+                                 data.frame(x = ., xend = ., y = -Inf, yend = Inf) ->
+                                 upper
+
+                               mean(data$x) - 5*sd(data$x) %>%
+                                 data.frame(x = ., xend = ., y = -Inf, yend = Inf) ->
+                                 lower
+
+                               rbind(upper, lower)
+
+                             },
+
+                             required_aes = c("x")
+)
+
+
+geom_x5sd <- function(mapping = NULL, data = NULL,
+                      position = "identity", na.rm = FALSE, show.legend = NA,
+                      inherit.aes = TRUE, ...) {
+  ggplot2::layer(
+    stat = StatX5sd, geom = ggplot2::GeomSegment, data = data, mapping = mapping,
+    position = position, show.legend = show.legend, inherit.aes = inherit.aes,
+    params = list(na.rm = na.rm, ...)
+  )
+}
+
 ### y 1 sd #####
 
 StatY1sd <- ggplot2::ggproto("StatY1sd", ggplot2::Stat,
