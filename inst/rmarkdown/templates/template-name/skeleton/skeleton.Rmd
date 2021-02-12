@@ -238,3 +238,18 @@ cars %>%
   geom_rug()
 ```
 
+
+---
+
+
+`r chunk_reveal("barbrick")`
+
+```{r barbrick}
+ggplot(data = mtcars) +
+  aes(x = factor(cyl)) +
+  ggxmean:::geom_barbrick() +
+  facet_wrap(~ gear) +
+  aes(fill = hp > 100)
+```
+
+
