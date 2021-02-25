@@ -40,7 +40,7 @@ StatTdist <- ggplot2::ggproto("StatTdist",
 
                                     seq(-5, 5, .01) %>%
                                       tibble(x = .) %>%
-                                      mutate(y = dt(x, df = length(data$x))*height) %>%
+                                      mutate(y = dt(x, df = length(data$x)-1)*height) %>%
                                       mutate(x = x*(sd(data$x)/sqrt(length(data$x))) + mean(data$x))
 
                                   },
