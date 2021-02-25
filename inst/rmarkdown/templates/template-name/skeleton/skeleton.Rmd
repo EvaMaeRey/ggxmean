@@ -244,12 +244,29 @@ cars %>%
 
 `r chunk_reveal("barbrick")`
 
-```{r barbrick}
+```{r barbrick, include = F}
 ggplot(data = mtcars) +
   aes(x = factor(cyl)) +
   ggxmean:::geom_barbrick() +
-  facet_wrap(~ gear) +
+  facet_wrap(facets = vars(gear), 
+             cols = 1) +
   aes(fill = hp > 100)
 ```
 
+---
+
+`r chunk_reveal("ttest")`
+
+`r chunk_reveal("ttest")`
+
+```{r ttest, include = F}
+set.seed(1456)
+ggplot(starwars %>% sample_n(50)) +
+  aes(x = height) +
+  geom_rug() +
+  geom_dotplot() +
+  ggxmean:::geom_ttestconf(size = 2, color = "mediumvioletred", alpha = .75, y = -.01) +
+  ggxmean::geom_xmean(linetype = "dashed") +
+  geom_tdist(height = 1, alpha = .5, fill = "mediumvioletred")
+```
 

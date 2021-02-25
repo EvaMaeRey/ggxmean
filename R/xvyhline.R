@@ -78,3 +78,34 @@ geom_yhline <- function(mapping = NULL, data = NULL,
     params = list(na.rm = na.rm, ...)
   )
 }
+
+
+
+
+#### Xvline #####
+
+StatXvline <- ggplot2::ggproto("StatXvline",
+                               ggplot2::Stat,
+                               compute_group = function(data, scales) {
+                                 data$x %>%
+                                   data.frame(xintercept = .)
+                               },
+
+                               required_aes = c("xintercept")
+)
+
+
+
+# geom_xvline <- function(mapping = NULL, data = NULL,
+#                         position = "identity", na.rm = FALSE, show.legend = NA,
+#                         inherit.aes = TRUE, ...) {
+#   ggplot2::layer(
+#     stat = StatXvline, geom = ggplot2::GeomVline, data = data, mapping = mapping,
+#     position = position, show.legend = show.legend, inherit.aes = inherit.aes,
+#     params = list(na.rm = na.rm, ...)
+#   )
+# }
+#
+# ggplot(cars) +
+#   aes(xintercept = dist) +
+#   geom_xvline()

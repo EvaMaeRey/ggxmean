@@ -1,7 +1,7 @@
 
 
 geom_lm <- function(formula = y ~ x, ...)  {
-  ggplot2::geom_smooth(formula = formula, method = "lm",
+  ggplot2::geom_smooth(formula = formula, method = "lm", se = FALSE,
                ...)
 }
 
