@@ -83,16 +83,16 @@ geom_yhline <- function(mapping = NULL, data = NULL,
 
 
 #### Xvline #####
-
-StatXvline <- ggplot2::ggproto("StatXvline",
-                               ggplot2::Stat,
-                               compute_group = function(data, scales) {
-                                 data$x %>%
-                                   data.frame(xintercept = .)
-                               },
-
-                               required_aes = c("xintercept")
-)
+#
+# StatXvline <- ggplot2::ggproto("StatXvline",
+#                                ggplot2::Stat,
+#                                compute_group = function(data, scales) {
+#                                  data$x %>%
+#                                    data.frame(xintercept = .)
+#                                },
+#
+#                                required_aes = c("xintercept")
+# )
 
 
 

@@ -257,16 +257,44 @@ ggplot(data = mtcars) +
 
 `r chunk_reveal("ttest")`
 
-`r chunk_reveal("ttest")`
-
-```{r ttest, include = F}
+```{r ttest, include = T}
 set.seed(1456)
 ggplot(starwars %>% sample_n(50)) +
   aes(x = height) +
   geom_rug() +
   geom_dotplot() +
-  ggxmean:::geom_ttestconf(size = 2, color = "mediumvioletred", alpha = .75, y = -.01) +
+  ggxmean:::geom_ttestconf(size = 2, 
+                           color = "mediumvioletred", 
+                           alpha = .75, 
+                           y = -.01, 
+                           conf.level = .99) +
   ggxmean::geom_xmean(linetype = "dashed") +
-  geom_tdist(height = 1, alpha = .5, fill = "mediumvioletred")
+  ggxmean:::geom_tdist(height = 1, alpha = .5, fill = "mediumvioletred")
+```
+
+---
+
+`r chunk_reveal("ttest", break_type = 20)`
+
+
+```{r multittest}
+ggplot(starwars %>% sample_n(50)) +
+  aes(x = height) +
+  geom_rug() +
+  geom_dotplot() +
+  ggxmean:::geom_ttestconf(size = 2, 
+                           color = "mediumvioletred", 
+                           alpha = .75, 
+                           y = -.01, 
+                           conf.level = .90) +
+  ggxmean::geom_xmean(linetype = "dashed", 
+                      color = "mediumvioletred",
+                      size = 1.5) +
+  ggxmean:::geom_tdist(height = 1, 
+                       alpha = .5, 
+                       fill = "mediumvioletred") +
+  geom_vline(xintercept = 
+               mean(starwars$height, na.rm = T),
+             linetype = "dotted", size = 1.5)
 ```
 
