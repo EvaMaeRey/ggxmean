@@ -42,8 +42,6 @@ StatYdiff <- ggplot2::ggproto("StatYdiff",
 )
 
 
-
-
 geom_ydiff <- function(mapping = NULL, data = NULL,
                        position = "identity", na.rm = FALSE, show.legend = NA,
                        inherit.aes = TRUE, ...) {

@@ -1,10 +1,5 @@
 
 
-geom_lm <- function(formula = y ~ x, ...)  {
-  ggplot2::geom_smooth(formula = formula, method = "lm", se = FALSE,
-               ...)
-}
-
 
 #### fitted #####
 
@@ -23,7 +18,7 @@ StatOlsfitted <- ggplot2::ggproto("StatOlsresiduals",
 )
 
 
-geom_lmfitted <- function(mapping = NULL, data = NULL,
+geom_lm_fitted <- function(mapping = NULL, data = NULL,
                              position = "identity", na.rm = FALSE,
                           show.legend = NA,
                              inherit.aes = TRUE, ...) {
@@ -53,7 +48,7 @@ StatOlspredicty <- ggplot2::ggproto("StatOlspredicty",
 )
 
 
-geom_lmpredicty <- function(mapping = NULL, data = NULL,
+geom_lm_predicty <- function(mapping = NULL, data = NULL,
                           position = "identity", na.rm = FALSE,
                           show.legend = NA,
                           inherit.aes = TRUE, ...) {
@@ -82,7 +77,7 @@ StatOlspredictx <- ggplot2::ggproto("StatOlspredictx",
 )
 
 
-geom_lmpredictx <- function(mapping = NULL, data = NULL,
+geom_lm_predictx <- function(mapping = NULL, data = NULL,
                             position = "identity", na.rm = FALSE,
                             show.legend = NA,
                             inherit.aes = TRUE, ...) {
@@ -115,7 +110,7 @@ StatOlsresiduals <- ggplot2::ggproto("StatOlsresiduals",
 )
 
 
-geom_lmresiduals <- function(mapping = NULL, data = NULL,
+geom_lm_residuals <- function(mapping = NULL, data = NULL,
                         position = "identity", na.rm = FALSE, show.legend = NA,
                         inherit.aes = TRUE, ...) {
   ggplot2::layer(
@@ -148,7 +143,7 @@ geom_lmresiduals <- function(mapping = NULL, data = NULL,
 # )
 #
 #
-# geom_lmresidualssquared <- function(mapping = NULL, data = NULL,
+# geom_lm_residualssquared <- function(mapping = NULL, data = NULL,
 #                              position = "identity", na.rm = FALSE, show.legend = NA,
 #                              inherit.aes = TRUE, ...) {
 #   ggplot2::layer(
@@ -190,7 +185,7 @@ StatOlsformula <- ggplot2::ggproto("StatOlsformula",
                                   required_aes = c("x", "y")
 )
 
-geom_lmformula <- function(mapping = NULL, data = NULL,
+geom_lm_formula <- function(mapping = NULL, data = NULL,
                                    position = "identity", na.rm = FALSE, show.legend = NA,
                                    inherit.aes = TRUE, ...) {
   ggplot2::layer(
@@ -229,7 +224,7 @@ StatOlsrun <- ggplot2::ggproto("StatOlsrun",
 
 
 
-geom_lmrun <- function(mapping = NULL, data = NULL,
+geom_lm_run <- function(mapping = NULL, data = NULL,
                                            position = "identity", na.rm = FALSE, show.legend = NA,
                                            inherit.aes = TRUE, ...) {
   ggplot2::layer(
@@ -267,7 +262,7 @@ StatOlsrise <- ggplot2::ggproto("StatOlsrise",
 
 
 
-geom_lmrise <- function(mapping = NULL, data = NULL,
+geom_lm_rise <- function(mapping = NULL, data = NULL,
                        position = "identity", na.rm = FALSE, show.legend = NA,
                        inherit.aes = TRUE, ...) {
   ggplot2::layer(
@@ -301,7 +296,7 @@ StatOlsrise10 <- ggplot2::ggproto("StatOlsrise10",
 
 
 
-geom_lmrise10 <- function(mapping = NULL, data = NULL,
+geom_lm_rise10 <- function(mapping = NULL, data = NULL,
                         position = "identity", na.rm = FALSE, show.legend = NA,
                         inherit.aes = TRUE, ...) {
   ggplot2::layer(
@@ -338,7 +333,7 @@ StatOlsrun10 <- ggplot2::ggproto("StatOlsrun10",
 
 
 
-geom_lmrun10 <- function(mapping = NULL, data = NULL,
+geom_lm_run10 <- function(mapping = NULL, data = NULL,
                         position = "identity", na.rm = FALSE, show.legend = NA,
                         inherit.aes = TRUE, ...) {
   ggplot2::layer(
@@ -371,7 +366,7 @@ StatOlsintercept <- ggplot2::ggproto("StatOlsintercept",
 
 
 
-geom_lmintercept <- function(mapping = NULL, data = NULL,
+geom_lm_intercept <- function(mapping = NULL, data = NULL,
                         position = "identity", na.rm = FALSE, show.legend = NA,
                         inherit.aes = TRUE, ...) {
   ggplot2::layer(
@@ -404,7 +399,7 @@ StatOlsinterceptcoords <- ggplot2::ggproto("StatOlsinterceptcoords",
 
 
 
-geom_lminterceptcoords <- function(mapping = NULL, data = NULL,
+geom_lm_interceptcoords <- function(mapping = NULL, data = NULL,
                              position = "identity", na.rm = FALSE, show.legend = NA,
                              inherit.aes = TRUE, ...) {
   ggplot2::layer(
