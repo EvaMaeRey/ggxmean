@@ -13,7 +13,7 @@ StatYdiff <- ggplot2::ggproto("StatYdiff",
 
 
 
-geom_y_ymean <- function(mapping = NULL, data = NULL,
+geom_xy_xymean <- function(mapping = NULL, data = NULL,
                        position = "identity", na.rm = FALSE, show.legend = NA,
                        inherit.aes = TRUE, ...) {
   ggplot2::layer(

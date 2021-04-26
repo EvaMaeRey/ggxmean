@@ -2,12 +2,12 @@
 StampDnorm <- ggplot2::ggproto("StampDnorm",
                               ggplot2::Stat,
                               compute_group = function(data, scales, mean = 0,
-                                                       sd = 1, height = 1,
-                                                       sd_min = -4, sd_max = 4) {
+                                                       sd = 1, height = 1, df = 10,
+                                                       x_min = -4, x_max = 4) {
 
-                                seq(sd_min, sd_max, .01) %>%
+                                seq(x_min, x_max, .01) %>%
                                   tibble(x = .) %>%
-                                  mutate(y = dnorm(x)*height) %>%
+                                  mutate(y = dt(x, df = df)*height) %>%
                                   mutate(x = x*sd + mean) %>%
                                   mutate(alpha = .3)
 
@@ -33,18 +33,18 @@ StampDnorm <- ggplot2::ggproto("StampDnorm",
 #' @examples
 #' library(ggplot2)
 #' ggplot(cars, aes(x = dist)) +
-#'   stamp_normal_dist(alpha = .5, height = 1, fill = "magenta") +
-#'   stamp_normal_dist(sd_min = -5, sd_max = -1.96, height = 1) +
-#'   stamp_normal_dist(sd_min = 1.98, sd_max = 5, height = 1)
+#'   stamp_t_dist(alpha = .5, height = 1, fill = "magenta") +
+#'   stamp_t_dist(x_min = -5, x_max = -1.96, height = 1) +
+#'   stamp_t_dist(x_min = 1.98, x_max = 5, height = 1)
 #'
 #' ggplot(cars, aes(x = dist)) +
-#'   stamp_normal_dist(sd_min = -1, sd_max = 1, color = "slateblue",
+#'   stamp_t_dist(x_min = -1, x_max = 1, color = "slateblue",
 #'              color = "grey34", outline.type = "full") +
-#'   stamp_normal_dist(sd_min = -2, sd_max = 2, color = "slateblue", outline.type = "full") +
-#'   stamp_normal_dist(sd_min = -3, sd_max = 3, color = "slateblue", outline.type = "full") +
-#'   stamp_normal_dist(sd_min = -4, sd_max = 4, color = "slateblue", outline.type = "full") +
-#'   stamp_normal_dist(sd_min = -5, sd_max = 5, color = "slateblue", outline.type = "full")
-stamp_normal_dist <- function(mapping = NULL, data = NULL,
+#'   stamp_t_dist(x_min = -2, x_max = 2, color = "slateblue", outline.type = "full") +
+#'   stamp_t_dist(x_min = -3, x_max = 3, color = "slateblue", outline.type = "full") +
+#'   stamp_t_dist(x_min = -4, x_max = 4, color = "slateblue", outline.type = "full") +
+#'   stamp_t_dist(x_min = -5, x_max = 5, color = "slateblue", outline.type = "full")
+stamp_t_dist <- function(mapping = NULL, data = NULL,
                        position = "identity", na.rm = FALSE, show.legend = NA,
                        inherit.aes = TRUE, outline.type = "upper", ...) {
   ggplot2::layer(
@@ -58,15 +58,15 @@ stamp_normal_dist <- function(mapping = NULL, data = NULL,
 
 
 
-StampPnorm <- ggplot2::ggproto("StampPnorm",
+StampPt <- ggplot2::ggproto("StampPt",
                                ggplot2::Stat,
                                compute_group = function(data, scales, mean = 0,
-                                                        sd = 1, height = 1,
-                                                        sd_min = -4, sd_max = 4) {
+                                                        sd = 1, height = 1, df = 15,
+                                                        x_min = -4, x_max = 4) {
 
-                                 seq(sd_min, sd_max, .01) %>%
+                                 seq(x_min, x_max, .01) %>%
                                    tibble(x = .) %>%
-                                   mutate(y = pnorm(x)*height) %>%
+                                   mutate(y = pt(x, df = df)*height) %>%
                                    mutate(x = x*sd + mean) %>%
                                    mutate(alpha = .3)
 
@@ -92,18 +92,18 @@ StampPnorm <- ggplot2::ggproto("StampPnorm",
 #' @examples
 #' library(ggplot2)
 #' ggplot(cars, aes(x = dist)) +
-#'   stamp_normal_prob(alpha = .5, height = 1, fill = "magenta") +
-#'   stamp_normal_prob(sd_min = -5, sd_max = -1.96, height = 1) +
-#'   stamp_normal_prob(sd_min = 1.98, sd_max = 5, height = 1)
+#'   stamp_t_prob(alpha = .5, height = 1, fill = "magenta") +
+#'   stamp_t_prob(x_min = -5, x_max = -1.96, height = 1) +
+#'   stamp_t_prob(x_min = 1.98, x_max = 5, height = 1)
 #'
 #' ggplot(cars, aes(x = dist)) +
-#'   stamp_normal_prob(sd_min = -1, sd_max = 1, color = "slateblue",
+#'   stamp_t_prob(x_min = -1, x_max = 1, color = "slateblue",
 #'              color = "grey34", outline.type = "full") +
-#'   stamp_normal_prob(sd_min = -2, sd_max = 2, color = "slateblue", outline.type = "full") +
-#'   stamp_normal_prob(sd_min = -3, sd_max = 3, color = "slateblue", outline.type = "full") +
-#'   stamp_normal_prob(sd_min = -4, sd_max = 4, color = "slateblue", outline.type = "full") +
-#'   stamp_normal_prob(sd_min = -5, sd_max = 5, color = "slateblue", outline.type = "full")
-stamp_normal_prob <- function(mapping = NULL, data = NULL,
+#'   stamp_t_prob(x_min = -2, x_max = 2, color = "slateblue", outline.type = "full") +
+#'   stamp_t_prob(x_min = -3, x_max = 3, color = "slateblue", outline.type = "full") +
+#'   stamp_t_prob(x_min = -4, x_max = 4, color = "slateblue", outline.type = "full") +
+#'   stamp_t_prob(x_min = -5, x_max = 5, color = "slateblue", outline.type = "full")
+stamp_t_prob <- function(mapping = NULL, data = NULL,
                               position = "identity", na.rm = FALSE, show.legend = NA,
                               inherit.aes = TRUE, outline.type = "upper", ...) {
   ggplot2::layer(

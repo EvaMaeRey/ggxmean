@@ -6,6 +6,14 @@
 
 StatOlsindicator <- ggplot2::ggproto("StatOlsindicator",
                                    ggplot2::Stat,
+                                   setup_data = function(data, params){
+                                     if(data$group[1] == -1){
+                                       nrows <- nrow(data)
+                                       data$group <- 1 #seq_len(nrows)
+                                     }
+
+                                     data
+                                   },
                                    compute_group = function(data, scales) {
 
                                      model <- lm(y ~ x + as.factor(indicator_as_numeric), data = data)
