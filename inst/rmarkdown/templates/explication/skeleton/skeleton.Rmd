@@ -41,9 +41,10 @@ Statistical educators that introduce students to one of these tools arguably are
 
 Statistical educators often use ggplot2 as their grammar-of-graphics-based data visualization tool as students can learn it along side the rich statistical ecosystem of the R programming language.  The R programming language thus may serve as a one-stop-shop for statistical tooling; with recent developments in packages and IDEs writing code is becoming more accessible and welcoming to newcomers.  
 
-## The problem
+Still, using ggplot2 for statistical education can be a challenge at times.  When it is used to discuss statistical concepts, sometimes it feels as though getting something done with the plotting library derails the focus on discussion of statistical concepts and material.  
 
-Still, using ggplot2 for statistical education can be a challenge, and sometimes feel as though it derail a focus on discussion of statistical concepts and material.  
+## The status quo: adding the mean
+
 Consider for example, a the seemingly simple enterprise of adding a vertical line at the mean of x, perhaps atop a histogram or density plot.  
 
 ```{r, echo = F}
@@ -70,13 +71,13 @@ ggplot(airquality) +
                     na.rm = T))
 ```
 
-It may require a discussion about dollar sign syntax and how geom_vline is actually a special geom -- an annotation -- rather than being mapped to the data.  None of this is relevant to the point you as an instructor are now forgetting to make:  the mean is the balancing point of the data, or maybe a comment about skewness.
+It may require a discussion about dollar sign syntax and how geom_vline is actually a special geom -- an annotation -- rather than being mapped to the data.  None of this is relevant to the point you as an instructor aim to make:  maybe that the the mean is the balancing point of the data or maybe a comment about skewness.
 
-Consider too, the case of wanting to add a vertical line at the mean for different subsets of the data.  This enterprise may take instructor/analyst/student on an even larger detour -- possibly googling, and maybe landing on the following stack overflow page where 11,000 souls (some repeats to be sure) have landed: 
+Further, for the case of adding a vertical line at the mean for different subsets of the data, a different approach is required.  This enterprise may take instructor/analyst/student on an even larger detour -- possibly googling, and maybe landing on the following stack overflow page where 11,000 analytics souls (some repeats to be sure) have landed: 
 
 https://stackoverflow.com/questions/1644661/add-a-vertical-line-with-different-intercept-for-each-panel-in-ggplot2
 
-The solutions to this problem involve some data manipulation *prior* to plotting the data.  The solution disrupts the forward flow ggplot build.  One must take a pause, which may involve toggling back and forth between stack overflow solutions, disrupting momentum you are working on to talk about the pooled mean and the conditional mean.  
+The solutions to this problem involve data manipulation *prior* to plotting the data.  The solution disrupts the forward flow ggplot build.  One must take a pause, which may involve toggling back and forth between stack overflow solutions, disrupting momentum you are working on to talk about the pooled mean and the conditional mean.  
 
 "Learning becomes less efficient as the mental load students must carry increases." 
 [@lovett2000statscongnitive]
@@ -99,16 +100,15 @@ ggplot(airquality) +
                Ozone_mean))
 ```
 
-
-
-
 ## The promise
 
-But, using statistical geometries *can* feel simple. geom_smooth() adds loess fit to visualizations in an effortless way; and an ordinary least squares fit almost as easily.  geom_boxplot reveals a 5-statistic summary of data medians, the inner quartile range and min/max values in a single call.  The popularity of these easy-to-use functions is evident.  geom_smooth is used more than 82,000 times in .R  and .Rmd files on GitHub and geom_boxplot 93,000 times in .R and .Rmd files.
+But, using statistical geometries *can* feel simple. geom_smooth() adds loess fit of data to visualizations in an effortless way; and an ordinary least squares fit is added almost as easily.  geom_boxplot reveals a 5-statistic summary of data medians, the inner quartile range and min/max values in a single call.  The popularity of these easy-to-use functions is evident.  geom_smooth is used more than 82,000 times in .R  and .Rmd files on GitHub and geom_boxplot 93,000 times in .R and .Rmd files.
 
-## The infrastructure for extension
+With these geoms one says "let there be boxplots" and there are boxplots, and "let there be loess smoothing" and there is loess smoothing.  The same powerful, declarative experience can be arranged for more statistical concepts. 
 
-Yet ggplot2 developers and maintainers, with the aim of keeping the code base robust and reliable, have intentionally limited the out-of-the-box geoms (as well as other variants) delivered in base ggplot2.  
+## Why some statistical geoms exist and others don't
+
+ggplot2 developers and maintainers, with the aim of keeping the code base robust and reliable, have intentionally limited the out-of-the-box geoms (as well as other variants) delivered in base ggplot2.  
 
 "ggplot2 is already pretty big ... and it's simply not feasible for us to include all visualization possibilities into ggplot2 itself." - Thomas Pederson https://www.rstudio.com/resources/rstudioconf-2020/extending-your-ability-to-extend-ggplot2/
 
@@ -118,50 +118,93 @@ https://media.giphy.com/media/relSRdIMtKVcPrSfyT/giphy.gif
 
 Extending ggplot statistical geometries will allow us as teachers, analysts and students the ease of visual representation for a large number of other desirable statistical summaries as is experienced with geom_boxplot and geom_smooth.  
 
-## introducing geom_x_mean
+## introducing {ggxmean}
 
-More geoms for statistical instruction/discussion
+The development package ggxmean (https://github.com/EvaMaeRey/ggxmean) is aimed at providing more statistical geometries that are practical for statistical educators and analysts alike.  
 
-```{r}
+First, I present the geom_x_mean() function, which can be used in place of the above solutions to drawing a vertical line at the mean at x or the conditional mean of x. Note: functions from the development package package are indicated with a comment.
+
+The function geom_x_mean is used in a declarative way.  After building a plot showing the distribution of parts per billion of ozone in NYC, you can add a vertical line at the mean with geom_x_mean().  The mean is computed for the user automatically in the background.
+
+Additionally, the conditional means are computed based on grouping variables with geom_x_mean.  Below, a second version of the plot is also produced, where the mean of x computed for subsets of the data -- faceting by month.  The group-wise computational of each mean is managed in the background by the geom_x_mean function.  
+
+```{r, fig.width="40%", fig.show='hide'}
 library(ggplot2)
+library(ggxmean)
 ggplot(airquality) + 
   aes(x = Ozone) + 
   geom_histogram() + 
-  ggxmean::geom_x_mean() + 
-  ggxmean::geom_x_median(
-    linetype = "dashed"
-  ) +
-  scale_x_log10() +
-  facet_grid(rows = vars(Month)) +
-  aes(color = Month, fill = Month)
+  geom_x_mean() # ggxmean
+
+last_plot() + 
+  facet_grid(rows = vars(Month))
 ```
 
-## Other statistical geometries in {ggxmean}
+## Other statistical geometries in the {ggxmean} package
 
+
+
+Beyond providing an easy way to add vertical line at the mean  -- and conditional means, {ggxmean} provides a number of other handy geometries
+
+### Other univariate markers
 
 ```{r}
-library(palmerpenguins)
-ggplot(data = palmerpenguins::penguins) + 
-  aes(bill_length_mm, flipper_length_mm) + 
-  geom_point() + 
-  ggxmean::geom_x_mean() + 
-  ggxmean::geom_y_mean() + 
-  geom_xy_xymean() 
-  
+ggplot(airquality) + 
+  aes(x = Ozone) + 
+  geom_histogram() + 
+  geom_x_median() + 
+  geom_x_quantile(quantile = .25,
+                  linetype = "dashed") + 
+  geom_x_percentile(percentile = 100,
+                    linetype = "dotted")
 ```
 
 
-Beyond providing an easy way to add vertical line at the mean  -- and conditional means, {ggxmean} provides a number of other handy geoms!  
+### Related to the linear model
 
-```{r}
+```{r lm_sequence, fig.show='hide'}
+ggplot(data = cars) + 
+  aes(speed, dist) + 
+  geom_point() + #BREAK
+  ggxmean::geom_lm() + #BREAK
+  ggxmean::geom_lm_fitted(color = "blue",
+                          size = 3) + #BREAK
+  ggxmean::geom_lm_residuals() + #BREAK
+  ggxmean::geom_lm_conf_int() + #BREAK
+  ggxmean::geom_lm_intercept(color = "red",
+                             size = 5) + #BREAK
+  ggxmean::geom_lm_formula(size = 10) #BREAK
+```
+
+```{r, code = flipbookr::chunk_code_seq_as_vector("lm_sequence", break_type = "user"), echo = F, fig.show='hold', out.width="30%"}
+```
+
+### Related to covariance
+
+```{r lm_sequence, fig.show='hide'}
+ggplot(data = cars) + 
+  aes(speed, dist) + 
+  geom_point() + #BREAK
+  geom_x_mean() +
+  geom_xy_xmeany()
+```
+
+
+
+### fitting distributions
+
+```{r geom_normal_dist, fig.show='hide'}
 ggplot(data = faithful) + 
   aes(waiting) + 
   geom_rug() + 
-  geom_histogram(aes(y = ..density..)) +
-  ggxmean::geom_normal_dist(fill = "blue") + 
-  facet_grid(rows = vars(eruptions> 3))
+  geom_histogram(aes(y = ..density..)) + #BREAK
+  ggxmean::geom_normal_dist(fill = "blue") + #BREAK
+  facet_grid(rows = vars(eruptions > 3)) #BREAK
 ```
 
+
+```{r, code = flipbookr::chunk_code_seq_as_vector("geom_normal_dist", break_type = "user"), echo = F, fig.show='hold', out.width="30%"}
+```
 
 ## Annotation: Stamps
 
@@ -176,53 +219,86 @@ library(patchwork)
 ```
 
 
+```{r}
+ggplot(cars, aes(x = speed)) +
+  geom_rug(alpha = .3) +
+  geom_normal_dist() + 
+  stamp_normal_dist()
+```
+
+### stamp space?
 
 ```{r}
-ggplot(data = cars) + 
-  aes(dist) +
-  ggxmean::stamp_normal_dist(fill = "steelblue") +
-  ggxmean::stamp_t_dist(df = 4,
-               fill = "goldenrod")
+ggxmean:::stamp_space() +
+  stamp_normal_dist(fill = "steelblue")
+
+last_plot() +
+  stamp_t_dist(df = 3, 
+               fill = "goldenrod",
+               linetype = "dashed",
+               color = "goldenrod",
+               outline.type = "upper")
 ```
 
 
-```{r}
+```{r, eval = F}
 library(patchwork)
 library(ggplot2)
-ggplot(cars, aes(x = dist)) +
+library(ggxmean)
+ggxmean:::stamp_space() +
+  stamp_normal_dist()
+
+ggxmean:::stamp_space() +
+  stamp_chi_dist() + 
+  stamp_t_dist()
+
+ggxmean:::stamp_space() +
   ggxmean::stamp_normal_dist(x_min = -1, x_max = 1, color = "black", outline.type = "full") +
   ggxmean::stamp_normal_dist(x_min = -2, x_max = 2, color = "black", outline.type = "full") +
   ggxmean::stamp_normal_dist(x_min = -3, x_max = 3, color = "black", outline.type = "full") +
   ggxmean::stamp_normal_dist(x_min = -4, x_max = 4, color = "black", outline.type = "full") +
   ggxmean::stamp_normal_dist(x_min = -5, x_max = 5, color = "black", outline.type = "full") +
-  theme_classic()
+  theme_minimal()
 
 ```
+
+```{r}
+library(patchwork)
+
+ggxmean:::stamp_space() +
+  stamp_normal_dist(alpha = .05) +
+  stamp_normal_dist(x_min = -1, x_max = 1) ->
+p1
+    
+  ggxmean:::stamp_space() +
+  stamp_normal_prob(alpha = .1) +
+  stamp_normal_prob(sd_min = -1, sd_max = 1, 
+                             size = 1.5) ->
+p2
+  
+p1 / p2
+```
+
 
 
 ```{r}
 library(patchwork)
-ggplot(data = cars) +
-  aes(dist) +
-  ggxmean::stamp_chisq_dist(df = 3,
-                   fill = "steelblue") +
-  ggxmean::stamp_chisq_dist(df = 5,
-                   fill = "goldenrod") +
-  ggxmean::stamp_chisq_dist(df = 7,
-                   fill = "plum") +
-  ggxmean::stamp_chisq_dist(df = 11,
-                   fill = "sienna")
 
-ggplot(data = cars) +
-  aes(dist) +
-  ggxmean::stamp_chisq_prob(df = 3,
-                   color = "steelblue") +
-  ggxmean::stamp_chisq_prob(df = 5,
-                   color = "goldenrod") +
-  ggxmean::stamp_chisq_prob(df = 7,
-                   color = "plum") +
-  ggxmean::stamp_chisq_prob(df = 11,
-                   color = "sienna") 
+ggxmean:::stamp_space() +
+  stamp_chisq_dist(df = 3,  fill = "steelblue") +
+  stamp_chisq_dist(df = 5,  fill = "goldenrod") +
+  stamp_chisq_dist(df = 7,  fill = "plum") +
+  stamp_chisq_dist(df = 11, fill = "sienna") ->
+g1
+  
+ggxmean:::stamp_space() +
+  stamp_chisq_prob(df = 3,  color = "steelblue") +
+  stamp_chisq_prob(df = 5,  color = "goldenrod") +
+  stamp_chisq_prob(df = 7,  color = "plum") +
+  stamp_chisq_prob(df = 11, color = "sienna") ->
+g2
+
+g1 / g2
 ```
 
 

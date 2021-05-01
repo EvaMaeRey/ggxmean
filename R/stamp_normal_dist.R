@@ -32,12 +32,12 @@ StampDnorm <- ggplot2::ggproto("StampDnorm",
 #'
 #' @examples
 #' library(ggplot2)
-#' ggplot(cars, aes(x = dist)) +
+#' ggxmean:::stamp_space() +
 #'   stamp_normal_dist(alpha = .5, height = 1, fill = "magenta") +
 #'   stamp_normal_dist(sd_min = -5, sd_max = -1.96, height = 1) +
 #'   stamp_normal_dist(sd_min = 1.98, sd_max = 5, height = 1)
 #'
-#' ggplot(cars, aes(x = dist)) +
+#' ggxmean:::stamp_space() +
 #'   stamp_normal_dist(sd_min = -1, sd_max = 1, color = "slateblue",
 #'              color = "grey34", outline.type = "full") +
 #'   stamp_normal_dist(sd_min = -2, sd_max = 2, color = "slateblue", outline.type = "full") +
@@ -91,12 +91,12 @@ StampPnorm <- ggplot2::ggproto("StampPnorm",
 #'
 #' @examples
 #' library(ggplot2)
-#' ggplot(cars, aes(x = dist)) +
+#' ggxmean:::stamp_space() +
 #'   stamp_normal_prob(alpha = .5, height = 1, fill = "magenta") +
 #'   stamp_normal_prob(sd_min = -5, sd_max = -1.96, height = 1) +
 #'   stamp_normal_prob(sd_min = 1.98, sd_max = 5, height = 1)
 #'
-#' ggplot(cars, aes(x = dist)) +
+#' ggxmean:::stamp_space() +
 #'   stamp_normal_prob(sd_min = -1, sd_max = 1, color = "slateblue",
 #'              color = "grey34", outline.type = "full") +
 #'   stamp_normal_prob(sd_min = -2, sd_max = 2, color = "slateblue", outline.type = "full") +
@@ -113,6 +113,8 @@ stamp_normal_prob <- function(mapping = NULL, data = NULL,
     params = list(na.rm = na.rm, outline.type = outline.type,...)
   )
 }
+
+
 
 
 
