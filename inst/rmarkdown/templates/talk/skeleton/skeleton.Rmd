@@ -68,6 +68,18 @@ class: inverse, center middle
 The grammar of graphics framework, proposed by Leland Wilkinson in 1999, that identified 'seven orthogonal components' in the creation of data visualizations.\
 Wilkinson asserted that if data visualization packages were created using a separation of concerns approach -- dividing decision making surrounding these components --- the packages would be able to "draw every statistical graphic". The grammar of graphic principles were incredibly powerful and gave rise to a number of visualization platforms including Tableau, vega-lite, and ggplot2.
 
+---
+
+Creators
+
+
+
+--
+
+- Tableau
+- vega-lite
+- ggplot 2
+
 
 ---
 
@@ -186,7 +198,7 @@ The solutions to this problem involve data manipulation *prior* to plotting the 
 
 
 
-# "Learning becomes less efficient as the mental load students must carry increases." Lovett et al. 2000
+# "...mastery of advanced programming skills should not be allowed to crowd out data analysis skills or statistical thinking." 
 
 --
 
@@ -195,7 +207,7 @@ The solutions to this problem involve data manipulation *prior* to plotting the 
 ---
 
 
-class: inverse, center, middle
+class: inverse, center, bottom
 background-image: url(https://images.unsplash.com/photo-1482685945432-29a7abf2f466?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1532&q=80)
 background-size: cover
 
@@ -248,7 +260,7 @@ ggplot(penguins) +
 ---
 
 
-# Now, intrastructure to *extend* ggplot2 ...
+# Now, infrastructure to *extend* ggplot2 ...
 
 --
 
@@ -350,7 +362,7 @@ ggplot(data = faithful) +
 
 
 ---
-class: inverse, center, middle
+class: inverse, center, bottom
 background-image: url(https://images.unsplash.com/photo-1482685945432-29a7abf2f466?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1532&q=80)
 background-size: cover
 
