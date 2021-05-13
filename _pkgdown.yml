@@ -1,0 +1,7 @@
+template:
+  params:
+    bootswatch: yeti
+  assets: pkgdown/assets/images
+
+toc:
+  depth: 3
