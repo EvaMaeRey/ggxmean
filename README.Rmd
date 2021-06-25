@@ -24,6 +24,8 @@ knitr::opts_chunk$set(
 
 The goal of ggxmean is plot the mean of x - and some other things like y! 
 
+
+
 ## Installation
 
 The development version from [GitHub](https://github.com/) with:
@@ -32,9 +34,27 @@ The development version from [GitHub](https://github.com/) with:
 # install.packages("devtools")
 devtools::install_github("EvaMaeRey/ggxmean")
 ```
-## Example
 
-This is a basic example which shows you how to solve a common problem:
+- [In-progress long form rationale and package exploration](https://evamaerey.github.io/ggxmean/manuscript.pdf)
+
+- [Talk MAA Metro NY](https://evamaerey.github.io/ggxmean/talk_maa_metro_ny.html)
+
+## Examples
+
+<img src="https://github.com/EvaMaeRey/ggxmean/blob/master/docs/template.gif?raw=true" width="100%" />
+
+<a href="https://evamaerey.github.io/ggxmean/template.html" target="_blank">Open flipbook in a new tab</a>
+
+
+```{r, eval = F, echo = F}
+file.copy("inst/rmarkdown/templates/template-name/skeleton/skeleton.Rmd", 
+          "docs/template.Rmd")
+
+xaringanBuilder::build_all("docs/template.Rmd", include = c('html', 'gif'))
+xaringanPrinter::slides_gif("docs/template.html")
+```
+
+
 
 ```{r example}
 # knitr::opts_chunk$set(eval = F)

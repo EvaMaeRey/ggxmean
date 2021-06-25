@@ -10,7 +10,7 @@ Authors@R:
 Description: This package allows you to easily plot some basic statistics. This includes the mean of x as a vertical line.
 License: MIT + file LICENSE
 Encoding: UTF-8
-LazyData: true
+LazyData: true 
 RoxygenNote: 6.1.1
 Imports: 
     magrittr,

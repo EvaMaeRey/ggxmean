@@ -20,9 +20,18 @@ The development version from [GitHub](https://github.com/) with:
 devtools::install_github("EvaMaeRey/ggxmean")
 ```
 
-## Example
+-   [In-progress long form rationale and package
+    exploration](https://evamaerey.github.io/ggxmean/manuscript.pdf)
 
-This is a basic example which shows you how to solve a common problem:
+-   [Talk MAA Metro
+    NY](https://evamaerey.github.io/ggxmean/talk_maa_metro_ny.html)
+
+## Examples
+
+<img src="https://github.com/EvaMaeRey/ggxmean/blob/master/docs/template.gif?raw=true" width="100%" />
+
+<a href="https://evamaerey.github.io/ggxmean/template.html" target="_blank">Open
+flipbook in a new tab</a>
 
 ``` r
 # knitr::opts_chunk$set(eval = F)
@@ -68,7 +77,7 @@ palmerpenguins::penguins %>%
   gganimate::transition_layers()
 ```
 
-<img src="man/figures/README-unnamed-chunk-2-1.gif" width="100%" />
+<img src="man/figures/README-unnamed-chunk-3-1.gif" width="100%" />
 
 ``` r
 library(ggxmean)
@@ -93,4 +102,4 @@ palmerpenguins::penguins %>%
   gganimate::transition_layers()
 ```
 
-<img src="man/figures/README-unnamed-chunk-3-1.gif" width="100%" />
+<img src="man/figures/README-unnamed-chunk-4-1.gif" width="100%" />
