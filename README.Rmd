@@ -118,8 +118,8 @@ palmerpenguins::penguins %>%
   geom_point() +
   ggxmean:::geom_x_mean() +
   ggxmean:::geom_y_mean() +
-  ggxmean:::geom_y_line(alpha = .02) +
-  ggxmean:::geom_x_line(alpha = .02) +
+  ggxmean:::geom_y_line(alpha = .2) +
+  ggxmean:::geom_x_line(alpha = .2) +
   ggxmean:::geom_xdiff() +
   ggxmean:::geom_ydiff() +
   ggxmean:::geom_x1sd(linetype = "dashed") +
