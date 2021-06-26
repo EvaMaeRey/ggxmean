@@ -50,7 +50,7 @@ devtools::install_github("EvaMaeRey/ggxmean")
 file.copy("inst/rmarkdown/templates/template-name/skeleton/skeleton.Rmd", 
           "docs/flipbook.Rmd", overwrite = T)
 
-xaringanBuilder::build_html("docs/flipbook.Rmd")
+# Dont use, path's aren't relative. xaringanBuilder::build_html("docs/flipbook.Rmd")
 xaringanBuilder::build_gif("docs/flipbook_preview.html", fps = 4)
 knitr::opts_chunk$set(echo = F, eval = F)
 ```
