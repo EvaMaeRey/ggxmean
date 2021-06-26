@@ -1,61 +1,46 @@
-GeomYmeanline <- ggplot2::ggproto("GeomYmeanline", ggplot2::Geom,
-                              draw_panel = function(data, panel_params, coord) {
+### ymean
 
-                                ranges <- coord$backtransform_range(panel_params)
+StatYmean <- ggplot2::ggproto("StatYmean",
+                              ggplot2::Stat,
+                              compute_group = function(data, scales) {
 
-                                data$y    <- mean(data$y)
-                                data$yend <- mean(data$y)
-                                data$x    <- ranges$x[1]
-                                data$xend <- ranges$x[2]
-
-                                GeomSegment$draw_panel(unique(data), panel_params, coord)
+                                data.frame(y = mean(data$y))
 
                               },
 
-                              default_aes = ggplot2::aes(colour = "black", size = 0.5,
-                                                         linetype = 1, alpha = NA),
-                              required_aes = "y",
-
-                              draw_key = ggplot2::draw_key_vline
+                              required_aes = c("y")
 )
 
 
-
-#' Lines defined by mean value of y
-#'
+#' Place line at mean of y
 #'
 #' @param mapping
 #' @param data
-#' @param ...
-#' @param y
+#' @param position
 #' @param na.rm
 #' @param show.legend
+#' @param inherit.aes
+#' @param ...
 #'
 #' @return
 #' @export
 #'
 #' @examples
 #' library(ggplot2)
-#' ggplot(data = cars, mapping = aes(x = speed, y = dist)) +
-#' geom_point() + geom_y_mean()
+#' ggplot(cars) + aes(x = speed, y = dist) +
+#' geom_point() + geom_y_mean(size = 1.5) + aes(color = speed > 14)
 geom_y_mean <- function(mapping = NULL, data = NULL,
-                       ...,
-                       y,
-                       na.rm = FALSE,
-                       show.legend = NA) {
+                        position = "identity", na.rm = FALSE, show.legend = NA,
+                        inherit.aes = TRUE, ...) {
 
   ggplot2::layer(
-    data = data,
-    mapping = mapping,
-    stat = ggplot2::StatIdentity,
-    geom = GeomYmeanline,
-    position = ggplot2::PositionIdentity,
-    show.legend = show.legend,
-    inherit.aes = TRUE,
-    params = list(
-      na.rm = na.rm,
-      ...
-    )
+    stat = StatYmean, geom = GeomYline, data = data, mapping = mapping,
+    position = position, show.legend = show.legend, inherit.aes = inherit.aes,
+    params = list(na.rm = na.rm, ...)
   )
+
 }
+
+
+
 

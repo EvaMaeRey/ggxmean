@@ -4,8 +4,15 @@
 \alias{geom_xmin}
 \title{Draw vertical line at the minimum value of x}
 \usage{
-geom_xmin(mapping = NULL, data = NULL, position = "identity",
-  na.rm = FALSE, show.legend = NA, inherit.aes = TRUE, ...)
+geom_xmin(
+  mapping = NULL,
+  data = NULL,
+  position = "identity",
+  na.rm = FALSE,
+  show.legend = NA,
+  inherit.aes = TRUE,
+  ...
+)
 }
 \arguments{
 \item{mapping}{provide you own mapping, x is required}

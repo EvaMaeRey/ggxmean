@@ -4,12 +4,21 @@
 \alias{geom_lm_pred_int_segments}
 \title{Drawing prediction interval for OLS linear model as segments}
 \usage{
-geom_lm_pred_int_segments(mapping = NULL, data = NULL,
-  position = "identity", na.rm = FALSE, show.legend = NA,
-  inherit.aes = TRUE, ...)
+geom_lm_pred_int_segments(
+  mapping = NULL,
+  data = NULL,
+  position = "identity",
+  na.rm = FALSE,
+  show.legend = NA,
+  inherit.aes = TRUE,
+  ...
+)
 }
 \arguments{
 \item{...}{}
+}
+\value{
+
 }
 \description{
 Drawing prediction interval for OLS linear model as segments

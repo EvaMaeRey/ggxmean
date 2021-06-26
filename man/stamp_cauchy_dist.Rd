@@ -4,12 +4,22 @@
 \alias{stamp_cauchy_dist}
 \title{Title}
 \usage{
-stamp_cauchy_dist(mapping = NULL, data = NULL, position = "identity",
-  na.rm = FALSE, show.legend = NA, inherit.aes = TRUE,
-  outline.type = "upper", ...)
+stamp_cauchy_dist(
+  mapping = NULL,
+  data = NULL,
+  position = "identity",
+  na.rm = FALSE,
+  show.legend = NA,
+  inherit.aes = TRUE,
+  outline.type = "upper",
+  ...
+)
 }
 \arguments{
 \item{...}{}
+}
+\value{
+
 }
 \description{
 Title

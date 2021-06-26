@@ -28,9 +28,9 @@ devtools::install_github("EvaMaeRey/ggxmean")
 
 ## Examples
 
-<img src="https://github.com/EvaMaeRey/ggxmean/blob/master/docs/template.gif?raw=true" width="100%" />
+<img src="https://github.com/EvaMaeRey/ggxmean/blob/master/docs/flipbook_preview.gif?raw=true" width="100%" />
 
-<a href="https://evamaerey.github.io/ggxmean/template.html" target="_blank">Open
+<a href="https://evamaerey.github.io/ggxmean/flipbook.html" target="_blank">Open
 flipbook in a new tab</a>
 
 ``` r

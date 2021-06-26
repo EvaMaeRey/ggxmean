@@ -4,11 +4,20 @@
 \alias{geom_x_percentile}
 \title{Lines defined by quantile value of x}
 \usage{
-geom_x_percentile(mapping = NULL, data = NULL, ..., x, na.rm = FALSE,
-  show.legend = NA)
+geom_x_percentile(
+  mapping = NULL,
+  data = NULL,
+  ...,
+  x,
+  na.rm = FALSE,
+  show.legend = NA
+)
 }
 \arguments{
 \item{show.legend}{}
+}
+\value{
+
 }
 \description{
 Lines defined by quantile value of x

@@ -4,11 +4,21 @@
 \alias{geom_lm_indicator}
 \title{Drawing prediction interval for OLS linear model}
 \usage{
-geom_lm_indicator(mapping = NULL, data = NULL, position = "identity",
-  na.rm = FALSE, show.legend = NA, inherit.aes = T, ...)
+geom_lm_indicator(
+  mapping = NULL,
+  data = NULL,
+  position = "identity",
+  na.rm = FALSE,
+  show.legend = NA,
+  inherit.aes = T,
+  ...
+)
 }
 \arguments{
 \item{...}{}
+}
+\value{
+
 }
 \description{
 Drawing prediction interval for OLS linear model

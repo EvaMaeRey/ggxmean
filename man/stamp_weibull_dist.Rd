@@ -4,18 +4,35 @@
 \alias{stamp_weibull_dist}
 \title{Title}
 \usage{
-stamp_weibull_dist(mapping = NULL, data = NULL,
-  position = "identity", na.rm = FALSE, show.legend = NA,
-  inherit.aes = TRUE, outline.type = "upper", ...)
+stamp_weibull_dist(
+  mapping = NULL,
+  data = NULL,
+  position = "identity",
+  na.rm = FALSE,
+  show.legend = NA,
+  inherit.aes = TRUE,
+  outline.type = "upper",
+  ...
+)
 
-stamp_weibull_dist(mapping = NULL, data = NULL,
-  position = "identity", na.rm = FALSE, show.legend = NA,
-  inherit.aes = TRUE, outline.type = "upper", ...)
+stamp_weibull_dist(
+  mapping = NULL,
+  data = NULL,
+  position = "identity",
+  na.rm = FALSE,
+  show.legend = NA,
+  inherit.aes = TRUE,
+  outline.type = "upper",
+  ...
+)
 }
 \arguments{
 \item{...}{}
+}
+\value{
 
-\item{...}{}
+
+
 }
 \description{
 Title

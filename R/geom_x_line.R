@@ -37,7 +37,7 @@ GeomXline <- ggplot2::ggproto("GeomXline", ggplot2::Geom,
 #' @examples
 #' library(ggplot2)
 #' ggplot(data = cars, mapping = aes(x = speed, y = dist)) +
-#' geom_point() + geom_x_line()
+#' geom_point() + geom_x_line() + aes(color = speed > 15)
 geom_x_line <- function(mapping = NULL, data = NULL,
                        ...,
                        x,
@@ -58,4 +58,6 @@ geom_x_line <- function(mapping = NULL, data = NULL,
     )
   )
 }
+
+
 

@@ -4,11 +4,20 @@
 \alias{geom_y_line}
 \title{Lines defined by values of y}
 \usage{
-geom_y_line(mapping = NULL, data = NULL, ..., y, na.rm = FALSE,
-  show.legend = NA)
+geom_y_line(
+  mapping = NULL,
+  data = NULL,
+  ...,
+  y,
+  na.rm = FALSE,
+  show.legend = NA
+)
 }
 \arguments{
 \item{show.legend}{}
+}
+\value{
+
 }
 \description{
 Lines defined by values of y

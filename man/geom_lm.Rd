@@ -9,6 +9,9 @@ geom_lm(formula = y ~ x, ...)
 \arguments{
 \item{...}{}
 }
+\value{
+
+}
 \description{
 ordinary least squares model
 }

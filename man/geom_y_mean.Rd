@@ -2,19 +2,29 @@
 % Please edit documentation in R/geom_y_mean.R
 \name{geom_y_mean}
 \alias{geom_y_mean}
-\title{Lines defined by mean value of y}
+\title{Place line at mean of y}
 \usage{
-geom_y_mean(mapping = NULL, data = NULL, ..., y, na.rm = FALSE,
-  show.legend = NA)
+geom_y_mean(
+  mapping = NULL,
+  data = NULL,
+  position = "identity",
+  na.rm = FALSE,
+  show.legend = NA,
+  inherit.aes = TRUE,
+  ...
+)
 }
 \arguments{
-\item{show.legend}{}
+\item{...}{}
+}
+\value{
+
 }
 \description{
-Lines defined by mean value of y
+Place line at mean of y
 }
 \examples{
 library(ggplot2)
-ggplot(data = cars, mapping = aes(x = speed, y = dist)) +
-geom_point() + geom_y_mean()
+ggplot(cars) + aes(x = speed, y = dist) +
+geom_point() + geom_y_mean(size = 1.5) + aes(color = speed > 14)
 }

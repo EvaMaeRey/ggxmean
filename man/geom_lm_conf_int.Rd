@@ -4,11 +4,21 @@
 \alias{geom_lm_conf_int}
 \title{Drawing prediction interval for OLS linear model}
 \usage{
-geom_lm_conf_int(mapping = NULL, data = NULL, position = "identity",
-  na.rm = FALSE, show.legend = NA, inherit.aes = TRUE, ...)
+geom_lm_conf_int(
+  mapping = NULL,
+  data = NULL,
+  position = "identity",
+  na.rm = FALSE,
+  show.legend = NA,
+  inherit.aes = TRUE,
+  ...
+)
 }
 \arguments{
 \item{...}{}
+}
+\value{
+
 }
 \description{
 Drawing prediction interval for OLS linear model

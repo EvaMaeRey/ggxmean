@@ -4,11 +4,21 @@
 \alias{geom_lm_residuals}
 \title{Drawing residuals from ols linear model}
 \usage{
-geom_lm_residuals(mapping = NULL, data = NULL, position = "identity",
-  na.rm = FALSE, show.legend = NA, inherit.aes = TRUE, ...)
+geom_lm_residuals(
+  mapping = NULL,
+  data = NULL,
+  position = "identity",
+  na.rm = FALSE,
+  show.legend = NA,
+  inherit.aes = TRUE,
+  ...
+)
 }
 \arguments{
 \item{...}{}
+}
+\value{
+
 }
 \description{
 Drawing residuals from ols linear model

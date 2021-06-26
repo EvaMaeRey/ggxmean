@@ -29,7 +29,7 @@ StatXymean <- ggplot2::ggproto("StatXymean",
 #' @examples
 #' library(ggplot2)
 #' ggplot(cars) + aes(x = speed, y = dist) +
-#' geom_point() + geom_xy_means(size = 5, color = "plum4")
+#' geom_point() + geom_xy_means(size = 5) + aes(color = speed > 15)
 geom_xy_means <- function(mapping = NULL, data = NULL,
                         position = "identity", na.rm = FALSE, show.legend = NA,
                         inherit.aes = TRUE, ...) {
@@ -41,4 +41,5 @@ geom_xy_means <- function(mapping = NULL, data = NULL,
   )
 
 }
+
 

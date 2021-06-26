@@ -4,11 +4,20 @@
 \alias{geom_y_mean_label}
 \title{Lines defined by mean value of y}
 \usage{
-geom_y_mean_label(mapping = NULL, data = NULL, ..., y, na.rm = FALSE,
-  show.legend = NA)
+geom_y_mean_label(
+  mapping = NULL,
+  data = NULL,
+  ...,
+  y,
+  na.rm = FALSE,
+  show.legend = NA
+)
 }
 \arguments{
 \item{show.legend}{}
+}
+\value{
+
 }
 \description{
 Lines defined by mean value of y

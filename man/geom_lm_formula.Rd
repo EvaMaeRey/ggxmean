@@ -4,11 +4,21 @@
 \alias{geom_lm_formula}
 \title{Write formula for ols linear model}
 \usage{
-geom_lm_formula(mapping = NULL, data = NULL, position = "identity",
-  na.rm = FALSE, show.legend = NA, inherit.aes = TRUE, ...)
+geom_lm_formula(
+  mapping = NULL,
+  data = NULL,
+  position = "identity",
+  na.rm = FALSE,
+  show.legend = NA,
+  inherit.aes = TRUE,
+  ...
+)
 }
 \arguments{
 \item{...}{}
+}
+\value{
+
 }
 \description{
 Write formula for ols linear model

@@ -4,12 +4,22 @@
 \alias{geom_normal_dist}
 \title{Fits normal distribution based on standard deviation}
 \usage{
-geom_normal_dist(mapping = NULL, data = NULL, position = "identity",
-  na.rm = FALSE, show.legend = NA, inherit.aes = TRUE,
-  outline.type = "upper", ...)
+geom_normal_dist(
+  mapping = NULL,
+  data = NULL,
+  position = "identity",
+  na.rm = FALSE,
+  show.legend = NA,
+  inherit.aes = TRUE,
+  outline.type = "upper",
+  ...
+)
 }
 \arguments{
 \item{...}{}
+}
+\value{
+
 }
 \description{
 Fits normal distribution based on standard deviation

@@ -4,8 +4,15 @@
 \alias{geom_xmax}
 \title{Draw vertical line at the max of x}
 \usage{
-geom_xmax(mapping = NULL, data = NULL, position = "identity",
-  na.rm = FALSE, show.legend = NA, inherit.aes = TRUE, ...)
+geom_xmax(
+  mapping = NULL,
+  data = NULL,
+  position = "identity",
+  na.rm = FALSE,
+  show.legend = NA,
+  inherit.aes = TRUE,
+  ...
+)
 }
 \arguments{
 \item{mapping}{provide you own mapping, x is required}

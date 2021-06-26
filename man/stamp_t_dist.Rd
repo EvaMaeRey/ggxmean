@@ -4,12 +4,22 @@
 \alias{stamp_t_dist}
 \title{Title}
 \usage{
-stamp_t_dist(mapping = NULL, data = NULL, position = "identity",
-  na.rm = FALSE, show.legend = NA, inherit.aes = TRUE,
-  outline.type = "upper", ...)
+stamp_t_dist(
+  mapping = NULL,
+  data = NULL,
+  position = "identity",
+  na.rm = FALSE,
+  show.legend = NA,
+  inherit.aes = TRUE,
+  outline.type = "upper",
+  ...
+)
 }
 \arguments{
 \item{...}{}
+}
+\value{
+
 }
 \description{
 Title

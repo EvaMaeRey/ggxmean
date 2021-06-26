@@ -2,19 +2,29 @@
 % Please edit documentation in R/geom_x_mean.R
 \name{geom_x_mean}
 \alias{geom_x_mean}
-\title{Lines defined by mean value of x}
+\title{Place point at mean of x and mean of y}
 \usage{
-geom_x_mean(mapping = NULL, data = NULL, ..., x, na.rm = FALSE,
-  show.legend = NA)
+geom_x_mean(
+  mapping = NULL,
+  data = NULL,
+  position = "identity",
+  na.rm = FALSE,
+  show.legend = NA,
+  inherit.aes = TRUE,
+  ...
+)
 }
 \arguments{
-\item{show.legend}{}
+\item{...}{}
+}
+\value{
+
 }
 \description{
-Lines defined by mean value of x
+Place point at mean of x and mean of y
 }
 \examples{
 library(ggplot2)
-ggplot(data = cars, mapping = aes(x = speed, y = dist)) +
-geom_point() + geom_x_mean()
+ggplot(cars) + aes(x = speed, y = dist) +
+geom_point() + geom_x_mean(size = 1.5) + aes(color = speed > 14)
 }

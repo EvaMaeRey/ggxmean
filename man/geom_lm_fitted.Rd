@@ -4,11 +4,21 @@
 \alias{geom_lm_fitted}
 \title{Fitted values along ols line, points}
 \usage{
-geom_lm_fitted(mapping = NULL, data = NULL, position = "identity",
-  na.rm = FALSE, show.legend = NA, inherit.aes = TRUE, ...)
+geom_lm_fitted(
+  mapping = NULL,
+  data = NULL,
+  position = "identity",
+  na.rm = FALSE,
+  show.legend = NA,
+  inherit.aes = TRUE,
+  ...
+)
 }
 \arguments{
 \item{...}{}
+}
+\value{
+
 }
 \description{
 Fitted values along ols line, points

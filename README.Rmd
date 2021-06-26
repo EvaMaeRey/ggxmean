@@ -41,17 +41,18 @@ devtools::install_github("EvaMaeRey/ggxmean")
 
 ## Examples
 
-<img src="https://github.com/EvaMaeRey/ggxmean/blob/master/docs/template.gif?raw=true" width="100%" />
+<img src="https://github.com/EvaMaeRey/ggxmean/blob/master/docs/flipbook_preview.gif?raw=true" width="100%" />
 
-<a href="https://evamaerey.github.io/ggxmean/template.html" target="_blank">Open flipbook in a new tab</a>
+<a href="https://evamaerey.github.io/ggxmean/flipbook.html" target="_blank">Open flipbook in a new tab</a>
 
 
 ```{r, eval = F, echo = F}
 file.copy("inst/rmarkdown/templates/template-name/skeleton/skeleton.Rmd", 
-          "docs/template.Rmd")
+          "docs/flipbook.Rmd", overwrite = T)
 
-xaringanBuilder::build_all("docs/template.Rmd", include = c('html', 'gif'))
-xaringanPrinter::slides_gif("docs/template.html")
+xaringanBuilder::build_html("docs/flipbook.Rmd")
+xaringanBuilder::build_gif("docs/flipbook_preview.html", fps = 4)
+knitr::opts_chunk$set(echo = F, eval = F)
 ```
 
 

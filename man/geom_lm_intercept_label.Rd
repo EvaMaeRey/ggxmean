@@ -4,12 +4,21 @@
 \alias{geom_lm_intercept_label}
 \title{Label ols linear model intercept}
 \usage{
-geom_lm_intercept_label(mapping = NULL, data = NULL,
-  position = "identity", na.rm = FALSE, show.legend = NA,
-  inherit.aes = TRUE, ...)
+geom_lm_intercept_label(
+  mapping = NULL,
+  data = NULL,
+  position = "identity",
+  na.rm = FALSE,
+  show.legend = NA,
+  inherit.aes = TRUE,
+  ...
+)
 }
 \arguments{
 \item{...}{}
+}
+\value{
+
 }
 \description{
 Label ols linear model intercept

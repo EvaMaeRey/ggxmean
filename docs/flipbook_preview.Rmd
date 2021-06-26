@@ -1,0 +1,105 @@
+---
+title: "{ggxmean}"
+author: "Your Name"
+date: "The Date"
+output: 
+  xaringan::moon_reader:
+    lib_dir: libs
+    seal: FALSE
+    css: [default, hygge, ninjutsu]
+    nature:
+      ratio: 16:9
+      highlightStyle: github
+      highlightLines: true
+      countIncrementalSlides: false
+---
+
+
+class: inverse
+background-image: url(https://images.unsplash.com/photo-1572291720677-d8d28ac52a5b?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=1556&q=80)
+background-size: cover
+
+# [{ggxmean}](https://github.com/EvaMaeRey/ggxmean)
+<br><br><br><br><br>
+<br><br><br><br><br>
+<br><br><br><br><br>
+<br><br><br><br><br>
+#### Photo credit: Hans Veth
+
+
+```{r, include = F}
+# This is the recommended set up for flipbooks
+# you might think about setting cache to TRUE as you gain practice --- building flipbooks from scratch can be time consuming
+knitr::opts_chunk$set(fig.width = 8, message = FALSE, warning = FALSE, comment = "", cache = F)
+library(flipbookr)
+library(tidyverse)
+```
+
+
+
+---
+class: inverse, center, middle
+
+# viz the mean and conditional means
+
+
+---
+
+
+`r chunk_reveal("vizthemean1d", break_type = "user")`
+
+```{r vizthemean1d, include = F}
+library(tidyverse)
+library(ggxmean)
+palmerpenguins::penguins %>% 
+  drop_na() %>% 
+  ggplot() +
+  aes(x = bill_length_mm) +
+  geom_rug(alpha = .3) +
+  geom_histogram(alpha = .4) + #BREAK
+  geom_x_mean() + #BREAK
+  aes(color = species) + #BREAK
+  aes(fill = species) + #BREAK
+  facet_grid(rows = vars(species)) + #BREAK
+  facet_grid(rows = vars(species, sex)) + #BREAK
+  geom_rug(alpha = .6) + #BREAK
+  geom_x_quantile(quantile = .5,
+                  linetype = "dashed") + #BREAK
+  geom_x_percentile(percentile = 75,
+                    color = "goldenrod") + #BREAK
+  geom_x_median(color = "black") + #BREAK
+  geom_x_quantile(quantile = .25, linetype = "dashed") + #BREAK
+  geom_boxplot(y = 0,
+               width = 3,
+               fill = "white",
+               color = "black") #BREAK
+```
+
+
+
+
+
+
+```{css, eval = TRUE, echo = FALSE}
+.remark-code{line-height: 1.5; font-size: 80%}
+
+@media print {
+  .has-continuation {
+    display: block;
+  }
+}
+
+code.r.hljs.remark-code{
+  position: relative;
+  overflow-x: hidden;
+}
+
+
+code.r.hljs.remark-code:hover{
+  overflow-x:visible;
+  width: 500px;
+  border-style: solid;
+}
+```
+
+

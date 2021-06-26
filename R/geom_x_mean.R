@@ -1,61 +1,48 @@
-GeomXmeanline <- ggplot2::ggproto("GeomXmeanline", ggplot2::Geom,
-                              draw_panel = function(data, panel_params, coord) {
+### xmean
 
-                                ranges <- coord$backtransform_range(panel_params)
+StatXmean <- ggplot2::ggproto("StatXmean",
+                              ggplot2::Stat,
+                              compute_group = function(data, scales) {
 
-                                data$x    <- mean(data$x)
-                                data$xend <- mean(data$x)
-                                data$y    <- ranges$y[1]
-                                data$yend <- ranges$y[2]
-
-                                GeomSegment$draw_panel(unique(data), panel_params, coord)
+                                data.frame(x = mean(data$x))
 
                               },
 
-                              default_aes = ggplot2::aes(colour = "black", size = 0.5,
-                                                         linetype = 1, alpha = NA),
-                              required_aes = "x",
-
-                              draw_key = ggplot2::draw_key_vline
+                              required_aes = c("x")
 )
 
 
-
-#' Lines defined by mean value of x
-#'
+#' Place point at mean of x and mean of y
 #'
 #' @param mapping
 #' @param data
-#' @param ...
-#' @param x
+#' @param position
 #' @param na.rm
 #' @param show.legend
+#' @param inherit.aes
+#' @param ...
 #'
 #' @return
 #' @export
 #'
 #' @examples
 #' library(ggplot2)
-#' ggplot(data = cars, mapping = aes(x = speed, y = dist)) +
-#' geom_point() + geom_x_mean()
+#' ggplot(cars) + aes(x = speed, y = dist) +
+#' geom_point() + geom_x_mean(size = 1.5) + aes(color = speed > 14)
 geom_x_mean <- function(mapping = NULL, data = NULL,
-                       ...,
-                       x,
-                       na.rm = FALSE,
-                       show.legend = NA) {
+                        position = "identity", na.rm = FALSE, show.legend = NA,
+                        inherit.aes = TRUE, ...) {
 
   ggplot2::layer(
-    data = data,
-    mapping = mapping,
-    stat = ggplot2::StatIdentity,
-    geom = GeomXmeanline,
-    position = ggplot2::PositionIdentity,
-    show.legend = show.legend,
-    inherit.aes = TRUE,
-    params = list(
-      na.rm = na.rm,
-      ...
-    )
+    stat = StatXmean, geom = GeomXline, data = data, mapping = mapping,
+    position = position, show.legend = show.legend, inherit.aes = inherit.aes,
+    params = list(na.rm = na.rm, ...)
   )
+
 }
+
+
+
+
+
 

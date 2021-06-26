@@ -4,11 +4,20 @@
 \alias{geom_x_line}
 \title{Lines defined by values of x}
 \usage{
-geom_x_line(mapping = NULL, data = NULL, ..., x, na.rm = FALSE,
-  show.legend = NA)
+geom_x_line(
+  mapping = NULL,
+  data = NULL,
+  ...,
+  x,
+  na.rm = FALSE,
+  show.legend = NA
+)
 }
 \arguments{
 \item{show.legend}{}
+}
+\value{
+
 }
 \description{
 Lines defined by values of x
@@ -16,5 +25,5 @@ Lines defined by values of x
 \examples{
 library(ggplot2)
 ggplot(data = cars, mapping = aes(x = speed, y = dist)) +
-geom_point() + geom_x_line()
+geom_point() + geom_x_line() + aes(color = speed > 15)
 }
