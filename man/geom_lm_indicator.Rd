@@ -26,6 +26,25 @@ Drawing prediction interval for OLS linear model
 \examples{
 library(ggplot2)
 library(dplyr)
+library(magrittr)
+
+starwars \%>\%
+   filter(mass < 1000) \%>\%
+   tidyr::drop_na(mass, height, sex) ->
+ my_data
+
+ my_data \%>\%
+   lm(mass ~ height + sex, data = .) ->
+ model
+
+data.frame(x = my_data$height,
+y = model$fitted.values,
+group = my_data$sex) \%>\%
+ggplot() +
+aes(x = x, y = y, group = group) +
+geom_point() +
+geom_line()
+
 starwars \%>\%
 filter(mass < 1000) \%>\%
 mutate(sex_numeric = sex \%>\% as.factor() \%>\% as.numeric())  \%>\%

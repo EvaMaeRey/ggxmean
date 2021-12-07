@@ -1,17 +1,20 @@
+compute_group_ols_intercept <- function(data, scales) {
+
+  # prep
+  model <- lm(data$y ~ data$x)
+
+  # output dataframe
+  data.frame(y = model$coefficients[1],
+             x = 0)
+
+}
+
+
 StatOlsintercept <- ggplot2::ggproto("StatOlsintercept",
                                      ggplot2::Stat,
-                                     compute_group = function(data, scales) {
+                                     required_aes = c("x", "y"),
+                                     compute_group = compute_group_ols_intercept
 
-
-                                       model <- lm(data$y ~ data$x)
-
-
-                                       data.frame(y = model$coefficients[1],
-                                                  x = 0)
-
-                                     },
-
-                                     required_aes = c("x", "y")
 )
 
 

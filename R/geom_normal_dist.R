@@ -1,21 +1,21 @@
+compute_group_dnorm <- function(data, scales, height = 1,
+         sd_min = -4, sd_max = 4) {
+
+  sd <- sd(data$x)
+  mean <- mean(data$x)
+
+  seq(sd_min, sd_max, .01) %>%
+    tibble(x = .) %>%
+    mutate(y = dnorm(x)*height/sd) %>%
+    mutate(x = x*sd + mean) %>%
+    mutate(alpha = .4)
+
+}
+
 StatDnorm <- ggplot2::ggproto("StatDnorm",
                               ggplot2::Stat,
-                              compute_group = function(data, scales, height = 1,
-                                                       sd_min = -4, sd_max = 4) {
-
-                                sd <- sd(data$x)
-                                mean <- mean(data$x)
-
-                                seq(sd_min, sd_max, .01) %>%
-                                  tibble(x = .) %>%
-                                  mutate(y = dnorm(x)*height/sd) %>%
-                                  mutate(x = x*sd + mean) %>%
-                                  mutate(alpha = .4)
-
-                              },
-
-                              required_aes = c("x")
-)
+                              compute_group = compute_group_dnorm,
+                              required_aes = c("x"))
 
 #' Fits normal distribution based on standard deviation
 #'

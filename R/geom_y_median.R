@@ -1,35 +1,30 @@
-GeomYmedianline <- ggplot2::ggproto("GeomYmedianline", ggplot2::Geom,
-                              draw_panel = function(data, panel_params, coord) {
+draw_panel_ymedianline <- function(data, panel_params, coord) {
 
-                                ranges <- coord$backtransform_range(panel_params)
+  ranges <- coord$backtransform_range(panel_params)
 
-                                data$y    <- median(data$y)
-                                data$yend <- median(data$y)
-                                data$x    <- ranges$x[1]
-                                data$xend <- ranges$x[2]
+  data$y    <- median(data$y)
+  data$yend <- median(data$y)
+  data$x    <- ranges$x[1]
+  data$xend <- ranges$x[2]
 
-                                GeomSegment$draw_panel(unique(data), panel_params, coord)
+  GeomSegment$draw_panel(unique(data), panel_params, coord)
 
-                              },
+}
 
-                              default_aes = ggplot2::aes(colour = "black", size = 0.5,
+GeomYmedianline <- ggplot2::ggproto(`_class` = "GeomYmedianline",
+                                    `_inherit` = ggplot2::Geom,
+                                    required_aes = "y",
+                                    draw_panel = draw_panel_ymedianline,
+                                    default_aes = ggplot2::aes(colour = "black", size = 0.5,
                                                          linetype = 1, alpha = NA),
-                              required_aes = "y",
-
-                              draw_key = ggplot2::draw_key_vline
+                                    draw_key = ggplot2::draw_key_vline
 )
-
 
 
 #' Lines defined by median value of y
 #'
 #'
-#' @param mapping
-#' @param data
-#' @param ...
-#' @param y
-#' @param na.rm
-#' @param show.legend
+#' @inheritParams ggplot2::geom_line
 #'
 #' @return
 #' @export
@@ -37,7 +32,8 @@ GeomYmedianline <- ggplot2::ggproto("GeomYmedianline", ggplot2::Geom,
 #' @examples
 #' library(ggplot2)
 #' ggplot(data = cars, mapping = aes(x = speed, y = dist)) +
-#' geom_point() + geom_y_median()
+#' geom_point() +
+#' geom_y_median()
 geom_y_median <- function(mapping = NULL, data = NULL,
                        ...,
                        y,

@@ -27,12 +27,20 @@ StatYdiff <- ggplot2::ggproto("StatYdiff",
 #' @export
 #'
 #' @examples
-geom_xy_xymean <- function(mapping = NULL, data = NULL,
-                       position = "identity", na.rm = FALSE, show.legend = NA,
+geom_xy_xymean <- function(mapping = NULL,
+                           data = NULL,
+                       position = "identity",
+                       na.rm = FALSE,
+                       show.legend = NA,
                        inherit.aes = TRUE, ...) {
   ggplot2::layer(
-    stat = StatYdiff, geom = ggplot2::GeomSegment, data = data, mapping = mapping,
-    position = position, show.legend = show.legend, inherit.aes = inherit.aes,
+    stat = StatYdiff,
+    geom = ggplot2::GeomSegment,
+    data = data,
+    mapping = mapping,
+    position = position,
+    show.legend = show.legend,
+    inherit.aes = inherit.aes,
     params = list(na.rm = na.rm, ...)
   )
 }
