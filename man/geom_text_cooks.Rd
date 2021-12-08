@@ -21,10 +21,12 @@ a scatter plot with points that are labeled
 Returns a scatter plot with points that are labeled
 }
 \examples{
+library(ggplot2)
+library(magrittr)
 cars \%>\%
 ggplot(aes(x = speed, y = dist)) +
 geom_point() +
 geom_lm() +
 geom_text_cooks(check_overlap = TRUE,
-digits = 2)
+digits = 1)
 }

@@ -21,8 +21,10 @@ a scatter plot with points that are colored if they have a high cooks distance
 Returns a scatter plot with points that are colored if they have a high cooks distance
 }
 \examples{
-mycars \%>\%
-ggplot(aes(x = x, y = y)) +
+library(ggplot2)
+library(magrittr)
+cars \%>\%
+ggplot(aes(x = speed, y = dist)) +
 geom_point() +
 geom_point_high_cooks(color = 'red')
 }

@@ -43,12 +43,14 @@ StatCooks <- ggplot2::ggproto(`_class` = "StatCooks",
 #' @export
 #'
 #' @examples
+#' library(ggplot2)
+#' library(magrittr)
 #' cars %>%
 #' ggplot(aes(x = speed, y = dist)) +
 #' geom_point() +
 #' geom_lm() +
 #' geom_text_cooks(check_overlap = TRUE,
-#' digits = 2)
+#' digits = 1)
 geom_text_cooks<- function(mapping = NULL, data = NULL,
                                  position = "identity", na.rm = FALSE,
                                  show.legend = NA,

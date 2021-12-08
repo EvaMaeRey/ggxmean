@@ -39,8 +39,10 @@ StatCooksPoint <- ggplot2::ggproto(`_class` = "StatCooksPoint",
 #' @export
 #'
 #' @examples
-#' mycars %>%
-#' ggplot(aes(x = x, y = y)) +
+#' library(ggplot2)
+#' library(magrittr)
+#' cars %>%
+#' ggplot(aes(x = speed, y = dist)) +
 #' geom_point() +
 #' geom_point_high_cooks(color = 'red')
 geom_point_high_cooks<- function(mapping = NULL, data = NULL,
