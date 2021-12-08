@@ -153,18 +153,7 @@ geom_lm_residuals <- function(mapping = NULL, data = NULL,
 #   )
 # }
 
-### text formula
 
-good_digits <- function(x){
-
-formatC(signif(x, digits = 3),
-              digits = 3,
-              format="fg",
-              flag = "#") %>%
-    stringr::str_replace("\\.$", "")
-
-
-}
 
 StatOlsformula <- ggplot2::ggproto("StatOlsformula",
                                   ggplot2::Stat,
