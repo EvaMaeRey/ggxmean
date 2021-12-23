@@ -8,7 +8,7 @@ GeomXline <- ggplot2::ggproto("GeomXline", ggplot2::Geom,
                        data$y    <- ranges$y[1]
                        data$yend <- ranges$y[2]
 
-                       GeomSegment$draw_panel(unique(data), panel_params, coord)
+                       GeomSegment$draw_panel(data, panel_params, coord)
 
                      },
 
@@ -37,7 +37,8 @@ GeomXline <- ggplot2::ggproto("GeomXline", ggplot2::Geom,
 #' @examples
 #' library(ggplot2)
 #' ggplot(data = cars, mapping = aes(x = speed, y = dist)) +
-#' geom_point() + geom_x_line() + aes(color = speed > 15)
+#' geom_point() +
+#' geom_x_line(alpha = .25) + aes(color = speed > 15)
 geom_x_line <- function(mapping = NULL, data = NULL,
                        ...,
                        x,
