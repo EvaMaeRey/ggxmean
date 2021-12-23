@@ -12,10 +12,10 @@ GeomYline <- ggplot2::ggproto("GeomYline", ggplot2::Geom,
 
                      },
 
-                     default_aes = ggplot2::aes(colour = "black",
-                                                size = 0.5,
-                                                linetype = 1,
-                                                alpha = NA),
+                     # default_aes = ggplot2::aes(colour = "black",
+                     #                            size = 0.5,
+                     #                            linetype = 1,
+                     #                            alpha = NA),
                      required_aes = "y",
 
                      draw_key = ggplot2::draw_key_vline
