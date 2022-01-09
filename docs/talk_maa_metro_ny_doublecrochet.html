@@ -1,0 +1,2457 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+  <head>
+    <title>Extending ggplot2 statistical geometries</title>
+    <meta charset="utf-8" />
+    <meta name="author" content="Gina Reynolds" />
+    <script src="libs/header-attrs-2.6/header-attrs.js"></script>
+    <link href="libs/remark-css-0.0.1/default.css" rel="stylesheet" />
+    <link href="libs/remark-css-0.0.1/default-fonts.css" rel="stylesheet" />
+  </head>
+  <body>
+    <textarea id="source">
+
+
+---
+class: inverse
+
+####From source .Rmd:
+
+ ---
+
+```default
+ title: "Extending ggplot2 statistical geometries"
+ subtitle: "MAA Metro New York"  
+ author: "Gina Reynolds"
+ date: 'Saturday May 1, 2021, 11AM'
+ output:
+   xaringan::moon_reader:
+     lib_dir: libs
+     seal: false
+     nature:
+       ratio: 16:10
+       highlightStyle: github
+       highlightLines: true
+       countIncrementalSlides: false
+       beforeInit: "https://platform.twitter.com/widgets.js"
+```
+
+
+---
+class: inverse
+
+####From source .Rmd:
+
+ ---
+
+````default
+
+class: inverse
+background-image: url(https://images.unsplash.com/photo-1482685945432-29a7abf2f466?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&amp;ixlib=rb-1.2.1&amp;auto=format&amp;fit=crop&amp;w=1532&amp;q=80)
+background-size: cover
+
+# Extending ggplot2 statistical geometries
+## MAA Metro New York
+### Dr. Evangeline 'Gina' Reynolds
+
+### Saturday May 1, 2021, 11AM
+#### Photo Credit: Mike Lewis HeadSmart Media
+
+```{r, include = F}
+ knitr::opts_chunk$set(echo = T, comment = "", message = F, 
+                       warning = F, cache = T, fig.retina = 3)
+ library(tidyverse)
+ library(flipbookr)
+ library(xaringanthemer)
+ xaringanthemer::mono_light(
+   base_color = "#02075D",
+   # header_font_google = google_font("Josefin Sans"),
+   # text_font_google   = google_font("Montserrat", "200", "200i"),
+   # code_font_google   = google_font("Droid Mono"),
+   text_font_size = ".85cm",
+   code_font_size = ".15cm")
+theme_set(theme_gray(base_size = 20))
+```
+
+````
+---
+
+class: inverse
+background-image: url(https://images.unsplash.com/photo-1482685945432-29a7abf2f466?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&amp;ixlib=rb-1.2.1&amp;auto=format&amp;fit=crop&amp;w=1532&amp;q=80)
+background-size: cover
+
+# Extending ggplot2 statistical geometries
+## MAA Metro New York
+### Dr. Evangeline 'Gina' Reynolds
+
+### Saturday May 1, 2021, 11AM
+#### Photo Credit: Mike Lewis HeadSmart Media
+
+
+
+
+
+
+
+
+---
+class: inverse
+
+####From source .Rmd:
+
+ ---
+
+```default
+ 
+![](https://www2.stat.duke.edu/courses/Spring20/sta199.002/slides/img/02a/grammar-of-graphics.png)
+ 
+```
+---
+ 
+![](https://www2.stat.duke.edu/courses/Spring20/sta199.002/slides/img/02a/grammar-of-graphics.png)
+ 
+
+
+---
+class: inverse
+
+####From source .Rmd:
+
+ ---
+
+```default
+class: inverse, center middle
+
+
+# If visualization packages used this approach they would be able to "draw *every* statistical graphic".
+
+
+???
+   
+   
+   
+The grammar of graphics framework, proposed by Leland Wilkinson in 1999, that identified 'seven orthogonal components' in the creation of data visualizations.\
+Wilkinson asserted that if data visualization packages were created using a separation of concerns approach -- dividing decision making surrounding these components --- the packages would be able to "draw every statistical graphic". The grammar of graphic principles were incredibly powerful and gave rise to a number of visualization platforms including Tableau, vega-lite, and ggplot2.
+
+```
+---
+class: inverse, center middle
+
+
+# If visualization packages used this approach they would be able to "draw *every* statistical graphic".
+
+
+???
+   
+   
+   
+The grammar of graphics framework, proposed by Leland Wilkinson in 1999, that identified 'seven orthogonal components' in the creation of data visualizations.\
+Wilkinson asserted that if data visualization packages were created using a separation of concerns approach -- dividing decision making surrounding these components --- the packages would be able to "draw every statistical graphic". The grammar of graphic principles were incredibly powerful and gave rise to a number of visualization platforms including Tableau, vega-lite, and ggplot2.
+
+
+
+---
+class: inverse
+
+####From source .Rmd:
+
+ ---
+
+```default
+
+# Creators enjoy freedom, fine control
+
+--
+
+# Grammar of graphics inspired:
+
+--
+
+#- Tableau
+#- vega-lite
+#- ggplot2
+
+```
+---
+
+# Creators enjoy freedom, fine control
+
+--
+
+# Grammar of graphics inspired:
+
+--
+
+#- Tableau
+#- vega-lite
+#- ggplot2
+
+
+
+
+---
+class: inverse
+
+####From source .Rmd:
+
+ ---
+
+```default
+
+### Use ggplot2 in the classroom because R, and ...
+
+--
+
+![](https://pkg.garrickadenbuie.com/gentle-ggplot2/images/hadley.jpg)
+
+
+&gt; The transferrable skills from ggplot2 are not the idiosyncracies of plotting syntax, but a **powerful way of thinking about visualisation**, as a way of mapping between variables and the visual properties of geometric objects that you can perceive.
+
+
+???
+
+Statistical educators that introduce students to one of these tools arguably are doing more than constructing one-off plots to discuss statistical principles with students: they are introducing students to 'a powerful way of thinking about data visualization'.
+
+Statistical educators often use ggplot2 as their grammar-of-graphics-based data visualization tool as students can learn it along side the rich statistical ecosystem of the R programming language. The R programming language thus may serve as a one-stop-shop for statistical tooling; with recent developments in packages and IDEs writing code is becoming more accessible and welcoming to newcomers.
+
+```
+---
+
+### Use ggplot2 in the classroom because R, and ...
+
+--
+
+![](https://pkg.garrickadenbuie.com/gentle-ggplot2/images/hadley.jpg)
+
+
+&gt; The transferrable skills from ggplot2 are not the idiosyncracies of plotting syntax, but a **powerful way of thinking about visualisation**, as a way of mapping between variables and the visual properties of geometric objects that you can perceive.
+
+
+???
+
+Statistical educators that introduce students to one of these tools arguably are doing more than constructing one-off plots to discuss statistical principles with students: they are introducing students to 'a powerful way of thinking about data visualization'.
+
+Statistical educators often use ggplot2 as their grammar-of-graphics-based data visualization tool as students can learn it along side the rich statistical ecosystem of the R programming language. The R programming language thus may serve as a one-stop-shop for statistical tooling; with recent developments in packages and IDEs writing code is becoming more accessible and welcoming to newcomers.
+
+
+
+---
+class: inverse
+
+####From source .Rmd:
+
+ ---
+
+```default
+
+
+???
+
+
+Still, using ggplot2 for statistical education can be a challenge at times. When it is used to discuss statistical concepts, sometimes it feels as though getting something done with the plotting library derails the focus on discussion of statistical concepts and material.
+
+```
+---
+
+
+???
+
+
+Still, using ggplot2 for statistical education can be a challenge at times. When it is used to discuss statistical concepts, sometimes it feels as though getting something done with the plotting library derails the focus on discussion of statistical concepts and material.
+
+
+
+---
+class: inverse
+
+####From source .Rmd:
+
+ ---
+
+```default
+class: inverse, center, middle
+
+# The problem
+
+--
+
+## sometimes ggplot2 is hard
+
+```
+---
+class: inverse, center, middle
+
+# The problem
+
+--
+
+## sometimes ggplot2 is hard
+
+
+
+---
+class: inverse
+
+####From source .Rmd:
+
+ ---
+
+````default
+
+
+## The status quo: adding the mean
+
+```{r, echo = F}
+library(ggplot2)
+ggplot(airquality) + 
+  aes(x = Ozone) + 
+  geom_histogram() + 
+  ggxmean::geom_x_mean()
+```
+
+
+???
+
+Consider for example, a the seemingly simple enterprise of adding a vertical line at the mean of x, perhaps atop a histogram or density plot.
+
+````
+---
+
+
+## The status quo: adding the mean
+
+&lt;img src="talk_maa_metro_ny_doublecrochet_files/figure-html/unnamed-chunk-11-1.png" width="504" /&gt;
+
+
+???
+
+Consider for example, a the seemingly simple enterprise of adding a vertical line at the mean of x, perhaps atop a histogram or density plot.
+
+
+
+---
+class: inverse
+
+####From source .Rmd:
+
+ ---
+
+````default
+
+`r chunk_reveal("basic", title = "### Adding the mean at x w/ base ggplot2")`
+
+```{r basic}
+ggplot(data = airquality) + 
+  aes(x = Ozone) + 
+  geom_histogram() + 
+  geom_vline(
+    xintercept = 
+      mean(airquality$Ozone, 
+           na.rm = T)
+    )
+```
+ 
+ 
+???
+
+Creating this plot requires greater focus on ggplot2 *syntax*, likely detracting from discussion of *the mean* that statistical instructors desire.
+
+It may require a discussion about dollar sign syntax and how geom_vline is actually a special geom -- an annotation -- rather than being mapped to the data. None of this is relevant to the point you as an instructor aim to make: maybe that the the mean is the balancing point of the data or maybe a comment about skewness.
+
+````
+---
+
+count: false
+ 
+### Adding the mean at x w/ base ggplot2
+.panel1-basic-auto[
+
+```r
+*ggplot(data = airquality)
+```
+]
+ 
+.panel2-basic-auto[
+&lt;img src="talk_maa_metro_ny_doublecrochet_files/figure-html/basic_auto_01_output-1.png" width="504" /&gt;
+]
+
+---
+count: false
+ 
+### Adding the mean at x w/ base ggplot2
+.panel1-basic-auto[
+
+```r
+ggplot(data = airquality) +
+* aes(x = Ozone)
+```
+]
+ 
+.panel2-basic-auto[
+&lt;img src="talk_maa_metro_ny_doublecrochet_files/figure-html/basic_auto_02_output-1.png" width="504" /&gt;
+]
+
+---
+count: false
+ 
+### Adding the mean at x w/ base ggplot2
+.panel1-basic-auto[
+
+```r
+ggplot(data = airquality) +
+  aes(x = Ozone) +
+* geom_histogram()
+```
+]
+ 
+.panel2-basic-auto[
+&lt;img src="talk_maa_metro_ny_doublecrochet_files/figure-html/basic_auto_03_output-1.png" width="504" /&gt;
+]
+
+---
+count: false
+ 
+### Adding the mean at x w/ base ggplot2
+.panel1-basic-auto[
+
+```r
+ggplot(data = airquality) +
+  aes(x = Ozone) +
+  geom_histogram() +
+* geom_vline(
+*   xintercept =
+*     mean(airquality$Ozone,
+*          na.rm = T)
+*   )
+```
+]
+ 
+.panel2-basic-auto[
+&lt;img src="talk_maa_metro_ny_doublecrochet_files/figure-html/basic_auto_04_output-1.png" width="504" /&gt;
+]
+
+&lt;style&gt;
+.panel1-basic-auto {
+  color: black;
+  width: 38.6060606060606%;
+  hight: 32%;
+  float: left;
+  padding-left: 1%;
+  font-size: 80%
+}
+.panel2-basic-auto {
+  color: black;
+  width: 59.3939393939394%;
+  hight: 32%;
+  float: left;
+  padding-left: 1%;
+  font-size: 80%
+}
+.panel3-basic-auto {
+  color: black;
+  width: NA%;
+  hight: 33%;
+  float: left;
+  padding-left: 1%;
+  font-size: 80%
+}
+&lt;/style&gt;
+
+
+
+
+```r
+ggplot(data = airquality) + 
+  aes(x = Ozone) + 
+  geom_histogram() + 
+  geom_vline(
+    xintercept = 
+      mean(airquality$Ozone, 
+           na.rm = T)
+    )
+```
+
+&lt;img src="talk_maa_metro_ny_doublecrochet_files/figure-html/basic-1.png" width="504" /&gt;
+ 
+ 
+???
+
+Creating this plot requires greater focus on ggplot2 *syntax*, likely detracting from discussion of *the mean* that statistical instructors desire.
+
+It may require a discussion about dollar sign syntax and how geom_vline is actually a special geom -- an annotation -- rather than being mapped to the data. None of this is relevant to the point you as an instructor aim to make: maybe that the the mean is the balancing point of the data or maybe a comment about skewness.
+
+
+
+
+---
+class: inverse
+
+####From source .Rmd:
+
+ ---
+
+````default
+
+### Adding the conditional means
+
+```{r cond_means_hard, echo = F}
+airquality %&gt;% 
+  group_by(Month) %&gt;% 
+  summarise(
+    Ozone_mean = 
+      mean(Ozone, na.rm = T)
+    ) -&gt;
+airquality_by_month
+
+ggplot(airquality) + 
+  aes(x = Ozone) + 
+  geom_histogram() + 
+  facet_grid(rows = vars(Month)) +
+  geom_vline(data = airquality_by_month, 
+             aes(xintercept = 
+               Ozone_mean))
+```
+
+
+???
+
+Further, for the case of adding a vertical line at the mean for different subsets of the data, a different approach is required. This enterprise may take instructor/analyst/student on an even larger detour -- possibly googling, and maybe landing on the following stack overflow page where 11,000 analytics souls (some repeats to be sure) have landed:
+
+&lt;https://stackoverflow.com/questions/1644661/add-a-vertical-line-with-different-intercept-for-each-panel-in-ggplot2&gt;
+
+The solutions to this problem involve data manipulation *prior* to plotting the data. The solution disrupts the forward flow ggplot build. One must take a pause, which may involve toggling back and forth between stack overflow solutions, disrupting momentum you are working on to talk about the pooled mean and the conditional mean.
+
+````
+---
+
+### Adding the conditional means
+
+&lt;img src="talk_maa_metro_ny_doublecrochet_files/figure-html/cond_means_hard-1.png" width="504" /&gt;
+
+
+???
+
+Further, for the case of adding a vertical line at the mean for different subsets of the data, a different approach is required. This enterprise may take instructor/analyst/student on an even larger detour -- possibly googling, and maybe landing on the following stack overflow page where 11,000 analytics souls (some repeats to be sure) have landed:
+
+&lt;https://stackoverflow.com/questions/1644661/add-a-vertical-line-with-different-intercept-for-each-panel-in-ggplot2&gt;
+
+The solutions to this problem involve data manipulation *prior* to plotting the data. The solution disrupts the forward flow ggplot build. One must take a pause, which may involve toggling back and forth between stack overflow solutions, disrupting momentum you are working on to talk about the pooled mean and the conditional mean.
+
+
+
+
+
+---
+class: inverse
+
+####From source .Rmd:
+
+ ---
+
+```default
+
+`r chunk_reveal("cond_means_hard", title = "#### Conditional means (may require a trip to stackoverflow!)")`
+
+```
+---
+
+count: false
+ 
+#### Conditional means (may require a trip to stackoverflow!)
+.panel1-cond_means_hard-auto[
+
+```r
+*airquality
+```
+]
+ 
+.panel2-cond_means_hard-auto[
+
+```
+    Ozone Solar.R Wind Temp Month Day
+1      41     190  7.4   67     5   1
+2      36     118  8.0   72     5   2
+3      12     149 12.6   74     5   3
+4      18     313 11.5   62     5   4
+5      NA      NA 14.3   56     5   5
+6      28      NA 14.9   66     5   6
+7      23     299  8.6   65     5   7
+8      19      99 13.8   59     5   8
+9       8      19 20.1   61     5   9
+10     NA     194  8.6   69     5  10
+11      7      NA  6.9   74     5  11
+12     16     256  9.7   69     5  12
+13     11     290  9.2   66     5  13
+14     14     274 10.9   68     5  14
+15     18      65 13.2   58     5  15
+16     14     334 11.5   64     5  16
+17     34     307 12.0   66     5  17
+18      6      78 18.4   57     5  18
+19     30     322 11.5   68     5  19
+20     11      44  9.7   62     5  20
+21      1       8  9.7   59     5  21
+22     11     320 16.6   73     5  22
+23      4      25  9.7   61     5  23
+24     32      92 12.0   61     5  24
+25     NA      66 16.6   57     5  25
+26     NA     266 14.9   58     5  26
+27     NA      NA  8.0   57     5  27
+28     23      13 12.0   67     5  28
+29     45     252 14.9   81     5  29
+30    115     223  5.7   79     5  30
+31     37     279  7.4   76     5  31
+32     NA     286  8.6   78     6   1
+33     NA     287  9.7   74     6   2
+34     NA     242 16.1   67     6   3
+35     NA     186  9.2   84     6   4
+36     NA     220  8.6   85     6   5
+37     NA     264 14.3   79     6   6
+38     29     127  9.7   82     6   7
+39     NA     273  6.9   87     6   8
+40     71     291 13.8   90     6   9
+41     39     323 11.5   87     6  10
+42     NA     259 10.9   93     6  11
+43     NA     250  9.2   92     6  12
+44     23     148  8.0   82     6  13
+45     NA     332 13.8   80     6  14
+46     NA     322 11.5   79     6  15
+47     21     191 14.9   77     6  16
+48     37     284 20.7   72     6  17
+49     20      37  9.2   65     6  18
+50     12     120 11.5   73     6  19
+51     13     137 10.3   76     6  20
+52     NA     150  6.3   77     6  21
+53     NA      59  1.7   76     6  22
+54     NA      91  4.6   76     6  23
+55     NA     250  6.3   76     6  24
+56     NA     135  8.0   75     6  25
+57     NA     127  8.0   78     6  26
+58     NA      47 10.3   73     6  27
+59     NA      98 11.5   80     6  28
+60     NA      31 14.9   77     6  29
+61     NA     138  8.0   83     6  30
+62    135     269  4.1   84     7   1
+63     49     248  9.2   85     7   2
+64     32     236  9.2   81     7   3
+65     NA     101 10.9   84     7   4
+66     64     175  4.6   83     7   5
+67     40     314 10.9   83     7   6
+68     77     276  5.1   88     7   7
+69     97     267  6.3   92     7   8
+70     97     272  5.7   92     7   9
+71     85     175  7.4   89     7  10
+72     NA     139  8.6   82     7  11
+73     10     264 14.3   73     7  12
+74     27     175 14.9   81     7  13
+75     NA     291 14.9   91     7  14
+76      7      48 14.3   80     7  15
+77     48     260  6.9   81     7  16
+78     35     274 10.3   82     7  17
+79     61     285  6.3   84     7  18
+80     79     187  5.1   87     7  19
+81     63     220 11.5   85     7  20
+82     16       7  6.9   74     7  21
+83     NA     258  9.7   81     7  22
+84     NA     295 11.5   82     7  23
+85     80     294  8.6   86     7  24
+86    108     223  8.0   85     7  25
+87     20      81  8.6   82     7  26
+88     52      82 12.0   86     7  27
+89     82     213  7.4   88     7  28
+90     50     275  7.4   86     7  29
+91     64     253  7.4   83     7  30
+92     59     254  9.2   81     7  31
+93     39      83  6.9   81     8   1
+94      9      24 13.8   81     8   2
+95     16      77  7.4   82     8   3
+96     78      NA  6.9   86     8   4
+97     35      NA  7.4   85     8   5
+98     66      NA  4.6   87     8   6
+99    122     255  4.0   89     8   7
+100    89     229 10.3   90     8   8
+101   110     207  8.0   90     8   9
+102    NA     222  8.6   92     8  10
+103    NA     137 11.5   86     8  11
+104    44     192 11.5   86     8  12
+105    28     273 11.5   82     8  13
+106    65     157  9.7   80     8  14
+107    NA      64 11.5   79     8  15
+108    22      71 10.3   77     8  16
+109    59      51  6.3   79     8  17
+110    23     115  7.4   76     8  18
+111    31     244 10.9   78     8  19
+112    44     190 10.3   78     8  20
+113    21     259 15.5   77     8  21
+114     9      36 14.3   72     8  22
+115    NA     255 12.6   75     8  23
+116    45     212  9.7   79     8  24
+117   168     238  3.4   81     8  25
+118    73     215  8.0   86     8  26
+119    NA     153  5.7   88     8  27
+120    76     203  9.7   97     8  28
+121   118     225  2.3   94     8  29
+122    84     237  6.3   96     8  30
+123    85     188  6.3   94     8  31
+124    96     167  6.9   91     9   1
+125    78     197  5.1   92     9   2
+126    73     183  2.8   93     9   3
+127    91     189  4.6   93     9   4
+128    47      95  7.4   87     9   5
+129    32      92 15.5   84     9   6
+130    20     252 10.9   80     9   7
+131    23     220 10.3   78     9   8
+132    21     230 10.9   75     9   9
+133    24     259  9.7   73     9  10
+134    44     236 14.9   81     9  11
+135    21     259 15.5   76     9  12
+136    28     238  6.3   77     9  13
+137     9      24 10.9   71     9  14
+138    13     112 11.5   71     9  15
+139    46     237  6.9   78     9  16
+140    18     224 13.8   67     9  17
+141    13      27 10.3   76     9  18
+142    24     238 10.3   68     9  19
+143    16     201  8.0   82     9  20
+144    13     238 12.6   64     9  21
+145    23      14  9.2   71     9  22
+146    36     139 10.3   81     9  23
+147     7      49 10.3   69     9  24
+148    14      20 16.6   63     9  25
+149    30     193  6.9   70     9  26
+150    NA     145 13.2   77     9  27
+151    14     191 14.3   75     9  28
+152    18     131  8.0   76     9  29
+153    20     223 11.5   68     9  30
+```
+]
+
+---
+count: false
+ 
+#### Conditional means (may require a trip to stackoverflow!)
+.panel1-cond_means_hard-auto[
+
+```r
+airquality %&gt;%
+* group_by(Month)
+```
+]
+ 
+.panel2-cond_means_hard-auto[
+
+```
+# A tibble: 153 x 6
+# Groups:   Month [5]
+   Ozone Solar.R  Wind  Temp Month   Day
+   &lt;int&gt;   &lt;int&gt; &lt;dbl&gt; &lt;int&gt; &lt;int&gt; &lt;int&gt;
+ 1    41     190   7.4    67     5     1
+ 2    36     118   8      72     5     2
+ 3    12     149  12.6    74     5     3
+ 4    18     313  11.5    62     5     4
+ 5    NA      NA  14.3    56     5     5
+ 6    28      NA  14.9    66     5     6
+ 7    23     299   8.6    65     5     7
+ 8    19      99  13.8    59     5     8
+ 9     8      19  20.1    61     5     9
+10    NA     194   8.6    69     5    10
+# … with 143 more rows
+```
+]
+
+---
+count: false
+ 
+#### Conditional means (may require a trip to stackoverflow!)
+.panel1-cond_means_hard-auto[
+
+```r
+airquality %&gt;%
+  group_by(Month) %&gt;%
+* summarise(
+*   Ozone_mean =
+*     mean(Ozone, na.rm = T)
+*   )
+```
+]
+ 
+.panel2-cond_means_hard-auto[
+
+```
+# A tibble: 5 x 2
+  Month Ozone_mean
+  &lt;int&gt;      &lt;dbl&gt;
+1     5       23.6
+2     6       29.4
+3     7       59.1
+4     8       60.0
+5     9       31.4
+```
+]
+
+---
+count: false
+ 
+#### Conditional means (may require a trip to stackoverflow!)
+.panel1-cond_means_hard-auto[
+
+```r
+airquality %&gt;%
+  group_by(Month) %&gt;%
+  summarise(
+    Ozone_mean =
+      mean(Ozone, na.rm = T)
+    ) -&gt;
+*airquality_by_month
+```
+]
+ 
+.panel2-cond_means_hard-auto[
+
+]
+
+---
+count: false
+ 
+#### Conditional means (may require a trip to stackoverflow!)
+.panel1-cond_means_hard-auto[
+
+```r
+airquality %&gt;%
+  group_by(Month) %&gt;%
+  summarise(
+    Ozone_mean =
+      mean(Ozone, na.rm = T)
+    ) -&gt;
+airquality_by_month
+
+*ggplot(airquality)
+```
+]
+ 
+.panel2-cond_means_hard-auto[
+&lt;img src="talk_maa_metro_ny_doublecrochet_files/figure-html/cond_means_hard_auto_05_output-1.png" width="504" /&gt;
+]
+
+---
+count: false
+ 
+#### Conditional means (may require a trip to stackoverflow!)
+.panel1-cond_means_hard-auto[
+
+```r
+airquality %&gt;%
+  group_by(Month) %&gt;%
+  summarise(
+    Ozone_mean =
+      mean(Ozone, na.rm = T)
+    ) -&gt;
+airquality_by_month
+
+ggplot(airquality) +
+* aes(x = Ozone)
+```
+]
+ 
+.panel2-cond_means_hard-auto[
+&lt;img src="talk_maa_metro_ny_doublecrochet_files/figure-html/cond_means_hard_auto_06_output-1.png" width="504" /&gt;
+]
+
+---
+count: false
+ 
+#### Conditional means (may require a trip to stackoverflow!)
+.panel1-cond_means_hard-auto[
+
+```r
+airquality %&gt;%
+  group_by(Month) %&gt;%
+  summarise(
+    Ozone_mean =
+      mean(Ozone, na.rm = T)
+    ) -&gt;
+airquality_by_month
+
+ggplot(airquality) +
+  aes(x = Ozone) +
+* geom_histogram()
+```
+]
+ 
+.panel2-cond_means_hard-auto[
+&lt;img src="talk_maa_metro_ny_doublecrochet_files/figure-html/cond_means_hard_auto_07_output-1.png" width="504" /&gt;
+]
+
+---
+count: false
+ 
+#### Conditional means (may require a trip to stackoverflow!)
+.panel1-cond_means_hard-auto[
+
+```r
+airquality %&gt;%
+  group_by(Month) %&gt;%
+  summarise(
+    Ozone_mean =
+      mean(Ozone, na.rm = T)
+    ) -&gt;
+airquality_by_month
+
+ggplot(airquality) +
+  aes(x = Ozone) +
+  geom_histogram() +
+* facet_grid(rows = vars(Month))
+```
+]
+ 
+.panel2-cond_means_hard-auto[
+&lt;img src="talk_maa_metro_ny_doublecrochet_files/figure-html/cond_means_hard_auto_08_output-1.png" width="504" /&gt;
+]
+
+---
+count: false
+ 
+#### Conditional means (may require a trip to stackoverflow!)
+.panel1-cond_means_hard-auto[
+
+```r
+airquality %&gt;%
+  group_by(Month) %&gt;%
+  summarise(
+    Ozone_mean =
+      mean(Ozone, na.rm = T)
+    ) -&gt;
+airquality_by_month
+
+ggplot(airquality) +
+  aes(x = Ozone) +
+  geom_histogram() +
+  facet_grid(rows = vars(Month)) +
+* geom_vline(data = airquality_by_month,
+*            aes(xintercept =
+*              Ozone_mean))
+```
+]
+ 
+.panel2-cond_means_hard-auto[
+&lt;img src="talk_maa_metro_ny_doublecrochet_files/figure-html/cond_means_hard_auto_09_output-1.png" width="504" /&gt;
+]
+
+&lt;style&gt;
+.panel1-cond_means_hard-auto {
+  color: black;
+  width: 38.6060606060606%;
+  hight: 32%;
+  float: left;
+  padding-left: 1%;
+  font-size: 80%
+}
+.panel2-cond_means_hard-auto {
+  color: black;
+  width: 59.3939393939394%;
+  hight: 32%;
+  float: left;
+  padding-left: 1%;
+  font-size: 80%
+}
+.panel3-cond_means_hard-auto {
+  color: black;
+  width: NA%;
+  hight: 33%;
+  float: left;
+  padding-left: 1%;
+  font-size: 80%
+}
+&lt;/style&gt;
+
+
+
+
+
+---
+class: inverse
+
+####From source .Rmd:
+
+ ---
+
+```default
+
+
+
+# "...mastery of advanced programming skills should not be allowed to crowd out data analysis skills or statistical thinking." -- GAISE report
+
+--
+
+![](https://media.giphy.com/media/ycBW5N5XMfpXTvamtF/giphy.gif)
+
+```
+---
+
+
+
+# "...mastery of advanced programming skills should not be allowed to crowd out data analysis skills or statistical thinking." -- GAISE report
+
+--
+
+![](https://media.giphy.com/media/ycBW5N5XMfpXTvamtF/giphy.gif)
+
+
+
+---
+class: inverse
+
+####From source .Rmd:
+
+ ---
+
+```default
+
+
+class: inverse, center, bottom
+background-image: url(https://images.unsplash.com/photo-1482685945432-29a7abf2f466?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&amp;ixlib=rb-1.2.1&amp;auto=format&amp;fit=crop&amp;w=1532&amp;q=80)
+background-size: cover
+
+# But other statistical geometries in ggplot2 flow! 
+--
+... ggplot is known for being able to 'speak your plot into existence'.
+
+```
+---
+
+
+class: inverse, center, bottom
+background-image: url(https://images.unsplash.com/photo-1482685945432-29a7abf2f466?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&amp;ixlib=rb-1.2.1&amp;auto=format&amp;fit=crop&amp;w=1532&amp;q=80)
+background-size: cover
+
+# But other statistical geometries in ggplot2 flow! 
+--
+... ggplot is known for being able to 'speak your plot into existence'.
+
+
+
+---
+class: inverse
+
+####From source .Rmd:
+
+ ---
+
+```default
+
+# Declarative
+
+--
+
+## "Let there be a a box plot..."
+
+--
+
+## and there was a boxplot.
+
+--
+
+## "Let there be LOESS smoothing..."
+
+--
+
+## and there was loess smoothing
+
+```
+---
+
+# Declarative
+
+--
+
+## "Let there be a a box plot..."
+
+--
+
+## and there was a boxplot.
+
+--
+
+## "Let there be LOESS smoothing..."
+
+--
+
+## and there was loess smoothing
+
+
+
+
+---
+class: inverse
+
+####From source .Rmd:
+
+ ---
+
+````default
+
+`r chunk_reveal("base_gg_flow")`
+
+```{r base_gg_flow, include=F}
+ggplot(cars) + 
+  aes(x = speed) + 
+  aes(y = dist) +
+  geom_point() + 
+  geom_smooth() -&gt;
+g1
+
+library(palmerpenguins)
+ggplot(penguins) +
+  aes(x = species) +
+  aes(y = bill_length_mm) + 
+  geom_point() +
+  geom_boxplot()
+```
+
+````
+---
+
+count: false
+ 
+
+.panel1-base_gg_flow-auto[
+
+```r
+*ggplot(cars)
+```
+]
+ 
+.panel2-base_gg_flow-auto[
+&lt;img src="talk_maa_metro_ny_doublecrochet_files/figure-html/base_gg_flow_auto_01_output-1.png" width="504" /&gt;
+]
+
+---
+count: false
+ 
+
+.panel1-base_gg_flow-auto[
+
+```r
+ggplot(cars) +
+* aes(x = speed)
+```
+]
+ 
+.panel2-base_gg_flow-auto[
+&lt;img src="talk_maa_metro_ny_doublecrochet_files/figure-html/base_gg_flow_auto_02_output-1.png" width="504" /&gt;
+]
+
+---
+count: false
+ 
+
+.panel1-base_gg_flow-auto[
+
+```r
+ggplot(cars) +
+  aes(x = speed) +
+* aes(y = dist)
+```
+]
+ 
+.panel2-base_gg_flow-auto[
+&lt;img src="talk_maa_metro_ny_doublecrochet_files/figure-html/base_gg_flow_auto_03_output-1.png" width="504" /&gt;
+]
+
+---
+count: false
+ 
+
+.panel1-base_gg_flow-auto[
+
+```r
+ggplot(cars) +
+  aes(x = speed) +
+  aes(y = dist) +
+* geom_point()
+```
+]
+ 
+.panel2-base_gg_flow-auto[
+&lt;img src="talk_maa_metro_ny_doublecrochet_files/figure-html/base_gg_flow_auto_04_output-1.png" width="504" /&gt;
+]
+
+---
+count: false
+ 
+
+.panel1-base_gg_flow-auto[
+
+```r
+ggplot(cars) +
+  aes(x = speed) +
+  aes(y = dist) +
+  geom_point() +
+* geom_smooth()
+```
+]
+ 
+.panel2-base_gg_flow-auto[
+&lt;img src="talk_maa_metro_ny_doublecrochet_files/figure-html/base_gg_flow_auto_05_output-1.png" width="504" /&gt;
+]
+
+---
+count: false
+ 
+
+.panel1-base_gg_flow-auto[
+
+```r
+ggplot(cars) +
+  aes(x = speed) +
+  aes(y = dist) +
+  geom_point() +
+  geom_smooth() -&gt;
+*g1
+```
+]
+ 
+.panel2-base_gg_flow-auto[
+
+]
+
+---
+count: false
+ 
+
+.panel1-base_gg_flow-auto[
+
+```r
+ggplot(cars) +
+  aes(x = speed) +
+  aes(y = dist) +
+  geom_point() +
+  geom_smooth() -&gt;
+g1
+
+*library(palmerpenguins)
+```
+]
+ 
+.panel2-base_gg_flow-auto[
+
+]
+
+---
+count: false
+ 
+
+.panel1-base_gg_flow-auto[
+
+```r
+ggplot(cars) +
+  aes(x = speed) +
+  aes(y = dist) +
+  geom_point() +
+  geom_smooth() -&gt;
+g1
+
+library(palmerpenguins)
+*ggplot(penguins)
+```
+]
+ 
+.panel2-base_gg_flow-auto[
+&lt;img src="talk_maa_metro_ny_doublecrochet_files/figure-html/base_gg_flow_auto_08_output-1.png" width="504" /&gt;
+]
+
+---
+count: false
+ 
+
+.panel1-base_gg_flow-auto[
+
+```r
+ggplot(cars) +
+  aes(x = speed) +
+  aes(y = dist) +
+  geom_point() +
+  geom_smooth() -&gt;
+g1
+
+library(palmerpenguins)
+ggplot(penguins) +
+* aes(x = species)
+```
+]
+ 
+.panel2-base_gg_flow-auto[
+&lt;img src="talk_maa_metro_ny_doublecrochet_files/figure-html/base_gg_flow_auto_09_output-1.png" width="504" /&gt;
+]
+
+---
+count: false
+ 
+
+.panel1-base_gg_flow-auto[
+
+```r
+ggplot(cars) +
+  aes(x = speed) +
+  aes(y = dist) +
+  geom_point() +
+  geom_smooth() -&gt;
+g1
+
+library(palmerpenguins)
+ggplot(penguins) +
+  aes(x = species) +
+* aes(y = bill_length_mm)
+```
+]
+ 
+.panel2-base_gg_flow-auto[
+&lt;img src="talk_maa_metro_ny_doublecrochet_files/figure-html/base_gg_flow_auto_10_output-1.png" width="504" /&gt;
+]
+
+---
+count: false
+ 
+
+.panel1-base_gg_flow-auto[
+
+```r
+ggplot(cars) +
+  aes(x = speed) +
+  aes(y = dist) +
+  geom_point() +
+  geom_smooth() -&gt;
+g1
+
+library(palmerpenguins)
+ggplot(penguins) +
+  aes(x = species) +
+  aes(y = bill_length_mm) +
+* geom_point()
+```
+]
+ 
+.panel2-base_gg_flow-auto[
+&lt;img src="talk_maa_metro_ny_doublecrochet_files/figure-html/base_gg_flow_auto_11_output-1.png" width="504" /&gt;
+]
+
+---
+count: false
+ 
+
+.panel1-base_gg_flow-auto[
+
+```r
+ggplot(cars) +
+  aes(x = speed) +
+  aes(y = dist) +
+  geom_point() +
+  geom_smooth() -&gt;
+g1
+
+library(palmerpenguins)
+ggplot(penguins) +
+  aes(x = species) +
+  aes(y = bill_length_mm) +
+  geom_point() +
+* geom_boxplot()
+```
+]
+ 
+.panel2-base_gg_flow-auto[
+&lt;img src="talk_maa_metro_ny_doublecrochet_files/figure-html/base_gg_flow_auto_12_output-1.png" width="504" /&gt;
+]
+
+&lt;style&gt;
+.panel1-base_gg_flow-auto {
+  color: black;
+  width: 38.6060606060606%;
+  hight: 32%;
+  float: left;
+  padding-left: 1%;
+  font-size: 80%
+}
+.panel2-base_gg_flow-auto {
+  color: black;
+  width: 59.3939393939394%;
+  hight: 32%;
+  float: left;
+  padding-left: 1%;
+  font-size: 80%
+}
+.panel3-base_gg_flow-auto {
+  color: black;
+  width: NA%;
+  hight: 33%;
+  float: left;
+  padding-left: 1%;
+  font-size: 80%
+}
+&lt;/style&gt;
+
+
+
+
+
+
+
+
+---
+class: inverse
+
+####From source .Rmd:
+
+ ---
+
+```default
+
+
+# But, infrastructure to *extend* ggplot2 ...
+
+--
+
+
+--
+
+![](https://media.giphy.com/media/relSRdIMtKVcPrSfyT/giphy.gif)
+
+```
+---
+
+
+# But, infrastructure to *extend* ggplot2 ...
+
+--
+
+
+--
+
+![](https://media.giphy.com/media/relSRdIMtKVcPrSfyT/giphy.gif)
+
+
+
+
+---
+class: inverse
+
+####From source .Rmd:
+
+ ---
+
+```default
+
+## Build new statistical geometries that deliver the *flow* experience!
+
+--
+- # for students
+--
+
+- # for instructors
+--
+
+- # for analysts
+
+```
+---
+
+## Build new statistical geometries that deliver the *flow* experience!
+
+--
+- # for students
+--
+
+- # for instructors
+--
+
+- # for analysts
+
+
+
+
+---
+class: inverse
+
+####From source .Rmd:
+
+ ---
+
+```default
+class: center, inverse, middle
+
+# Introducing {ggxmean}
+
+--
+
+https://github.com/EvaMaeRey/ggxmean
+
+```
+---
+class: center, inverse, middle
+
+# Introducing {ggxmean}
+
+--
+
+https://github.com/EvaMaeRey/ggxmean
+
+
+
+
+---
+class: inverse
+
+####From source .Rmd:
+
+ ---
+
+````default
+
+`r chunk_reveal("geom_x_mean", title = "geom_x_mean()")`
+
+```{r geom_x_mean, include=F}
+library(ggplot2)
+library(ggxmean)
+ggplot(airquality) + 
+  aes(x = Ozone) + 
+  geom_histogram() + 
+  geom_x_mean() + 
+  facet_grid(rows = 
+               vars(Month))
+```
+
+````
+---
+
+count: false
+ 
+geom_x_mean()
+.panel1-geom_x_mean-auto[
+
+```r
+*library(ggplot2)
+```
+]
+ 
+.panel2-geom_x_mean-auto[
+
+]
+
+---
+count: false
+ 
+geom_x_mean()
+.panel1-geom_x_mean-auto[
+
+```r
+library(ggplot2)
+*library(ggxmean)
+```
+]
+ 
+.panel2-geom_x_mean-auto[
+
+]
+
+---
+count: false
+ 
+geom_x_mean()
+.panel1-geom_x_mean-auto[
+
+```r
+library(ggplot2)
+library(ggxmean)
+*ggplot(airquality)
+```
+]
+ 
+.panel2-geom_x_mean-auto[
+&lt;img src="talk_maa_metro_ny_doublecrochet_files/figure-html/geom_x_mean_auto_03_output-1.png" width="504" /&gt;
+]
+
+---
+count: false
+ 
+geom_x_mean()
+.panel1-geom_x_mean-auto[
+
+```r
+library(ggplot2)
+library(ggxmean)
+ggplot(airquality) +
+* aes(x = Ozone)
+```
+]
+ 
+.panel2-geom_x_mean-auto[
+&lt;img src="talk_maa_metro_ny_doublecrochet_files/figure-html/geom_x_mean_auto_04_output-1.png" width="504" /&gt;
+]
+
+---
+count: false
+ 
+geom_x_mean()
+.panel1-geom_x_mean-auto[
+
+```r
+library(ggplot2)
+library(ggxmean)
+ggplot(airquality) +
+  aes(x = Ozone) +
+* geom_histogram()
+```
+]
+ 
+.panel2-geom_x_mean-auto[
+&lt;img src="talk_maa_metro_ny_doublecrochet_files/figure-html/geom_x_mean_auto_05_output-1.png" width="504" /&gt;
+]
+
+---
+count: false
+ 
+geom_x_mean()
+.panel1-geom_x_mean-auto[
+
+```r
+library(ggplot2)
+library(ggxmean)
+ggplot(airquality) +
+  aes(x = Ozone) +
+  geom_histogram() +
+* geom_x_mean()
+```
+]
+ 
+.panel2-geom_x_mean-auto[
+&lt;img src="talk_maa_metro_ny_doublecrochet_files/figure-html/geom_x_mean_auto_06_output-1.png" width="504" /&gt;
+]
+
+---
+count: false
+ 
+geom_x_mean()
+.panel1-geom_x_mean-auto[
+
+```r
+library(ggplot2)
+library(ggxmean)
+ggplot(airquality) +
+  aes(x = Ozone) +
+  geom_histogram() +
+  geom_x_mean() +
+* facet_grid(rows =
+*              vars(Month))
+```
+]
+ 
+.panel2-geom_x_mean-auto[
+&lt;img src="talk_maa_metro_ny_doublecrochet_files/figure-html/geom_x_mean_auto_07_output-1.png" width="504" /&gt;
+]
+
+&lt;style&gt;
+.panel1-geom_x_mean-auto {
+  color: black;
+  width: 38.6060606060606%;
+  hight: 32%;
+  float: left;
+  padding-left: 1%;
+  font-size: 80%
+}
+.panel2-geom_x_mean-auto {
+  color: black;
+  width: 59.3939393939394%;
+  hight: 32%;
+  float: left;
+  padding-left: 1%;
+  font-size: 80%
+}
+.panel3-geom_x_mean-auto {
+  color: black;
+  width: NA%;
+  hight: 33%;
+  float: left;
+  padding-left: 1%;
+  font-size: 80%
+}
+&lt;/style&gt;
+
+
+
+
+
+
+
+---
+class: inverse
+
+####From source .Rmd:
+
+ ---
+
+````default
+
+`r chunk_reveal("univariate", title = "### Other univariate markers") `
+
+```{r univariate, include = F}
+ggplot(airquality) + 
+  aes(x = Ozone) + 
+  geom_histogram() + 
+  geom_x_median() + 
+  geom_x_quantile(
+    quantile = .25,
+    linetype = "dashed"
+    ) + 
+  geom_x_percentile(
+    percentile = 100,
+    linetype = "dotted"
+    )
+```
+
+````
+---
+
+count: false
+ 
+### Other univariate markers
+.panel1-univariate-auto[
+
+```r
+*ggplot(airquality)
+```
+]
+ 
+.panel2-univariate-auto[
+&lt;img src="talk_maa_metro_ny_doublecrochet_files/figure-html/univariate_auto_01_output-1.png" width="504" /&gt;
+]
+
+---
+count: false
+ 
+### Other univariate markers
+.panel1-univariate-auto[
+
+```r
+ggplot(airquality) +
+* aes(x = Ozone)
+```
+]
+ 
+.panel2-univariate-auto[
+&lt;img src="talk_maa_metro_ny_doublecrochet_files/figure-html/univariate_auto_02_output-1.png" width="504" /&gt;
+]
+
+---
+count: false
+ 
+### Other univariate markers
+.panel1-univariate-auto[
+
+```r
+ggplot(airquality) +
+  aes(x = Ozone) +
+* geom_histogram()
+```
+]
+ 
+.panel2-univariate-auto[
+&lt;img src="talk_maa_metro_ny_doublecrochet_files/figure-html/univariate_auto_03_output-1.png" width="504" /&gt;
+]
+
+---
+count: false
+ 
+### Other univariate markers
+.panel1-univariate-auto[
+
+```r
+ggplot(airquality) +
+  aes(x = Ozone) +
+  geom_histogram() +
+* geom_x_median()
+```
+]
+ 
+.panel2-univariate-auto[
+&lt;img src="talk_maa_metro_ny_doublecrochet_files/figure-html/univariate_auto_04_output-1.png" width="504" /&gt;
+]
+
+---
+count: false
+ 
+### Other univariate markers
+.panel1-univariate-auto[
+
+```r
+ggplot(airquality) +
+  aes(x = Ozone) +
+  geom_histogram() +
+  geom_x_median() +
+* geom_x_quantile(
+*   quantile = .25,
+*   linetype = "dashed"
+*   )
+```
+]
+ 
+.panel2-univariate-auto[
+&lt;img src="talk_maa_metro_ny_doublecrochet_files/figure-html/univariate_auto_05_output-1.png" width="504" /&gt;
+]
+
+---
+count: false
+ 
+### Other univariate markers
+.panel1-univariate-auto[
+
+```r
+ggplot(airquality) +
+  aes(x = Ozone) +
+  geom_histogram() +
+  geom_x_median() +
+  geom_x_quantile(
+    quantile = .25,
+    linetype = "dashed"
+    ) +
+* geom_x_percentile(
+*   percentile = 100,
+*   linetype = "dotted"
+*   )
+```
+]
+ 
+.panel2-univariate-auto[
+&lt;img src="talk_maa_metro_ny_doublecrochet_files/figure-html/univariate_auto_06_output-1.png" width="504" /&gt;
+]
+
+&lt;style&gt;
+.panel1-univariate-auto {
+  color: black;
+  width: 38.6060606060606%;
+  hight: 32%;
+  float: left;
+  padding-left: 1%;
+  font-size: 80%
+}
+.panel2-univariate-auto {
+  color: black;
+  width: 59.3939393939394%;
+  hight: 32%;
+  float: left;
+  padding-left: 1%;
+  font-size: 80%
+}
+.panel3-univariate-auto {
+  color: black;
+  width: NA%;
+  hight: 33%;
+  float: left;
+  padding-left: 1%;
+  font-size: 80%
+}
+&lt;/style&gt;
+
+
+
+
+
+
+
+
+---
+class: inverse
+
+####From source .Rmd:
+
+ ---
+
+````default
+
+
+`r chunk_reveal("lm_sequence", title = "### Relevant to OLS", widths = c(1,1)) `
+
+```{r lm_sequence, include = F}
+ggplot(data = cars) + 
+  aes(speed, dist) + 
+  geom_point() + #BREAK
+  ggxmean::geom_lm() + #BREAK
+  ggxmean::geom_lm_fitted(color = "blue",
+                          size = 3) + #BREAK
+  ggxmean::geom_lm_residuals() + #BREAK
+  ggxmean::geom_lm_conf_int() + #BREAK
+  ggxmean::geom_lm_intercept(color = "red",
+                             size = 5) + #BREAK
+  ggxmean::geom_lm_formula(size = 10) #BREAK
+```
+
+````
+---
+
+
+count: false
+ 
+### Relevant to OLS
+.panel1-lm_sequence-auto[
+
+```r
+*ggplot(data = cars)
+```
+]
+ 
+.panel2-lm_sequence-auto[
+&lt;img src="talk_maa_metro_ny_doublecrochet_files/figure-html/lm_sequence_auto_01_output-1.png" width="504" /&gt;
+]
+
+---
+count: false
+ 
+### Relevant to OLS
+.panel1-lm_sequence-auto[
+
+```r
+ggplot(data = cars) +
+* aes(speed, dist)
+```
+]
+ 
+.panel2-lm_sequence-auto[
+&lt;img src="talk_maa_metro_ny_doublecrochet_files/figure-html/lm_sequence_auto_02_output-1.png" width="504" /&gt;
+]
+
+---
+count: false
+ 
+### Relevant to OLS
+.panel1-lm_sequence-auto[
+
+```r
+ggplot(data = cars) +
+  aes(speed, dist) +
+* geom_point()
+```
+]
+ 
+.panel2-lm_sequence-auto[
+&lt;img src="talk_maa_metro_ny_doublecrochet_files/figure-html/lm_sequence_auto_03_output-1.png" width="504" /&gt;
+]
+
+---
+count: false
+ 
+### Relevant to OLS
+.panel1-lm_sequence-auto[
+
+```r
+ggplot(data = cars) +
+  aes(speed, dist) +
+  geom_point() +
+* ggxmean::geom_lm()
+```
+]
+ 
+.panel2-lm_sequence-auto[
+&lt;img src="talk_maa_metro_ny_doublecrochet_files/figure-html/lm_sequence_auto_04_output-1.png" width="504" /&gt;
+]
+
+---
+count: false
+ 
+### Relevant to OLS
+.panel1-lm_sequence-auto[
+
+```r
+ggplot(data = cars) +
+  aes(speed, dist) +
+  geom_point() +
+  ggxmean::geom_lm() +
+* ggxmean::geom_lm_fitted(color = "blue",
+*                         size = 3)
+```
+]
+ 
+.panel2-lm_sequence-auto[
+&lt;img src="talk_maa_metro_ny_doublecrochet_files/figure-html/lm_sequence_auto_05_output-1.png" width="504" /&gt;
+]
+
+---
+count: false
+ 
+### Relevant to OLS
+.panel1-lm_sequence-auto[
+
+```r
+ggplot(data = cars) +
+  aes(speed, dist) +
+  geom_point() +
+  ggxmean::geom_lm() +
+  ggxmean::geom_lm_fitted(color = "blue",
+                          size = 3) +
+* ggxmean::geom_lm_residuals()
+```
+]
+ 
+.panel2-lm_sequence-auto[
+&lt;img src="talk_maa_metro_ny_doublecrochet_files/figure-html/lm_sequence_auto_06_output-1.png" width="504" /&gt;
+]
+
+---
+count: false
+ 
+### Relevant to OLS
+.panel1-lm_sequence-auto[
+
+```r
+ggplot(data = cars) +
+  aes(speed, dist) +
+  geom_point() +
+  ggxmean::geom_lm() +
+  ggxmean::geom_lm_fitted(color = "blue",
+                          size = 3) +
+  ggxmean::geom_lm_residuals() +
+* ggxmean::geom_lm_conf_int()
+```
+]
+ 
+.panel2-lm_sequence-auto[
+&lt;img src="talk_maa_metro_ny_doublecrochet_files/figure-html/lm_sequence_auto_07_output-1.png" width="504" /&gt;
+]
+
+---
+count: false
+ 
+### Relevant to OLS
+.panel1-lm_sequence-auto[
+
+```r
+ggplot(data = cars) +
+  aes(speed, dist) +
+  geom_point() +
+  ggxmean::geom_lm() +
+  ggxmean::geom_lm_fitted(color = "blue",
+                          size = 3) +
+  ggxmean::geom_lm_residuals() +
+  ggxmean::geom_lm_conf_int() +
+* ggxmean::geom_lm_intercept(color = "red",
+*                            size = 5)
+```
+]
+ 
+.panel2-lm_sequence-auto[
+&lt;img src="talk_maa_metro_ny_doublecrochet_files/figure-html/lm_sequence_auto_08_output-1.png" width="504" /&gt;
+]
+
+---
+count: false
+ 
+### Relevant to OLS
+.panel1-lm_sequence-auto[
+
+```r
+ggplot(data = cars) +
+  aes(speed, dist) +
+  geom_point() +
+  ggxmean::geom_lm() +
+  ggxmean::geom_lm_fitted(color = "blue",
+                          size = 3) +
+  ggxmean::geom_lm_residuals() +
+  ggxmean::geom_lm_conf_int() +
+  ggxmean::geom_lm_intercept(color = "red",
+                             size = 5) +
+* ggxmean::geom_lm_formula(size = 10)
+```
+]
+ 
+.panel2-lm_sequence-auto[
+&lt;img src="talk_maa_metro_ny_doublecrochet_files/figure-html/lm_sequence_auto_09_output-1.png" width="504" /&gt;
+]
+
+&lt;style&gt;
+.panel1-lm_sequence-auto {
+  color: black;
+  width: 49%;
+  hight: 32%;
+  float: left;
+  padding-left: 1%;
+  font-size: 80%
+}
+.panel2-lm_sequence-auto {
+  color: black;
+  width: 49%;
+  hight: 32%;
+  float: left;
+  padding-left: 1%;
+  font-size: 80%
+}
+.panel3-lm_sequence-auto {
+  color: black;
+  width: NA%;
+  hight: 33%;
+  float: left;
+  padding-left: 1%;
+  font-size: 80%
+}
+&lt;/style&gt;
+
+
+
+
+
+
+
+---
+class: inverse
+
+####From source .Rmd:
+
+ ---
+
+````default
+
+`r chunk_reveal("geom_normal_dist", title = "### fitting distributions", widths = c(1,1)) `
+
+```{r geom_normal_dist, fig.show='hide'}
+ggplot(data = faithful) + 
+  aes(waiting) + 
+  geom_rug() + 
+  geom_histogram(
+    aes(y = ..density..)) + #BREAK
+  geom_normal_dist(fill = "blue") + #BREAK
+  facet_grid(rows = 
+               vars(eruptions &gt; 3)) #BREAK
+```
+
+````
+---
+
+count: false
+ 
+### fitting distributions
+.panel1-geom_normal_dist-auto[
+
+```r
+*ggplot(data = faithful)
+```
+]
+ 
+.panel2-geom_normal_dist-auto[
+&lt;img src="talk_maa_metro_ny_doublecrochet_files/figure-html/geom_normal_dist_auto_01_output-1.png" width="504" /&gt;
+]
+
+---
+count: false
+ 
+### fitting distributions
+.panel1-geom_normal_dist-auto[
+
+```r
+ggplot(data = faithful) +
+* aes(waiting)
+```
+]
+ 
+.panel2-geom_normal_dist-auto[
+&lt;img src="talk_maa_metro_ny_doublecrochet_files/figure-html/geom_normal_dist_auto_02_output-1.png" width="504" /&gt;
+]
+
+---
+count: false
+ 
+### fitting distributions
+.panel1-geom_normal_dist-auto[
+
+```r
+ggplot(data = faithful) +
+  aes(waiting) +
+* geom_rug()
+```
+]
+ 
+.panel2-geom_normal_dist-auto[
+&lt;img src="talk_maa_metro_ny_doublecrochet_files/figure-html/geom_normal_dist_auto_03_output-1.png" width="504" /&gt;
+]
+
+---
+count: false
+ 
+### fitting distributions
+.panel1-geom_normal_dist-auto[
+
+```r
+ggplot(data = faithful) +
+  aes(waiting) +
+  geom_rug() +
+* geom_histogram(
+*   aes(y = ..density..))
+```
+]
+ 
+.panel2-geom_normal_dist-auto[
+&lt;img src="talk_maa_metro_ny_doublecrochet_files/figure-html/geom_normal_dist_auto_04_output-1.png" width="504" /&gt;
+]
+
+---
+count: false
+ 
+### fitting distributions
+.panel1-geom_normal_dist-auto[
+
+```r
+ggplot(data = faithful) +
+  aes(waiting) +
+  geom_rug() +
+  geom_histogram(
+    aes(y = ..density..)) +
+* geom_normal_dist(fill = "blue")
+```
+]
+ 
+.panel2-geom_normal_dist-auto[
+&lt;img src="talk_maa_metro_ny_doublecrochet_files/figure-html/geom_normal_dist_auto_05_output-1.png" width="504" /&gt;
+]
+
+---
+count: false
+ 
+### fitting distributions
+.panel1-geom_normal_dist-auto[
+
+```r
+ggplot(data = faithful) +
+  aes(waiting) +
+  geom_rug() +
+  geom_histogram(
+    aes(y = ..density..)) +
+  geom_normal_dist(fill = "blue") +
+* facet_grid(rows =
+*              vars(eruptions &gt; 3))
+```
+]
+ 
+.panel2-geom_normal_dist-auto[
+&lt;img src="talk_maa_metro_ny_doublecrochet_files/figure-html/geom_normal_dist_auto_06_output-1.png" width="504" /&gt;
+]
+
+&lt;style&gt;
+.panel1-geom_normal_dist-auto {
+  color: black;
+  width: 49%;
+  hight: 32%;
+  float: left;
+  padding-left: 1%;
+  font-size: 80%
+}
+.panel2-geom_normal_dist-auto {
+  color: black;
+  width: 49%;
+  hight: 32%;
+  float: left;
+  padding-left: 1%;
+  font-size: 80%
+}
+.panel3-geom_normal_dist-auto {
+  color: black;
+  width: NA%;
+  hight: 33%;
+  float: left;
+  padding-left: 1%;
+  font-size: 80%
+}
+&lt;/style&gt;
+
+
+
+
+```r
+ggplot(data = faithful) + 
+  aes(waiting) + 
+  geom_rug() + 
+  geom_histogram(
+    aes(y = ..density..)) + #BREAK
+  geom_normal_dist(fill = "blue") + #BREAK
+  facet_grid(rows = 
+               vars(eruptions &gt; 3)) #BREAK
+```
+
+
+
+
+---
+class: inverse
+
+####From source .Rmd:
+
+ ---
+
+```default
+
+```
+---
+
+
+
+
+
+---
+class: inverse
+
+####From source .Rmd:
+
+ ---
+
+```default
+class: inverse, center, bottom
+background-image: url(https://images.unsplash.com/photo-1482685945432-29a7abf2f466?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&amp;ixlib=rb-1.2.1&amp;auto=format&amp;fit=crop&amp;w=1532&amp;q=80)
+background-size: cover
+
+
+# Thank you!
+
+--
+
+## {ggxmean} development package: https://evamaerey.github.io/ggxmean/
+
+--
+
+# Feedback welcome!
+
+```
+---
+class: inverse, center, bottom
+background-image: url(https://images.unsplash.com/photo-1482685945432-29a7abf2f466?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&amp;ixlib=rb-1.2.1&amp;auto=format&amp;fit=crop&amp;w=1532&amp;q=80)
+background-size: cover
+
+
+# Thank you!
+
+--
+
+## {ggxmean} development package: https://evamaerey.github.io/ggxmean/
+
+--
+
+# Feedback welcome!
+
+
+    </textarea>
+<style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
+<script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
+<script src="https://platform.twitter.com/widgets.js"></script>
+<script>var slideshow = remark.create({
+"ratio": "16:10",
+"highlightStyle": "github",
+"highlightLines": true,
+"countIncrementalSlides": false
+});
+if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
+  window.dispatchEvent(new Event('resize'));
+});
+(function(d) {
+  var s = d.createElement("style"), r = d.querySelector(".remark-slide-scaler");
+  if (!r) return;
+  s.type = "text/css"; s.innerHTML = "@page {size: " + r.style.width + " " + r.style.height +"; }";
+  d.head.appendChild(s);
+})(document);
+
+(function(d) {
+  var el = d.getElementsByClassName("remark-slides-area");
+  if (!el) return;
+  var slide, slides = slideshow.getSlides(), els = el[0].children;
+  for (var i = 1; i < slides.length; i++) {
+    slide = slides[i];
+    if (slide.properties.continued === "true" || slide.properties.count === "false") {
+      els[i - 1].className += ' has-continuation';
+    }
+  }
+  var s = d.createElement("style");
+  s.type = "text/css"; s.innerHTML = "@media print { .has-continuation { display: none; } }";
+  d.head.appendChild(s);
+})(document);
+// delete the temporary CSS (for displaying all slides initially) when the user
+// starts to view slides
+(function() {
+  var deleted = false;
+  slideshow.on('beforeShowSlide', function(slide) {
+    if (deleted) return;
+    var sheets = document.styleSheets, node;
+    for (var i = 0; i < sheets.length; i++) {
+      node = sheets[i].ownerNode;
+      if (node.dataset["target"] !== "print-only") continue;
+      node.parentNode.removeChild(node);
+    }
+    deleted = true;
+  });
+})();
+(function() {
+  "use strict"
+  // Replace <script> tags in slides area to make them executable
+  var scripts = document.querySelectorAll(
+    '.remark-slides-area .remark-slide-container script'
+  );
+  if (!scripts.length) return;
+  for (var i = 0; i < scripts.length; i++) {
+    var s = document.createElement('script');
+    var code = document.createTextNode(scripts[i].textContent);
+    s.appendChild(code);
+    var scriptAttrs = scripts[i].attributes;
+    for (var j = 0; j < scriptAttrs.length; j++) {
+      s.setAttribute(scriptAttrs[j].name, scriptAttrs[j].value);
+    }
+    scripts[i].parentElement.replaceChild(s, scripts[i]);
+  }
+})();
+(function() {
+  var links = document.getElementsByTagName('a');
+  for (var i = 0; i < links.length; i++) {
+    if (/^(https?:)?\/\//.test(links[i].getAttribute('href'))) {
+      links[i].target = '_blank';
+    }
+  }
+})();
+// adds .remark-code-has-line-highlighted class to <pre> parent elements
+// of code chunks containing highlighted lines with class .remark-code-line-highlighted
+(function(d) {
+  const hlines = d.querySelectorAll('.remark-code-line-highlighted');
+  const preParents = [];
+  const findPreParent = function(line, p = 0) {
+    if (p > 1) return null; // traverse up no further than grandparent
+    const el = line.parentElement;
+    return el.tagName === "PRE" ? el : findPreParent(el, ++p);
+  };
+
+  for (let line of hlines) {
+    let pre = findPreParent(line);
+    if (pre && !preParents.includes(pre)) preParents.push(pre);
+  }
+  preParents.forEach(p => p.classList.add("remark-code-has-line-highlighted"));
+})(document);</script>
+
+<script>
+slideshow._releaseMath = function(el) {
+  var i, text, code, codes = el.getElementsByTagName('code');
+  for (i = 0; i < codes.length;) {
+    code = codes[i];
+    if (code.parentNode.tagName !== 'PRE' && code.childElementCount === 0) {
+      text = code.textContent;
+      if (/^\\\((.|\s)+\\\)$/.test(text) || /^\\\[(.|\s)+\\\]$/.test(text) ||
+          /^\$\$(.|\s)+\$\$$/.test(text) ||
+          /^\\begin\{([^}]+)\}(.|\s)+\\end\{[^}]+\}$/.test(text)) {
+        code.outerHTML = code.innerHTML;  // remove <code></code>
+        continue;
+      }
+    }
+    i++;
+  }
+};
+slideshow._releaseMath(document);
+</script>
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+(function () {
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src  = 'https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML';
+  if (location.protocol !== 'file:' && /^https?:/.test(script.src))
+    script.src  = script.src.replace(/^https?:/, '');
+  document.getElementsByTagName('head')[0].appendChild(script);
+})();
+</script>
+  </body>
+</html>
