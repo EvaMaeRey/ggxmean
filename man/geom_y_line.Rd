@@ -25,5 +25,5 @@ Lines defined by values of y
 \examples{
 library(ggplot2)
 ggplot(data = cars, mapping = aes(x = speed, y = dist)) +
-geom_point() + geom_y_line()
+geom_point() + geom_y_line(alpha = .2)
 }
