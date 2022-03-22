@@ -1,4 +1,3 @@
-library(tidyverse)
 #' A function to find cooks distance of a point
 #'
 #' @param data the data set to be used

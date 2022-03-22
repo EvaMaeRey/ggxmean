@@ -1,4 +1,16 @@
+#' compute_group_ols_ind <- function(data, scales) {
+#'
+#'                                        model <- lm(y ~ x + indicator,
+#'                                                    data = data)
+#'
+#'                                        data.frame(x = data$x,
+#'                                                   y = model$fitted.values,#,
+#'                                                   indicator = data$indicator
+#'                                                   )
+#'                                      }
+#'
 #' #### confint #####
+#'
 #'
 #'
 #' # For most applications the grouping is set implicitly by mapping one
@@ -6,23 +18,34 @@
 #'
 #' StatOlsindicator1 <- ggplot2::ggproto("StatOlsindicator1",
 #'                                    ggplot2::Stat,
-#'                                    compute_layer = function(data, scales) {
+#'                                    compute_panel = compute_group_ols_ind,
+#'                                    required_aes = c("x", "y", "indicator"),
+#'                                    default_aes = aes(group = after_stat(indicator))
 #'
-#'                                      model <- lm(y ~ x, # + indicator,
-#'                                                  data = data)
-#'
-#'                                      data.frame(x = data$x,
-#'                                                 y = model$fitted.values#,
-#'                                                 # group = data$indicator
-#'                                                 )
-#'                                    },
-#'
-#'                                    required_aes = c("x", "y"
-#'                                                     # , "indicator"
-#'                                                     )
 #' )
 #'
 #'
+#'
+#' geom_lm_indicator1 <- function(mapping = NULL, data = NULL,
+#'                            position = "identity", na.rm = FALSE,
+#'                            show.legend = NA,
+#'                            inherit.aes = TRUE, ...) {
+#'   ggplot2::layer(
+#'     stat = StatOlsindicator1, geom = ggplot2::GeomLine, data = data, mapping = mapping,
+#'     position = position, show.legend = show.legend, inherit.aes = inherit.aes,
+#'     params = list(na.rm = na.rm, ...)
+#'   )
+#' }
+#'
+#' library(tidyverse)
+#' starwars %>%
+#' filter(mass < 1000) %>%
+#' mutate(sex_numeric = sex)  %>%
+#' ggplot() +
+#' aes(x = height, y = mass, indicator = sex) +
+#' geom_point(aes(color = sex)) +
+#' geom_lm_indicator1(linetype = "dashed")
+#' # geom_lm_indicator1 <- function(mapping = NULL, data = NULL,#
 #' #' Drawing prediction interval for OLS linear model
 #' #'
 #' #' @param mapping
@@ -66,15 +89,6 @@
 #' #' aes(x = height, y = mass) +
 #' #' #geom_point(aes(color = sex)) +
 #' #'  geom_lm_indicator1(linetype = "dashed")
-# geom_lm_indicator1 <- function(mapping = NULL, data = NULL,
-#                              position = "identity", na.rm = FALSE, show.legend = NA,
-#                              inherit.aes = T, ...) {
-#   ggplot2::layer(
-#     stat = StatOlsindicator1, geom = ggplot2::GeomLine, data = data, mapping = mapping,
-#     position = position, show.legend = show.legend, inherit.aes = inherit.aes,
-#     params = list(na.rm = na.rm, ...)
-#   )
-# }
-
-
-
+#' # geom_lm_indicator1 <- function(mapping = NULL, data = NULL,#                              position = "identity", na.rm = FALSE, show.legend = NA,#                              inherit.aes = T, ...) {#   ggplot2::layer(#     stat = StatOlsindicator1, geom = ggplot2::GeomLine, data = data, mapping = mapping,#     position = position, show.legend = show.legend, inherit.aes = inherit.aes,#     params = list(na.rm = na.rm, ...)#   )# }
+#'
+#'
