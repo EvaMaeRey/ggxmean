@@ -7,7 +7,7 @@ GeomYmeanlabel <- ggplot2::ggproto("GeomYmeanlabel", ggplot2::Geom,
                                 # data$yend <- mean(data$y)
                                 data$x    <- (ranges$x[1] + ranges$x[2])/2
                                 # data$xend <- ranges$x[2]
-                                data$label <- mean(data$y)
+                                data$label <- good_digits(mean(data$y), 3)
 
                                 GeomLabel$draw_panel(unique(data), panel_params, coord)
 
