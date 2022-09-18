@@ -18,7 +18,7 @@ keywords:
 - that do not appear in the title
 
 abstract: | 
-    Ggplot2, the implementation of the grammar of graphics in the R statistical programming language, is a popular open source project.  The package's interface lets creators separate data visualization concerns --- including declaration of data, variable representations by visual channels, determination of coordinate systems, selection of geometric shapes taking on the aesthetic representation --- which means users have great freedom in the creation and customization of charts.  Ggplot2 comes with a large number of geometric shapes that can represent variables in data sets.  Some of these shapes are drawn after statistical transformation, such as boxplots, linear regressions, or histograms.  But many statistical concepts do not have easy-to-use geometries for representing statistical summaries.  This paper presents a new extension package `ggxmean`, that include new `geoms` useful for easily visualizing an important set of additional statistical concepts.
+    Ggplot2 is a popular open source project that is the implementation of the grammar of graphics in the R statistical programming language.  The package's interface lets creators separate data visualization concerns --- including declaration of data, variable representations by visual channels, determination of coordinate systems, selection of geometric shapes taking on the aesthetic representation --- which means users have great freedom in creating charts.  Ggplot2 comes with many geometric shapes (geoms) that can represent variables in data sets.  Some of these shapes are drawn after statistical transformation, such as boxplots, linear models, or histograms.  But many statistical concepts do not have easy-to-use geometries for representing statistical summaries.  This paper presents a new extension package `ggxmean`, that include new `geoms` useful for easily visualizing an important set of additional statistical concepts.
 
 bibliography: bibliography.bib
 output: rticles::asa_article
@@ -41,7 +41,7 @@ Statistical educators that introduce students to one of these tools arguably are
 
 Statistical educators often use ggplot2 as their grammar-of-graphics-based data visualization tool as students can learn it along side the rich statistical ecosystem of the R programming language.  The R programming language thus may serve as a one-stop-shop for statistical tooling; with recent developments in packages and IDEs writing code is becoming more accessible and welcoming to newcomers.  
 
-Still, using ggplot2 for statistical education can be a challenge at times.  When it is used to discuss statistical concepts, sometimes it feels as though getting something done with the plotting library derails the focus on discussion of statistical concepts and material.  
+Still, using ggplot2 for statistical education can be a challenge.  When it is used to discuss statistical concepts, the plotting task can sometime scatter the focus on statistical concepts.  
 
 ## The status quo: adding the mean
 
@@ -57,7 +57,7 @@ ggplot(airquality) +
 
 Creating this plot requires greater focus on ggplot2 *syntax*, likely detracting from discussion of *the mean* that statistical instructors desire. 
 
-A syntax that works is as follows:
+The status quo syntax is as follows:
 
 ```{r}
 library(tidyverse)
@@ -71,9 +71,9 @@ ggplot(airquality) +
                     na.rm = T))
 ```
 
-It may require a discussion about dollar sign syntax and how geom_vline is actually a special geom -- an annotation -- rather than being mapped to the data.  None of this is relevant to the point you as an instructor aim to make:  maybe that the the mean is the balancing point of the data or maybe a comment about skewness.
+Implementing with students may require a discussion about dollar sign syntax and how geom_vline is actually a special geom -- an annotation -- rather than being mapped to the data.  None of this is relevant to the point you as a *statistics* instructor aim to make:  that the the mean is the balancing point of the data or maybe a comment about skewness.
 
-Further, for the case of adding a vertical line at the mean for different subsets of the data, a different approach is required.  This enterprise may take instructor/analyst/student on an even larger detour -- possibly googling, and maybe landing on the following stack overflow page where 11,000 analytics souls (some repeats to be sure) have landed: 
+Further, for the case of adding a vertical line at the mean for different subsets of the data, a different approach is required.  This enterprise may take instructor/analyst/student on an even larger detour -- possibly searching the internet, and maybe landing on the following stack overflow page where 11,000 analytics searchers have landed: 
 
 https://stackoverflow.com/questions/1644661/add-a-vertical-line-with-different-intercept-for-each-panel-in-ggplot2
 
@@ -81,9 +81,6 @@ The solutions to this problem involve data manipulation *prior* to plotting the 
 
 "Learning becomes less efficient as the mental load students must carry increases." 
 [@lovett2000statscongnitive]
-
-Wanda vision "oh no"
-https://media.giphy.com/media/ycBW5N5XMfpXTvamtF/giphy.gif
 
 ```{r}
 airquality %>% 
@@ -102,7 +99,7 @@ ggplot(airquality) +
 
 ## The promise
 
-But, using statistical geometries *can* feel simple. geom_smooth() adds loess fit of data to visualizations in an effortless way; and an ordinary least squares fit is added almost as easily.  geom_boxplot reveals a 5-statistic summary of data medians, the inner quartile range and min/max values in a single call.  The popularity of these easy-to-use functions is evident.  geom_smooth is used more than 82,000 times in .R  and .Rmd files on GitHub and geom_boxplot 93,000 times in .R and .Rmd files.
+But, using statistical geometries in ggplot2 *can* feel simple. geom_smooth() adds loess fit of data to visualizations in an effortless way; and an ordinary least squares fit is added almost as easily.  And geom_boxplot reveals a 5-statistic summary of data medians, the inner quartile range and min/max values in a single call.  The popularity of these easy-to-use functions is evident.  geom_smooth is used more than 82,000 times in .R  and .Rmd files on GitHub and geom_boxplot 93,000 times in .R and .Rmd files.
 
 With these geoms one says "let there be boxplots" and there are boxplots, and "let there be loess smoothing" and there is loess smoothing.  The same powerful, declarative experience can be arranged for more statistical concepts. 
 
@@ -110,13 +107,13 @@ With these geoms one says "let there be boxplots" and there are boxplots, and "l
 
 ggplot2 developers and maintainers, with the aim of keeping the code base robust and reliable, have intentionally limited the out-of-the-box geoms (as well as other variants) delivered in base ggplot2.  
 
-"ggplot2 is already pretty big ... and it's simply not feasible for us to include all visualization possibilities into ggplot2 itself." - Thomas Pederson https://www.rstudio.com/resources/rstudioconf-2020/extending-your-ability-to-extend-ggplot2/
+> "ggplot2 is already pretty big ... and it's simply not feasible for us to include all visualization possibilities into ggplot2 itself." - Thomas Pederson https://www.rstudio.com/resources/rstudioconf-2020/extending-your-ability-to-extend-ggplot2/
 
-But the extension system is designed to allow for more possibilities.  "It's much better to ... spread it out on multiple maintainers, multiple specific packages and so on."
+The ggplot2 extension system is designed to allow for more possibilities and additional statistical vocabulary.  
 
-https://media.giphy.com/media/relSRdIMtKVcPrSfyT/giphy.gif
+> "It's much better to ... spread it out on multiple maintainers, multiple specific packages and so on."
 
-Extending ggplot statistical geometries will allow us as teachers, analysts and students the ease of visual representation for a large number of other desirable statistical summaries as is experienced with geom_boxplot and geom_smooth.  
+Extending ggplot statistical geometries will allow teachers, analysts and students the ease of visual representation for a large number of other desirable statistical summaries as is experienced with 'base' ggplot2 functions geom_boxplot and geom_smooth.  
 
 ## introducing {ggxmean}
 
@@ -142,9 +139,7 @@ last_plot() +
 
 ## Other statistical geometries in the {ggxmean} package
 
-
-
-Beyond providing an easy way to add vertical line at the mean  -- and conditional means, {ggxmean} provides a number of other handy geometries
+Beyond providing an easy way to add vertical line at the mean  -- and conditional means, {ggxmean} provides a number of other handy geometries.
 
 ### Other univariate markers
 
@@ -159,6 +154,7 @@ ggplot(airquality) +
                     linetype = "dotted")
 ```
 
+All of these markers inherit from a new geom: geom_xline(), which unlink geom_vline() is not an annotation layer, but rather can represent a variable of the declared data set to the x position on the plot. 
 
 ### Related to the linear model
 
@@ -301,13 +297,6 @@ g2
 
 g1 / g2
 ```
-
-
-\section{Verifications}
-\label{sec:verify}
-
-This section will be just long enough to illustrate what a full page of
-text looks like, for margins and spacing.
 
 
 

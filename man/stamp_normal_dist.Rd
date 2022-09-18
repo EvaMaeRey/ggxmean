@@ -26,6 +26,7 @@ Title
 }
 \examples{
 library(ggplot2)
+library(tidyverse)
 ggxmean:::stamp_space() +
   stamp_normal_dist(alpha = .5, height = 1, fill = "magenta") +
   stamp_normal_dist(sd_min = -5, sd_max = -1.96, height = 1) +

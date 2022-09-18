@@ -81,8 +81,7 @@
   \title{\bf Extending ggplot2 statistical geometries}
 
   \author{
-        Evangeline Reynolds \thanks{The authors gratefully acknowledge
-\ldots{}} \\
+        Evangeline Reynolds \thanks{The authors gratefully acknowledge \ldots{}} \\
     Dean Data Cell, West Point\\
      and \\     Author 2 \\
     Department of ZZZ, University of WWW\\
@@ -151,10 +150,9 @@ language. The R programming language thus may serve as a one-stop-shop
 for statistical tooling; with recent developments in packages and IDEs
 writing code is becoming more accessible and welcoming to newcomers.
 
-Still, using ggplot2 for statistical education can be a challenge at
-times. When it is used to discuss statistical concepts, sometimes it
-feels as though getting something done with the plotting library derails
-the focus on discussion of statistical concepts and material.
+Still, using ggplot2 for statistical education can be a challenge. When
+it is used to discuss statistical concepts, the plotting task can
+sometime scatter the focus on statistical concepts.
 
 \hypertarget{the-status-quo-adding-the-mean}{%
 \subsection{The status quo: adding the
@@ -170,35 +168,36 @@ Creating this plot requires greater focus on ggplot2 \emph{syntax},
 likely detracting from discussion of \emph{the mean} that statistical
 instructors desire.
 
-A syntax that works is as follows:
+The status quo syntax is as follows:
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\FunctionTok{library}\NormalTok{(tidyverse)}
-\FunctionTok{library}\NormalTok{(magrittr)}
+\KeywordTok{library}\NormalTok{(tidyverse)}
+\KeywordTok{library}\NormalTok{(magrittr)}
 
-\FunctionTok{ggplot}\NormalTok{(airquality) }\SpecialCharTok{+} 
-  \FunctionTok{aes}\NormalTok{(}\AttributeTok{x =}\NormalTok{ Ozone) }\SpecialCharTok{+} 
-  \FunctionTok{geom\_histogram}\NormalTok{() }\SpecialCharTok{+} 
-  \FunctionTok{geom\_vline}\NormalTok{(}\AttributeTok{xintercept =} 
-               \FunctionTok{mean}\NormalTok{(airquality}\SpecialCharTok{$}\NormalTok{Ozone, }
-                    \AttributeTok{na.rm =}\NormalTok{ T))}
+\KeywordTok{ggplot}\NormalTok{(airquality) }\OperatorTok{+}\StringTok{ }
+\StringTok{  }\KeywordTok{aes}\NormalTok{(}\DataTypeTok{x =}\NormalTok{ Ozone) }\OperatorTok{+}\StringTok{ }
+\StringTok{  }\KeywordTok{geom_histogram}\NormalTok{() }\OperatorTok{+}\StringTok{ }
+\StringTok{  }\KeywordTok{geom_vline}\NormalTok{(}\DataTypeTok{xintercept =} 
+               \KeywordTok{mean}\NormalTok{(airquality}\OperatorTok{$}\NormalTok{Ozone, }
+                    \DataTypeTok{na.rm =}\NormalTok{ T))}
 \end{Highlighting}
 \end{Shaded}
 
 \begin{center}\includegraphics[width=0.5\linewidth]{manuscript_files/figure-latex/unnamed-chunk-3-1} \end{center}
 
-It may require a discussion about dollar sign syntax and how geom\_vline
-is actually a special geom -- an annotation -- rather than being mapped
-to the data. None of this is relevant to the point you as an instructor
-aim to make: maybe that the the mean is the balancing point of the data
-or maybe a comment about skewness.
+Implementing with students may require a discussion about dollar sign
+syntax and how geom\_vline is actually a special geom -- an annotation
+-- rather than being mapped to the data. None of this is relevant to the
+point you as a \emph{statistics} instructor aim to make: that the the
+mean is the balancing point of the data or maybe a comment about
+skewness.
 
 Further, for the case of adding a vertical line at the mean for
 different subsets of the data, a different approach is required. This
 enterprise may take instructor/analyst/student on an even larger detour
--- possibly googling, and maybe landing on the following stack overflow
-page where 11,000 analytics souls (some repeats to be sure) have landed:
+-- possibly searching the internet, and maybe landing on the following
+stack overflow page where 11,000 analytics searchers have landed:
 
 \url{https://stackoverflow.com/questions/1644661/add-a-vertical-line-with-different-intercept-for-each-panel-in-ggplot2}
 
@@ -211,23 +210,20 @@ about the pooled mean and the conditional mean.
 ``Learning becomes less efficient as the mental load students must carry
 increases.'' \citep{lovett2000statscongnitive}
 
-Wanda vision ``oh no''
-\url{https://media.giphy.com/media/ycBW5N5XMfpXTvamtF/giphy.gif}
-
 \begin{Shaded}
 \begin{Highlighting}[]
-\NormalTok{airquality }\SpecialCharTok{\%\textgreater{}\%} 
-  \FunctionTok{group\_by}\NormalTok{(Month) }\SpecialCharTok{\%\textgreater{}\%} 
-  \FunctionTok{summarise}\NormalTok{(}\AttributeTok{Ozone\_mean =} \FunctionTok{mean}\NormalTok{(Ozone, }\AttributeTok{na.rm =}\NormalTok{ T)) }\OtherTok{{-}\textgreater{}}
-\NormalTok{airquality\_by\_month}
+\NormalTok{airquality }\OperatorTok{%>%}\StringTok{ }
+\StringTok{  }\KeywordTok{group_by}\NormalTok{(Month) }\OperatorTok{%>%}\StringTok{ }
+\StringTok{  }\KeywordTok{summarise}\NormalTok{(}\DataTypeTok{Ozone_mean =} \KeywordTok{mean}\NormalTok{(Ozone, }\DataTypeTok{na.rm =}\NormalTok{ T)) ->}
+\NormalTok{airquality_by_month}
 
-\FunctionTok{ggplot}\NormalTok{(airquality) }\SpecialCharTok{+} 
-  \FunctionTok{aes}\NormalTok{(}\AttributeTok{x =}\NormalTok{ Ozone) }\SpecialCharTok{+} 
-  \FunctionTok{geom\_histogram}\NormalTok{() }\SpecialCharTok{+} 
-  \FunctionTok{facet\_grid}\NormalTok{(}\AttributeTok{rows =} \FunctionTok{vars}\NormalTok{(Month)) }\SpecialCharTok{+}
-  \FunctionTok{geom\_vline}\NormalTok{(}\AttributeTok{data =}\NormalTok{ airquality\_by\_month, }
-             \FunctionTok{aes}\NormalTok{(}\AttributeTok{xintercept =} 
-\NormalTok{               Ozone\_mean))}
+\KeywordTok{ggplot}\NormalTok{(airquality) }\OperatorTok{+}\StringTok{ }
+\StringTok{  }\KeywordTok{aes}\NormalTok{(}\DataTypeTok{x =}\NormalTok{ Ozone) }\OperatorTok{+}\StringTok{ }
+\StringTok{  }\KeywordTok{geom_histogram}\NormalTok{() }\OperatorTok{+}\StringTok{ }
+\StringTok{  }\KeywordTok{facet_grid}\NormalTok{(}\DataTypeTok{rows =} \KeywordTok{vars}\NormalTok{(Month)) }\OperatorTok{+}
+\StringTok{  }\KeywordTok{geom_vline}\NormalTok{(}\DataTypeTok{data =}\NormalTok{ airquality_by_month, }
+             \KeywordTok{aes}\NormalTok{(}\DataTypeTok{xintercept =} 
+\NormalTok{               Ozone_mean))}
 \end{Highlighting}
 \end{Shaded}
 
@@ -236,14 +232,14 @@ Wanda vision ``oh no''
 \hypertarget{the-promise}{%
 \subsection{The promise}\label{the-promise}}
 
-But, using statistical geometries \emph{can} feel simple. geom\_smooth()
-adds loess fit of data to visualizations in an effortless way; and an
-ordinary least squares fit is added almost as easily. geom\_boxplot
-reveals a 5-statistic summary of data medians, the inner quartile range
-and min/max values in a single call. The popularity of these easy-to-use
-functions is evident. geom\_smooth is used more than 82,000 times in .R
-and .Rmd files on GitHub and geom\_boxplot 93,000 times in .R and .Rmd
-files.
+But, using statistical geometries in ggplot2 \emph{can} feel simple.
+geom\_smooth() adds loess fit of data to visualizations in an effortless
+way; and an ordinary least squares fit is added almost as easily. And
+geom\_boxplot reveals a 5-statistic summary of data medians, the inner
+quartile range and min/max values in a single call. The popularity of
+these easy-to-use functions is evident. geom\_smooth is used more than
+82,000 times in .R and .Rmd files on GitHub and geom\_boxplot 93,000
+times in .R and .Rmd files.
 
 With these geoms one says ``let there be boxplots'' and there are
 boxplots, and ``let there be loess smoothing'' and there is loess
@@ -258,21 +254,25 @@ ggplot2 developers and maintainers, with the aim of keeping the code
 base robust and reliable, have intentionally limited the out-of-the-box
 geoms (as well as other variants) delivered in base ggplot2.
 
+\begin{quote}
 ``ggplot2 is already pretty big \ldots{} and it's simply not feasible
 for us to include all visualization possibilities into ggplot2 itself.''
 - Thomas Pederson
 \url{https://www.rstudio.com/resources/rstudioconf-2020/extending-your-ability-to-extend-ggplot2/}
+\end{quote}
 
-But the extension system is designed to allow for more possibilities.
+The ggplot2 extension system is designed to allow for more possibilities
+and additional statistical vocabulary.
+
+\begin{quote}
 ``It's much better to \ldots{} spread it out on multiple maintainers,
 multiple specific packages and so on.''
+\end{quote}
 
-\url{https://media.giphy.com/media/relSRdIMtKVcPrSfyT/giphy.gif}
-
-Extending ggplot statistical geometries will allow us as teachers,
-analysts and students the ease of visual representation for a large
-number of other desirable statistical summaries as is experienced with
-geom\_boxplot and geom\_smooth.
+Extending ggplot statistical geometries will allow teachers, analysts
+and students the ease of visual representation for a large number of
+other desirable statistical summaries as is experienced with `base'
+ggplot2 functions geom\_boxplot and geom\_smooth.
 
 \hypertarget{introducing-ggxmean}{%
 \subsection{introducing \{ggxmean\}}\label{introducing-ggxmean}}
@@ -300,19 +300,19 @@ in the background by the geom\_x\_mean function.
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\FunctionTok{library}\NormalTok{(ggplot2)}
-\FunctionTok{library}\NormalTok{(ggxmean)}
-\FunctionTok{ggplot}\NormalTok{(airquality) }\SpecialCharTok{+} 
-  \FunctionTok{aes}\NormalTok{(}\AttributeTok{x =}\NormalTok{ Ozone) }\SpecialCharTok{+} 
-  \FunctionTok{geom\_histogram}\NormalTok{() }\SpecialCharTok{+} 
-  \FunctionTok{geom\_x\_mean}\NormalTok{() }\CommentTok{\# ggxmean}
+\KeywordTok{library}\NormalTok{(ggplot2)}
+\KeywordTok{library}\NormalTok{(ggxmean)}
+\KeywordTok{ggplot}\NormalTok{(airquality) }\OperatorTok{+}\StringTok{ }
+\StringTok{  }\KeywordTok{aes}\NormalTok{(}\DataTypeTok{x =}\NormalTok{ Ozone) }\OperatorTok{+}\StringTok{ }
+\StringTok{  }\KeywordTok{geom_histogram}\NormalTok{() }\OperatorTok{+}\StringTok{ }
+\StringTok{  }\KeywordTok{geom_x_mean}\NormalTok{() }\CommentTok{# ggxmean}
 \end{Highlighting}
 \end{Shaded}
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\FunctionTok{last\_plot}\NormalTok{() }\SpecialCharTok{+} 
-  \FunctionTok{facet\_grid}\NormalTok{(}\AttributeTok{rows =} \FunctionTok{vars}\NormalTok{(Month))}
+\KeywordTok{last_plot}\NormalTok{() }\OperatorTok{+}\StringTok{ }
+\StringTok{  }\KeywordTok{facet_grid}\NormalTok{(}\DataTypeTok{rows =} \KeywordTok{vars}\NormalTok{(Month))}
 \end{Highlighting}
 \end{Shaded}
 
@@ -322,7 +322,7 @@ package}\label{other-statistical-geometries-in-the-ggxmean-package}}
 
 Beyond providing an easy way to add vertical line at the mean -- and
 conditional means, \{ggxmean\} provides a number of other handy
-geometries
+geometries.
 
 \hypertarget{other-univariate-markers}{%
 \subsubsection{Other univariate
@@ -330,18 +330,23 @@ markers}\label{other-univariate-markers}}
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\FunctionTok{ggplot}\NormalTok{(airquality) }\SpecialCharTok{+} 
-  \FunctionTok{aes}\NormalTok{(}\AttributeTok{x =}\NormalTok{ Ozone) }\SpecialCharTok{+} 
-  \FunctionTok{geom\_histogram}\NormalTok{() }\SpecialCharTok{+} 
-  \FunctionTok{geom\_x\_median}\NormalTok{() }\SpecialCharTok{+} 
-  \FunctionTok{geom\_x\_quantile}\NormalTok{(}\AttributeTok{quantile =}\NormalTok{ .}\DecValTok{25}\NormalTok{,}
-                  \AttributeTok{linetype =} \StringTok{"dashed"}\NormalTok{) }\SpecialCharTok{+} 
-  \FunctionTok{geom\_x\_percentile}\NormalTok{(}\AttributeTok{percentile =} \DecValTok{100}\NormalTok{,}
-                    \AttributeTok{linetype =} \StringTok{"dotted"}\NormalTok{)}
+\KeywordTok{ggplot}\NormalTok{(airquality) }\OperatorTok{+}\StringTok{ }
+\StringTok{  }\KeywordTok{aes}\NormalTok{(}\DataTypeTok{x =}\NormalTok{ Ozone) }\OperatorTok{+}\StringTok{ }
+\StringTok{  }\KeywordTok{geom_histogram}\NormalTok{() }\OperatorTok{+}\StringTok{ }
+\StringTok{  }\KeywordTok{geom_x_median}\NormalTok{() }\OperatorTok{+}\StringTok{ }
+\StringTok{  }\KeywordTok{geom_x_quantile}\NormalTok{(}\DataTypeTok{quantile =} \FloatTok{.25}\NormalTok{,}
+                  \DataTypeTok{linetype =} \StringTok{"dashed"}\NormalTok{) }\OperatorTok{+}\StringTok{ }
+\StringTok{  }\KeywordTok{geom_x_percentile}\NormalTok{(}\DataTypeTok{percentile =} \DecValTok{100}\NormalTok{,}
+                    \DataTypeTok{linetype =} \StringTok{"dotted"}\NormalTok{)}
 \end{Highlighting}
 \end{Shaded}
 
 \begin{center}\includegraphics[width=0.5\linewidth]{manuscript_files/figure-latex/unnamed-chunk-6-1} \end{center}
+
+All of these markers inherit from a new geom: geom\_xline(), which
+unlink geom\_vline() is not an annotation layer, but rather can
+represent a variable of the declared data set to the x position on the
+plot.
 
 \hypertarget{related-to-the-linear-model}{%
 \subsubsection{Related to the linear
@@ -349,17 +354,17 @@ model}\label{related-to-the-linear-model}}
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\FunctionTok{ggplot}\NormalTok{(}\AttributeTok{data =}\NormalTok{ cars) }\SpecialCharTok{+} 
-  \FunctionTok{aes}\NormalTok{(speed, dist) }\SpecialCharTok{+} 
-  \FunctionTok{geom\_point}\NormalTok{() }\SpecialCharTok{+} \CommentTok{\#BREAK}
-\NormalTok{  ggxmean}\SpecialCharTok{::}\FunctionTok{geom\_lm}\NormalTok{() }\SpecialCharTok{+} \CommentTok{\#BREAK}
-\NormalTok{  ggxmean}\SpecialCharTok{::}\FunctionTok{geom\_lm\_fitted}\NormalTok{(}\AttributeTok{color =} \StringTok{"blue"}\NormalTok{,}
-                          \AttributeTok{size =} \DecValTok{3}\NormalTok{) }\SpecialCharTok{+} \CommentTok{\#BREAK}
-\NormalTok{  ggxmean}\SpecialCharTok{::}\FunctionTok{geom\_lm\_residuals}\NormalTok{() }\SpecialCharTok{+} \CommentTok{\#BREAK}
-\NormalTok{  ggxmean}\SpecialCharTok{::}\FunctionTok{geom\_lm\_conf\_int}\NormalTok{() }\SpecialCharTok{+} \CommentTok{\#BREAK}
-\NormalTok{  ggxmean}\SpecialCharTok{::}\FunctionTok{geom\_lm\_intercept}\NormalTok{(}\AttributeTok{color =} \StringTok{"red"}\NormalTok{,}
-                             \AttributeTok{size =} \DecValTok{5}\NormalTok{) }\SpecialCharTok{+} \CommentTok{\#BREAK}
-\NormalTok{  ggxmean}\SpecialCharTok{::}\FunctionTok{geom\_lm\_formula}\NormalTok{(}\AttributeTok{size =} \DecValTok{10}\NormalTok{) }\CommentTok{\#BREAK}
+\KeywordTok{ggplot}\NormalTok{(}\DataTypeTok{data =}\NormalTok{ cars) }\OperatorTok{+}\StringTok{ }
+\StringTok{  }\KeywordTok{aes}\NormalTok{(speed, dist) }\OperatorTok{+}\StringTok{ }
+\StringTok{  }\KeywordTok{geom_point}\NormalTok{() }\OperatorTok{+}\StringTok{ }\CommentTok{#BREAK}
+\StringTok{  }\NormalTok{ggxmean}\OperatorTok{::}\KeywordTok{geom_lm}\NormalTok{() }\OperatorTok{+}\StringTok{ }\CommentTok{#BREAK}
+\StringTok{  }\NormalTok{ggxmean}\OperatorTok{::}\KeywordTok{geom_lm_fitted}\NormalTok{(}\DataTypeTok{color =} \StringTok{"blue"}\NormalTok{,}
+                          \DataTypeTok{size =} \DecValTok{3}\NormalTok{) }\OperatorTok{+}\StringTok{ }\CommentTok{#BREAK}
+\StringTok{  }\NormalTok{ggxmean}\OperatorTok{::}\KeywordTok{geom_lm_residuals}\NormalTok{() }\OperatorTok{+}\StringTok{ }\CommentTok{#BREAK}
+\StringTok{  }\NormalTok{ggxmean}\OperatorTok{::}\KeywordTok{geom_lm_conf_int}\NormalTok{() }\OperatorTok{+}\StringTok{ }\CommentTok{#BREAK}
+\StringTok{  }\NormalTok{ggxmean}\OperatorTok{::}\KeywordTok{geom_lm_intercept}\NormalTok{(}\DataTypeTok{color =} \StringTok{"red"}\NormalTok{,}
+                             \DataTypeTok{size =} \DecValTok{5}\NormalTok{) }\OperatorTok{+}\StringTok{ }\CommentTok{#BREAK}
+\StringTok{  }\NormalTok{ggxmean}\OperatorTok{::}\KeywordTok{geom_lm_formula}\NormalTok{(}\DataTypeTok{size =} \DecValTok{10}\NormalTok{) }\CommentTok{#BREAK}
 \end{Highlighting}
 \end{Shaded}
 
@@ -372,10 +377,10 @@ model}\label{related-to-the-linear-model}}
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\FunctionTok{ggplot}\NormalTok{(}\AttributeTok{data =}\NormalTok{ cars) }\SpecialCharTok{+} 
-  \FunctionTok{aes}\NormalTok{(speed, dist) }\SpecialCharTok{+} 
-  \FunctionTok{geom\_point}\NormalTok{() }\SpecialCharTok{+} \CommentTok{\#BREAK}
-  \FunctionTok{geom\_x\_mean}\NormalTok{()}
+\KeywordTok{ggplot}\NormalTok{(}\DataTypeTok{data =}\NormalTok{ cars) }\OperatorTok{+}\StringTok{ }
+\StringTok{  }\KeywordTok{aes}\NormalTok{(speed, dist) }\OperatorTok{+}\StringTok{ }
+\StringTok{  }\KeywordTok{geom_point}\NormalTok{() }\OperatorTok{+}\StringTok{ }\CommentTok{#BREAK}
+\StringTok{  }\KeywordTok{geom_x_mean}\NormalTok{()}
 \end{Highlighting}
 \end{Shaded}
 
@@ -384,12 +389,12 @@ model}\label{related-to-the-linear-model}}
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\FunctionTok{ggplot}\NormalTok{(}\AttributeTok{data =}\NormalTok{ faithful) }\SpecialCharTok{+} 
-  \FunctionTok{aes}\NormalTok{(waiting) }\SpecialCharTok{+} 
-  \FunctionTok{geom\_rug}\NormalTok{() }\SpecialCharTok{+} 
-  \FunctionTok{geom\_histogram}\NormalTok{(}\FunctionTok{aes}\NormalTok{(}\AttributeTok{y =}\NormalTok{ ..density..)) }\SpecialCharTok{+} \CommentTok{\#BREAK}
-\NormalTok{  ggxmean}\SpecialCharTok{::}\FunctionTok{geom\_normal\_dist}\NormalTok{(}\AttributeTok{fill =} \StringTok{"blue"}\NormalTok{) }\SpecialCharTok{+} \CommentTok{\#BREAK}
-  \FunctionTok{facet\_grid}\NormalTok{(}\AttributeTok{rows =} \FunctionTok{vars}\NormalTok{(eruptions }\SpecialCharTok{\textgreater{}} \DecValTok{3}\NormalTok{)) }\CommentTok{\#BREAK}
+\KeywordTok{ggplot}\NormalTok{(}\DataTypeTok{data =}\NormalTok{ faithful) }\OperatorTok{+}\StringTok{ }
+\StringTok{  }\KeywordTok{aes}\NormalTok{(waiting) }\OperatorTok{+}\StringTok{ }
+\StringTok{  }\KeywordTok{geom_rug}\NormalTok{() }\OperatorTok{+}\StringTok{ }
+\StringTok{  }\KeywordTok{geom_histogram}\NormalTok{(}\KeywordTok{aes}\NormalTok{(}\DataTypeTok{y =}\NormalTok{ ..density..)) }\OperatorTok{+}\StringTok{ }\CommentTok{#BREAK}
+\StringTok{  }\NormalTok{ggxmean}\OperatorTok{::}\KeywordTok{geom_normal_dist}\NormalTok{(}\DataTypeTok{fill =} \StringTok{"blue"}\NormalTok{) }\OperatorTok{+}\StringTok{ }\CommentTok{#BREAK}
+\StringTok{  }\KeywordTok{facet_grid}\NormalTok{(}\DataTypeTok{rows =} \KeywordTok{vars}\NormalTok{(eruptions }\OperatorTok{>}\StringTok{ }\DecValTok{3}\NormalTok{)) }\CommentTok{#BREAK}
 \end{Highlighting}
 \end{Shaded}
 
@@ -400,13 +405,13 @@ model}\label{related-to-the-linear-model}}
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\FunctionTok{library}\NormalTok{(patchwork)}
-\NormalTok{(}\FunctionTok{ggplot}\NormalTok{(}\AttributeTok{data =}\NormalTok{ cars) }\SpecialCharTok{+}
-  \FunctionTok{aes}\NormalTok{(dist) }\SpecialCharTok{+}
-\NormalTok{  ggxmean}\SpecialCharTok{::}\FunctionTok{stamp\_normal\_dist}\NormalTok{() ) }\SpecialCharTok{/}
-\NormalTok{(}\FunctionTok{ggplot}\NormalTok{(}\AttributeTok{data =}\NormalTok{ cars) }\SpecialCharTok{+}
-  \FunctionTok{aes}\NormalTok{(dist) }\SpecialCharTok{+}
-\NormalTok{  ggxmean}\SpecialCharTok{::}\FunctionTok{stamp\_normal\_prob}\NormalTok{())}
+\KeywordTok{library}\NormalTok{(patchwork)}
+\NormalTok{(}\KeywordTok{ggplot}\NormalTok{(}\DataTypeTok{data =}\NormalTok{ cars) }\OperatorTok{+}
+\StringTok{  }\KeywordTok{aes}\NormalTok{(dist) }\OperatorTok{+}
+\StringTok{  }\NormalTok{ggxmean}\OperatorTok{::}\KeywordTok{stamp_normal_dist}\NormalTok{() ) }\OperatorTok{/}
+\NormalTok{(}\KeywordTok{ggplot}\NormalTok{(}\DataTypeTok{data =}\NormalTok{ cars) }\OperatorTok{+}
+\StringTok{  }\KeywordTok{aes}\NormalTok{(dist) }\OperatorTok{+}
+\StringTok{  }\NormalTok{ggxmean}\OperatorTok{::}\KeywordTok{stamp_normal_prob}\NormalTok{())}
 \end{Highlighting}
 \end{Shaded}
 
@@ -414,10 +419,10 @@ model}\label{related-to-the-linear-model}}
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\FunctionTok{ggplot}\NormalTok{(cars, }\FunctionTok{aes}\NormalTok{(}\AttributeTok{x =}\NormalTok{ speed)) }\SpecialCharTok{+}
-  \FunctionTok{geom\_rug}\NormalTok{(}\AttributeTok{alpha =}\NormalTok{ .}\DecValTok{3}\NormalTok{) }\SpecialCharTok{+}
-  \FunctionTok{geom\_normal\_dist}\NormalTok{() }\SpecialCharTok{+} 
-  \FunctionTok{stamp\_normal\_dist}\NormalTok{()}
+\KeywordTok{ggplot}\NormalTok{(cars, }\KeywordTok{aes}\NormalTok{(}\DataTypeTok{x =}\NormalTok{ speed)) }\OperatorTok{+}
+\StringTok{  }\KeywordTok{geom_rug}\NormalTok{(}\DataTypeTok{alpha =} \FloatTok{.3}\NormalTok{) }\OperatorTok{+}
+\StringTok{  }\KeywordTok{geom_normal_dist}\NormalTok{() }\OperatorTok{+}\StringTok{ }
+\StringTok{  }\KeywordTok{stamp_normal_dist}\NormalTok{()}
 \end{Highlighting}
 \end{Shaded}
 
@@ -428,8 +433,8 @@ model}\label{related-to-the-linear-model}}
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\NormalTok{ggxmean}\SpecialCharTok{:::}\FunctionTok{stamp\_space}\NormalTok{() }\SpecialCharTok{+}
-  \FunctionTok{stamp\_normal\_dist}\NormalTok{(}\AttributeTok{fill =} \StringTok{"steelblue"}\NormalTok{)}
+\NormalTok{ggxmean}\OperatorTok{:::}\KeywordTok{stamp_space}\NormalTok{() }\OperatorTok{+}
+\StringTok{  }\KeywordTok{stamp_normal_dist}\NormalTok{(}\DataTypeTok{fill =} \StringTok{"steelblue"}\NormalTok{)}
 \end{Highlighting}
 \end{Shaded}
 
@@ -437,12 +442,12 @@ model}\label{related-to-the-linear-model}}
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\FunctionTok{last\_plot}\NormalTok{() }\SpecialCharTok{+}
-  \FunctionTok{stamp\_t\_dist}\NormalTok{(}\AttributeTok{df =} \DecValTok{3}\NormalTok{, }
-               \AttributeTok{fill =} \StringTok{"goldenrod"}\NormalTok{,}
-               \AttributeTok{linetype =} \StringTok{"dashed"}\NormalTok{,}
-               \AttributeTok{color =} \StringTok{"goldenrod"}\NormalTok{,}
-               \AttributeTok{outline.type =} \StringTok{"upper"}\NormalTok{)}
+\KeywordTok{last_plot}\NormalTok{() }\OperatorTok{+}
+\StringTok{  }\KeywordTok{stamp_t_dist}\NormalTok{(}\DataTypeTok{df =} \DecValTok{3}\NormalTok{, }
+               \DataTypeTok{fill =} \StringTok{"goldenrod"}\NormalTok{,}
+               \DataTypeTok{linetype =} \StringTok{"dashed"}\NormalTok{,}
+               \DataTypeTok{color =} \StringTok{"goldenrod"}\NormalTok{,}
+               \DataTypeTok{outline.type =} \StringTok{"upper"}\NormalTok{)}
 \end{Highlighting}
 \end{Shaded}
 
@@ -450,42 +455,42 @@ model}\label{related-to-the-linear-model}}
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\FunctionTok{library}\NormalTok{(patchwork)}
-\FunctionTok{library}\NormalTok{(ggplot2)}
-\FunctionTok{library}\NormalTok{(ggxmean)}
-\NormalTok{ggxmean}\SpecialCharTok{:::}\FunctionTok{stamp\_space}\NormalTok{() }\SpecialCharTok{+}
-  \FunctionTok{stamp\_normal\_dist}\NormalTok{()}
+\KeywordTok{library}\NormalTok{(patchwork)}
+\KeywordTok{library}\NormalTok{(ggplot2)}
+\KeywordTok{library}\NormalTok{(ggxmean)}
+\NormalTok{ggxmean}\OperatorTok{:::}\KeywordTok{stamp_space}\NormalTok{() }\OperatorTok{+}
+\StringTok{  }\KeywordTok{stamp_normal_dist}\NormalTok{()}
 
-\NormalTok{ggxmean}\SpecialCharTok{:::}\FunctionTok{stamp\_space}\NormalTok{() }\SpecialCharTok{+}
-  \FunctionTok{stamp\_chi\_dist}\NormalTok{() }\SpecialCharTok{+} 
-  \FunctionTok{stamp\_t\_dist}\NormalTok{()}
+\NormalTok{ggxmean}\OperatorTok{:::}\KeywordTok{stamp_space}\NormalTok{() }\OperatorTok{+}
+\StringTok{  }\KeywordTok{stamp_chi_dist}\NormalTok{() }\OperatorTok{+}\StringTok{ }
+\StringTok{  }\KeywordTok{stamp_t_dist}\NormalTok{()}
 
-\NormalTok{ggxmean}\SpecialCharTok{:::}\FunctionTok{stamp\_space}\NormalTok{() }\SpecialCharTok{+}
-\NormalTok{  ggxmean}\SpecialCharTok{::}\FunctionTok{stamp\_normal\_dist}\NormalTok{(}\AttributeTok{x\_min =} \SpecialCharTok{{-}}\DecValTok{1}\NormalTok{, }\AttributeTok{x\_max =} \DecValTok{1}\NormalTok{, }\AttributeTok{color =} \StringTok{"black"}\NormalTok{, }\AttributeTok{outline.type =} \StringTok{"full"}\NormalTok{) }\SpecialCharTok{+}
-\NormalTok{  ggxmean}\SpecialCharTok{::}\FunctionTok{stamp\_normal\_dist}\NormalTok{(}\AttributeTok{x\_min =} \SpecialCharTok{{-}}\DecValTok{2}\NormalTok{, }\AttributeTok{x\_max =} \DecValTok{2}\NormalTok{, }\AttributeTok{color =} \StringTok{"black"}\NormalTok{, }\AttributeTok{outline.type =} \StringTok{"full"}\NormalTok{) }\SpecialCharTok{+}
-\NormalTok{  ggxmean}\SpecialCharTok{::}\FunctionTok{stamp\_normal\_dist}\NormalTok{(}\AttributeTok{x\_min =} \SpecialCharTok{{-}}\DecValTok{3}\NormalTok{, }\AttributeTok{x\_max =} \DecValTok{3}\NormalTok{, }\AttributeTok{color =} \StringTok{"black"}\NormalTok{, }\AttributeTok{outline.type =} \StringTok{"full"}\NormalTok{) }\SpecialCharTok{+}
-\NormalTok{  ggxmean}\SpecialCharTok{::}\FunctionTok{stamp\_normal\_dist}\NormalTok{(}\AttributeTok{x\_min =} \SpecialCharTok{{-}}\DecValTok{4}\NormalTok{, }\AttributeTok{x\_max =} \DecValTok{4}\NormalTok{, }\AttributeTok{color =} \StringTok{"black"}\NormalTok{, }\AttributeTok{outline.type =} \StringTok{"full"}\NormalTok{) }\SpecialCharTok{+}
-\NormalTok{  ggxmean}\SpecialCharTok{::}\FunctionTok{stamp\_normal\_dist}\NormalTok{(}\AttributeTok{x\_min =} \SpecialCharTok{{-}}\DecValTok{5}\NormalTok{, }\AttributeTok{x\_max =} \DecValTok{5}\NormalTok{, }\AttributeTok{color =} \StringTok{"black"}\NormalTok{, }\AttributeTok{outline.type =} \StringTok{"full"}\NormalTok{) }\SpecialCharTok{+}
-  \FunctionTok{theme\_minimal}\NormalTok{()}
+\NormalTok{ggxmean}\OperatorTok{:::}\KeywordTok{stamp_space}\NormalTok{() }\OperatorTok{+}
+\StringTok{  }\NormalTok{ggxmean}\OperatorTok{::}\KeywordTok{stamp_normal_dist}\NormalTok{(}\DataTypeTok{x_min =} \DecValTok{-1}\NormalTok{, }\DataTypeTok{x_max =} \DecValTok{1}\NormalTok{, }\DataTypeTok{color =} \StringTok{"black"}\NormalTok{, }\DataTypeTok{outline.type =} \StringTok{"full"}\NormalTok{) }\OperatorTok{+}
+\StringTok{  }\NormalTok{ggxmean}\OperatorTok{::}\KeywordTok{stamp_normal_dist}\NormalTok{(}\DataTypeTok{x_min =} \DecValTok{-2}\NormalTok{, }\DataTypeTok{x_max =} \DecValTok{2}\NormalTok{, }\DataTypeTok{color =} \StringTok{"black"}\NormalTok{, }\DataTypeTok{outline.type =} \StringTok{"full"}\NormalTok{) }\OperatorTok{+}
+\StringTok{  }\NormalTok{ggxmean}\OperatorTok{::}\KeywordTok{stamp_normal_dist}\NormalTok{(}\DataTypeTok{x_min =} \DecValTok{-3}\NormalTok{, }\DataTypeTok{x_max =} \DecValTok{3}\NormalTok{, }\DataTypeTok{color =} \StringTok{"black"}\NormalTok{, }\DataTypeTok{outline.type =} \StringTok{"full"}\NormalTok{) }\OperatorTok{+}
+\StringTok{  }\NormalTok{ggxmean}\OperatorTok{::}\KeywordTok{stamp_normal_dist}\NormalTok{(}\DataTypeTok{x_min =} \DecValTok{-4}\NormalTok{, }\DataTypeTok{x_max =} \DecValTok{4}\NormalTok{, }\DataTypeTok{color =} \StringTok{"black"}\NormalTok{, }\DataTypeTok{outline.type =} \StringTok{"full"}\NormalTok{) }\OperatorTok{+}
+\StringTok{  }\NormalTok{ggxmean}\OperatorTok{::}\KeywordTok{stamp_normal_dist}\NormalTok{(}\DataTypeTok{x_min =} \DecValTok{-5}\NormalTok{, }\DataTypeTok{x_max =} \DecValTok{5}\NormalTok{, }\DataTypeTok{color =} \StringTok{"black"}\NormalTok{, }\DataTypeTok{outline.type =} \StringTok{"full"}\NormalTok{) }\OperatorTok{+}
+\StringTok{  }\KeywordTok{theme_minimal}\NormalTok{()}
 \end{Highlighting}
 \end{Shaded}
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\FunctionTok{library}\NormalTok{(patchwork)}
+\KeywordTok{library}\NormalTok{(patchwork)}
 
-\NormalTok{ggxmean}\SpecialCharTok{:::}\FunctionTok{stamp\_space}\NormalTok{() }\SpecialCharTok{+}
-  \FunctionTok{stamp\_normal\_dist}\NormalTok{(}\AttributeTok{alpha =}\NormalTok{ .}\DecValTok{05}\NormalTok{) }\SpecialCharTok{+}
-  \FunctionTok{stamp\_normal\_dist}\NormalTok{(}\AttributeTok{x\_min =} \SpecialCharTok{{-}}\DecValTok{1}\NormalTok{, }\AttributeTok{x\_max =} \DecValTok{1}\NormalTok{) }\OtherTok{{-}\textgreater{}}
+\NormalTok{ggxmean}\OperatorTok{:::}\KeywordTok{stamp_space}\NormalTok{() }\OperatorTok{+}
+\StringTok{  }\KeywordTok{stamp_normal_dist}\NormalTok{(}\DataTypeTok{alpha =} \FloatTok{.05}\NormalTok{) }\OperatorTok{+}
+\StringTok{  }\KeywordTok{stamp_normal_dist}\NormalTok{(}\DataTypeTok{x_min =} \DecValTok{-1}\NormalTok{, }\DataTypeTok{x_max =} \DecValTok{1}\NormalTok{) ->}
 \NormalTok{p1}
     
-\NormalTok{  ggxmean}\SpecialCharTok{:::}\FunctionTok{stamp\_space}\NormalTok{() }\SpecialCharTok{+}
-  \FunctionTok{stamp\_normal\_prob}\NormalTok{(}\AttributeTok{alpha =}\NormalTok{ .}\DecValTok{1}\NormalTok{) }\SpecialCharTok{+}
-  \FunctionTok{stamp\_normal\_prob}\NormalTok{(}\AttributeTok{sd\_min =} \SpecialCharTok{{-}}\DecValTok{1}\NormalTok{, }\AttributeTok{sd\_max =} \DecValTok{1}\NormalTok{, }
-                             \AttributeTok{size =} \FloatTok{1.5}\NormalTok{) }\OtherTok{{-}\textgreater{}}
+\NormalTok{  ggxmean}\OperatorTok{:::}\KeywordTok{stamp_space}\NormalTok{() }\OperatorTok{+}
+\StringTok{  }\KeywordTok{stamp_normal_prob}\NormalTok{(}\DataTypeTok{alpha =} \FloatTok{.1}\NormalTok{) }\OperatorTok{+}
+\StringTok{  }\KeywordTok{stamp_normal_prob}\NormalTok{(}\DataTypeTok{sd_min =} \DecValTok{-1}\NormalTok{, }\DataTypeTok{sd_max =} \DecValTok{1}\NormalTok{, }
+                             \DataTypeTok{size =} \FloatTok{1.5}\NormalTok{) ->}
 \NormalTok{p2}
   
-\NormalTok{p1 }\SpecialCharTok{/}\NormalTok{ p2}
+\NormalTok{p1 }\OperatorTok{/}\StringTok{ }\NormalTok{p2}
 \end{Highlighting}
 \end{Shaded}
 
@@ -493,33 +498,27 @@ model}\label{related-to-the-linear-model}}
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\FunctionTok{library}\NormalTok{(patchwork)}
+\KeywordTok{library}\NormalTok{(patchwork)}
 
-\NormalTok{ggxmean}\SpecialCharTok{:::}\FunctionTok{stamp\_space}\NormalTok{() }\SpecialCharTok{+}
-  \FunctionTok{stamp\_chisq\_dist}\NormalTok{(}\AttributeTok{df =} \DecValTok{3}\NormalTok{,  }\AttributeTok{fill =} \StringTok{"steelblue"}\NormalTok{) }\SpecialCharTok{+}
-  \FunctionTok{stamp\_chisq\_dist}\NormalTok{(}\AttributeTok{df =} \DecValTok{5}\NormalTok{,  }\AttributeTok{fill =} \StringTok{"goldenrod"}\NormalTok{) }\SpecialCharTok{+}
-  \FunctionTok{stamp\_chisq\_dist}\NormalTok{(}\AttributeTok{df =} \DecValTok{7}\NormalTok{,  }\AttributeTok{fill =} \StringTok{"plum"}\NormalTok{) }\SpecialCharTok{+}
-  \FunctionTok{stamp\_chisq\_dist}\NormalTok{(}\AttributeTok{df =} \DecValTok{11}\NormalTok{, }\AttributeTok{fill =} \StringTok{"sienna"}\NormalTok{) }\OtherTok{{-}\textgreater{}}
+\NormalTok{ggxmean}\OperatorTok{:::}\KeywordTok{stamp_space}\NormalTok{() }\OperatorTok{+}
+\StringTok{  }\KeywordTok{stamp_chisq_dist}\NormalTok{(}\DataTypeTok{df =} \DecValTok{3}\NormalTok{,  }\DataTypeTok{fill =} \StringTok{"steelblue"}\NormalTok{) }\OperatorTok{+}
+\StringTok{  }\KeywordTok{stamp_chisq_dist}\NormalTok{(}\DataTypeTok{df =} \DecValTok{5}\NormalTok{,  }\DataTypeTok{fill =} \StringTok{"goldenrod"}\NormalTok{) }\OperatorTok{+}
+\StringTok{  }\KeywordTok{stamp_chisq_dist}\NormalTok{(}\DataTypeTok{df =} \DecValTok{7}\NormalTok{,  }\DataTypeTok{fill =} \StringTok{"plum"}\NormalTok{) }\OperatorTok{+}
+\StringTok{  }\KeywordTok{stamp_chisq_dist}\NormalTok{(}\DataTypeTok{df =} \DecValTok{11}\NormalTok{, }\DataTypeTok{fill =} \StringTok{"sienna"}\NormalTok{) ->}
 \NormalTok{g1}
   
-\NormalTok{ggxmean}\SpecialCharTok{:::}\FunctionTok{stamp\_space}\NormalTok{() }\SpecialCharTok{+}
-  \FunctionTok{stamp\_chisq\_prob}\NormalTok{(}\AttributeTok{df =} \DecValTok{3}\NormalTok{,  }\AttributeTok{color =} \StringTok{"steelblue"}\NormalTok{) }\SpecialCharTok{+}
-  \FunctionTok{stamp\_chisq\_prob}\NormalTok{(}\AttributeTok{df =} \DecValTok{5}\NormalTok{,  }\AttributeTok{color =} \StringTok{"goldenrod"}\NormalTok{) }\SpecialCharTok{+}
-  \FunctionTok{stamp\_chisq\_prob}\NormalTok{(}\AttributeTok{df =} \DecValTok{7}\NormalTok{,  }\AttributeTok{color =} \StringTok{"plum"}\NormalTok{) }\SpecialCharTok{+}
-  \FunctionTok{stamp\_chisq\_prob}\NormalTok{(}\AttributeTok{df =} \DecValTok{11}\NormalTok{, }\AttributeTok{color =} \StringTok{"sienna"}\NormalTok{) }\OtherTok{{-}\textgreater{}}
+\NormalTok{ggxmean}\OperatorTok{:::}\KeywordTok{stamp_space}\NormalTok{() }\OperatorTok{+}
+\StringTok{  }\KeywordTok{stamp_chisq_prob}\NormalTok{(}\DataTypeTok{df =} \DecValTok{3}\NormalTok{,  }\DataTypeTok{color =} \StringTok{"steelblue"}\NormalTok{) }\OperatorTok{+}
+\StringTok{  }\KeywordTok{stamp_chisq_prob}\NormalTok{(}\DataTypeTok{df =} \DecValTok{5}\NormalTok{,  }\DataTypeTok{color =} \StringTok{"goldenrod"}\NormalTok{) }\OperatorTok{+}
+\StringTok{  }\KeywordTok{stamp_chisq_prob}\NormalTok{(}\DataTypeTok{df =} \DecValTok{7}\NormalTok{,  }\DataTypeTok{color =} \StringTok{"plum"}\NormalTok{) }\OperatorTok{+}
+\StringTok{  }\KeywordTok{stamp_chisq_prob}\NormalTok{(}\DataTypeTok{df =} \DecValTok{11}\NormalTok{, }\DataTypeTok{color =} \StringTok{"sienna"}\NormalTok{) ->}
 \NormalTok{g2}
 
-\NormalTok{g1 }\SpecialCharTok{/}\NormalTok{ g2}
+\NormalTok{g1 }\OperatorTok{/}\StringTok{ }\NormalTok{g2}
 \end{Highlighting}
 \end{Shaded}
 
 \begin{center}\includegraphics[width=0.5\linewidth]{manuscript_files/figure-latex/unnamed-chunk-14-1} \end{center}
-
-\section{Verifications}
-\label{sec:verify}
-
-This section will be just long enough to illustrate what a full page of
-text looks like, for margins and spacing.
 
 \citep{tishkovskaya2012statistical}
 

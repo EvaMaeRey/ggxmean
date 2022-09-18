@@ -30,5 +30,10 @@ ggplot(faithful, aes(x = waiting)) +
   geom_rug() +
   geom_histogram(aes(y = ..density..)) +
   geom_normal_dist(fill = "magenta") +
-  facet_wrap(facets = vars( eruptions > 3 ), ncol = 1)
+  facet_wrap(facets = vars( eruptions > 3 ), ncol = 1) +
+  geom_normal_dist(q_min = .99)
+
+ggplot(faithful, aes(x = waiting)) +
+  geom_density() +
+  geom_normal_dist(q_min = .05, q_max = 1-.05)
 }

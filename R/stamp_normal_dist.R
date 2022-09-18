@@ -1,20 +1,32 @@
+compute_group_norm_dist_stamp <- function(data, scales, mean = 0,
+         sd = 1, height = 1,
+         sd_min = -4, sd_max = 4, q_min = NULL, q_max = NULL) {
+
+  if(!is.null(q_min) | !is.null(q_max)){
+
+    if(is.null(q_min)){q_min = .00003} # about 4sd below
+    if(is.null(q_max)){q_max = .99997} # about 4sd above
+
+    sd_min = qnorm(q_min)
+    sd_max = qnorm(q_max)
+  }
+
+  seq(sd_min, sd_max, .01) %>%
+    tibble::tibble(x = .) %>%
+    dplyr::mutate(y = dnorm(x)*height) %>%
+    dplyr::mutate(x = x*sd + mean) %>%
+    dplyr::mutate(alpha = .3)
+
+}
 
 StampDnorm <- ggplot2::ggproto("StampDnorm",
                               ggplot2::Stat,
-                              compute_group = function(data, scales, mean = 0,
-                                                       sd = 1, height = 1,
-                                                       sd_min = -4, sd_max = 4) {
-
-                                seq(sd_min, sd_max, .01) %>%
-                                  tibble(x = .) %>%
-                                  mutate(y = dnorm(x)*height) %>%
-                                  mutate(x = x*sd + mean) %>%
-                                  mutate(alpha = .3)
-
-                              },
-
+                              compute_group = compute_group_norm_dist_stamp,
                               required_aes = c("x")
-)
+                              )
+
+
+
 
 #' Title
 #'
@@ -32,10 +44,11 @@ StampDnorm <- ggplot2::ggproto("StampDnorm",
 #'
 #' @examples
 #' library(ggplot2)
+#' library(tidyverse)
 #' ggxmean:::stamp_space() +
 #'   stamp_normal_dist(alpha = .5, height = 1, fill = "magenta") +
 #'   stamp_normal_dist(sd_min = -5, sd_max = -1.96, height = 1) +
-#'   stamp_normal_dist(sd_min = 1.98, sd_max = 5, height = 1)
+#'   stamp_normal_dist(q_min = 0.25, height = 1)
 #'
 #' ggxmean:::stamp_space() +
 #'   stamp_normal_dist(sd_min = -1, sd_max = 1, color = "slateblue",
@@ -51,7 +64,7 @@ stamp_normal_dist <- function(mapping = NULL, data = NULL,
     stat = StampDnorm, geom = ggplot2::GeomArea, data = data, mapping = mapping,
     position = position, show.legend = show.legend, inherit.aes = inherit.aes,
 
-    params = list(na.rm = na.rm, outline.type = outline.type,...)
+    params = list(na.rm = na.rm, outline.type = outline.type, ...)
   )
 }
 
@@ -65,10 +78,10 @@ StampPnorm <- ggplot2::ggproto("StampPnorm",
                                                         sd_min = -4, sd_max = 4) {
 
                                  seq(sd_min, sd_max, .01) %>%
-                                   tibble(x = .) %>%
-                                   mutate(y = pnorm(x)*height) %>%
-                                   mutate(x = x*sd + mean) %>%
-                                   mutate(alpha = .3)
+                                   tibble::tibble(x = .) %>%
+                                   dplyr::mutate(y = pnorm(x)*height) %>%
+                                   dplyr::mutate(x = x*sd + mean) %>%
+                                   dplyr::mutate(alpha = .3)
 
                                },
 

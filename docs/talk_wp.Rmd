@@ -1,0 +1,535 @@
+---
+ title: "Extending ggplot2 statistical geometries"
+ subtitle: "MAA Metro New York"  
+ author: "Gina Reynolds"
+ date: 'Saturday May 1, 2021, 11AM'
+ output:
+   xaringan::moon_reader:
+     lib_dir: libs
+     seal: false
+     nature:
+       ratio: 16:10
+       highlightStyle: github
+       highlightLines: true
+       countIncrementalSlides: false
+       beforeInit: "https://platform.twitter.com/widgets.js"
+---
+
+class: inverse
+background-image: url(https://images.unsplash.com/photo-1482685945432-29a7abf2f466?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1532&q=80)
+background-size: cover
+
+# Extending ggplot2 statistical geometries
+## MAA Metro New York
+### Dr. Evangeline 'Gina' Reynolds
+
+### Saturday May 1, 2021, 11AM
+#### Photo Credit: Mike Lewis HeadSmart Media
+
+
+
+
+```{r, include = F}
+ knitr::opts_chunk$set(echo = F, comment = "", message = F, 
+                       warning = F, cache = T, fig.retina = 3)
+ library(tidyverse)
+ library(flipbookr)
+ library(xaringanthemer)
+ xaringanthemer::mono_light(
+   base_color = "#02075D",
+   # header_font_google = google_font("Josefin Sans"),
+   # text_font_google   = google_font("Montserrat", "200", "200i"),
+   # code_font_google   = google_font("Droid Mono"),
+   text_font_size = ".85cm",
+   code_font_size = ".15cm")
+theme_set(theme_gray(base_size = 20))
+```
+
+---
+ 
+![](https://www2.stat.duke.edu/courses/Spring20/sta199.002/slides/img/02a/grammar-of-graphics.png)
+ 
+---
+class: inverse, center middle
+
+
+# If visualization packages used this approach they would be able to "draw *every* statistical graphic".
+
+
+???
+   
+   
+   
+The grammar of graphics framework, proposed by Leland Wilkinson in 1999, that identified 'seven orthogonal components' in the creation of data visualizations.\
+Wilkinson asserted that if data visualization packages were created using a separation of concerns approach -- dividing decision making surrounding these components --- the packages would be able to "draw every statistical graphic". The grammar of graphic principles were incredibly powerful and gave rise to a number of visualization platforms including Tableau, vega-lite, and ggplot2.
+
+# Back to ggplot2. What's the fuss?
+
+--
+Hadley Wickham, ggplot2 author on it's motivation:
+
+> ### And, you know, I'd get a dataset. And, *in my head I could very clearly kind of picture*, I want to put this on the x-axis. Let's put this on the y-axis, draw a line, put some points here, break it up by this variable. 
+
+--
+
+> ### And then, like, getting that vision out of my head, and into reality, it's just really, really hard. Just, like, felt harder than it should be. Like, there's a lot of custom programming involved, 
+
+---
+
+> ### where I just felt, like, to me, I just wanted to say, like, you know, *this is what I'm thinking, this is how I'm picturing this plot. Like you're the computer 'Go and do it'.* 
+
+--
+
+> ### ... and I'd also been reading about the Grammar of Graphics by Leland Wilkinson, I got to meet him a couple of times and ... I was, like, this book has been, like, written for me. 
+
+https://www.trifacta.com/podcast/tidy-data-with-hadley-wickham/
+
+---
+# So what's the promise of ggplot2?
+
+--
+
+## Getting the plot form you picture in your head ...
+
+--
+
+## ... into reality...
+
+--
+
+## ... by describing it.
+
+---
+
+# ggplot2 is called a 'declarative' graphing system.
+
+--
+
+# It lets you *'speak your plot into existance'*. (Thomas Lin Pederson?) 
+
+--
+
+### This is fast. Because most of us, like Hadley Wickham, can **picture** the form of the plot we're going after rather clearly (i.e. what the horizontal position should represent, what color should represent, what 'marks' (points, lines) are going to appear on the plot).  
+--
+'Getting' our plot made becomes a matter of describing what we're already picturing!
+
+
+
+---
+
+# Creators enjoy freedom, fine control
+
+--
+
+# Grammar of graphics inspired:
+
+--
+
+#- Tableau
+#- vega-lite
+#- ggplot2
+
+
+---
+
+### Use ggplot2 in the classroom because R (coolest stats language), and ...
+
+--
+
+![](https://pkg.garrickadenbuie.com/gentle-ggplot2/images/hadley.jpg)
+
+
+> The transferrable skills from ggplot2 are not the idiosyncracies of plotting syntax, but a **powerful way of thinking about visualisation**, as a way of mapping between variables and the visual properties of geometric objects that you can perceive.
+
+
+???
+
+Statistical educators that introduce students to one of these tools arguably are doing more than constructing one-off plots to discuss statistical principles with students: they are introducing students to 'a powerful way of thinking about data visualization'.
+
+Statistical educators often use ggplot2 as their grammar-of-graphics-based data visualization tool as students can learn it along side the rich statistical ecosystem of the R programming language. The R programming language thus may serve as a one-stop-shop for statistical tooling; with recent developments in packages and IDEs writing code is becoming more accessible and welcoming to newcomers.
+
+---
+
+
+```{r}
+gapminder %>% 
+  filter(year == 2002) %>% 
+  ggplot() + 
+  aes(x = gdpPercap) + 
+  aes(y = lifeExp) + 
+  aes(size = pop) + 
+  aes(color = continent) +
+  geom_point(alpha = .8) + 
+  aes(fill = continent) +
+  guides(fill = 'none') +
+  scale_x_log10() +
+  scale_size(range = c(2, 10)) +
+  labs(title = "I 'talked' this plot into existance!") + 
+  labs(subtitle = "... using the grammar of graphics")
+```
+
+
+---
+
+
+???
+
+
+Still, using ggplot2 for statistical education can be a challenge at times. When it is used to discuss statistical concepts, sometimes it feels as though getting something done with the plotting library derails the focus on discussion of statistical concepts and material.
+
+---
+class: inverse, center, middle
+
+# The problem 
+
+--
+
+## sometimes you don't have geoms you'd like!
+
+---
+
+Covariance, variance, correlation sd, walk through...
+
+--
+
+fragile choreography... 
+
+---
+
+
+## The status quo: adding the mean
+
+```{r, echo = F}
+library(ggplot2)
+ggplot(airquality) + 
+  aes(x = Ozone) + 
+  geom_histogram() + 
+  ggxmean::geom_x_mean()
+```
+
+
+???
+
+Consider for example, a the seemingly simple enterprise of adding a vertical line at the mean of x, perhaps atop a histogram or density plot.
+
+---
+
+`r chunk_reveal("basic", title = "### Adding the mean at x w/ base ggplot2")`
+
+```{r basic}
+ggplot(data = airquality) + 
+  aes(x = Ozone) + 
+  geom_histogram() + 
+  geom_vline(
+    xintercept = 
+      mean(airquality$Ozone, 
+           na.rm = T)
+    )
+```
+ 
+ 
+???
+
+Creating this plot requires greater focus on ggplot2 *syntax*, likely detracting from discussion of *the mean* that statistical instructors desire.
+
+It may require a discussion about dollar sign syntax and how geom_vline is actually a special geom -- an annotation -- rather than being mapped to the data. None of this is relevant to the point you as an instructor aim to make: maybe that the the mean is the balancing point of the data or maybe a comment about skewness.
+
+
+---
+
+### Adding the conditional means
+
+```{r cond_means_hard, echo = F}
+airquality %>% 
+  group_by(Month) %>% 
+  summarise(
+    Ozone_mean = 
+      mean(Ozone, na.rm = T)
+    ) ->
+airquality_by_month
+
+ggplot(airquality) + 
+  aes(x = Ozone) + 
+  geom_histogram() + 
+  facet_grid(rows = vars(Month)) +
+  geom_vline(data = airquality_by_month, 
+             aes(xintercept = 
+               Ozone_mean))
+```
+
+
+???
+
+Further, for the case of adding a vertical line at the mean for different subsets of the data, a different approach is required. This enterprise may take instructor/analyst/student on an even larger detour -- possibly googling, and maybe landing on the following stack overflow page where 11,000 analytics souls (some repeats to be sure) have landed:
+
+<https://stackoverflow.com/questions/1644661/add-a-vertical-line-with-different-intercept-for-each-panel-in-ggplot2>
+
+The solutions to this problem involve data manipulation *prior* to plotting the data. The solution disrupts the forward flow ggplot build. One must take a pause, which may involve toggling back and forth between stack overflow solutions, disrupting momentum you are working on to talk about the pooled mean and the conditional mean.
+
+
+
+---
+
+`r chunk_reveal("cond_means_hard", title = "#### Conditional means (may require a trip to stackoverflow!)")`
+
+---
+
+
+
+# "...mastery of advanced programming skills should not be allowed to crowd out data analysis skills or statistical thinking." -- GAISE report
+
+--
+
+![](https://media.giphy.com/media/ycBW5N5XMfpXTvamtF/giphy.gif)
+
+---
+
+
+class: inverse, center, bottom
+background-image: url(https://images.unsplash.com/photo-1482685945432-29a7abf2f466?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1532&q=80)
+background-size: cover
+
+# But other statistical geometries in ggplot2 flow! 
+--
+... ggplot is known for being able to 'speak your plot into existence'.
+
+--
+
+ggplot2 is capable of doing lot of computational work in the background for us!!
+
+---
+
+# Declarative
+
+--
+
+## "Let there be a a box plot..."
+
+--
+
+## and there was a boxplot.
+
+--
+
+## "Let there be LOESS smoothing..."
+
+--
+
+## and there was loess smoothing
+
+
+---
+
+`r chunk_reveal("base_gg_flow")`
+
+```{r base_gg_flow, include=F}
+ggplot(cars) + 
+  aes(x = speed) + 
+  aes(y = dist) +
+  geom_point() + 
+  geom_smooth() ->
+g1
+
+library(palmerpenguins)
+ggplot(penguins) +
+  aes(x = species) +
+  aes(y = bill_length_mm) + 
+  geom_point() +
+  geom_boxplot() ->
+g2
+
+g2 %>% ggplot2::layer_data(i = 2)
+
+
+```
+
+
+---
+
+
+# But, infrastructure to *extend* ggplot2 ...
+
+
+
+--
+
+![](https://media.giphy.com/media/relSRdIMtKVcPrSfyT/giphy.gif)
+
+
+---
+
+## Build new statistical geometries that deliver the *flow* experience!
+
+--
+- # for students
+--
+
+- # for instructors
+--
+
+- # for analysts
+
+
+---
+class: center, inverse, middle
+
+# Introducing {ggxmean}
+
+--
+
+https://github.com/EvaMaeRey/ggxmean
+
+
+---
+
+```{r, echo = F}
+datasets::anscombe %>%
+  pivot_longer(cols = 1:8) %>%
+  mutate(group = str_extract(name, "\\d")) %>%
+  mutate(var = str_extract(name, "\\w")) %>%
+  mutate(group = paste("dataset", group)) %>% 
+  select(-name) %>%
+  pivot_wider(names_from = var,
+              values_from = value) %>%
+  unnest() ->
+tidy_anscombe
+```
+
+---
+
+
+`r chunk_reveal("geom_x_mean", title = "geom_x_mean()")`
+
+```{r geom_x_mean, include=F}
+tidy_anscombe %>%
+  ggplot() +
+  aes(x = x, y = y) +
+  geom_point() +
+  aes(color = group) +
+  facet_wrap(facets = vars(group)) +
+# mean of x
+  ggxmean::geom_x_mean() +
+  ggxmean::geom_y_mean() +
+# mean of y
+  ggxmean:::geom_x1sd(linetype = "dashed") +
+  ggxmean:::geom_y1sd(linetype = "dashed") +
+# linear model
+  ggxmean::geom_lm() +
+  ggxmean::geom_lm_formula()
+```
+
+---
+
+# Cadet work
+
+- ggplot2 mechanics
+- functions in R
+- package architecture
+- ggplot2 extension
+
+---
+
+```{r}
+tidy_anscombe %>%
+  ggplot() +
+  aes(x = x, y = y) +
+  geom_point(color = "grey") +
+  facet_wrap(facets = vars(group)) +
+  ggxmean::geom_text_cooks(size = 2,
+                           check_overlap = T)
+
+
+# tidy_anscombe %>%
+#   ggplot() +
+#   aes(x = x, y = y) +
+#   geom_point() +
+#   aes(color = group) +
+#   facet_wrap(facets = vars(group)) +
+#   ggxmean::geom_lm() + 
+#   ggxmean::geom_text_leverage(size = 8)
+```
+
+
+---
+
+`r chunk_reveal("univariate", title = "### Other univariate markers") `
+
+```{r univariate, include = F}
+ggplot(airquality) + 
+  aes(x = Ozone) + 
+  geom_histogram() + 
+  geom_x_median() + 
+  geom_x_quantile(
+    quantile = .25,
+    linetype = "dashed"
+    ) + 
+  geom_x_percentile(
+    percentile = 100,
+    linetype = "dotted"
+    )
+```
+
+
+---
+
+
+`r chunk_reveal("lm_sequence", title = "### Relevant to OLS", widths = c(1,1)) `
+
+```{r lm_sequence, include = F}
+ggplot(data = cars) + 
+  aes(speed, dist) + 
+  geom_point() + #BREAK
+  ggxmean::geom_lm() + #BREAK
+  ggxmean::geom_lm_fitted(color = "blue",
+                          size = 3) + #BREAK
+  ggxmean::geom_lm_residuals() + #BREAK
+  ggxmean::geom_lm_conf_int() + #BREAK
+  ggxmean::geom_lm_intercept(color = "red",
+                             size = 5) + #BREAK
+  ggxmean::geom_lm_formula(size = 10) #BREAK
+```
+
+---
+
+# Easy Geom Recipes...
+
+
+
+
+---
+
+`r chunk_reveal("geom_normal_dist", title = "### fitting distributions", widths = c(1,1)) `
+
+```{r geom_normal_dist, fig.show='hide'}
+ggplot(data = faithful) + 
+  aes(waiting) + 
+  geom_rug() + 
+  geom_histogram(
+    aes(y = ..density..)) + #BREAK
+  ggxmean::geom_normal_dist(fill = "blue") + #BREAK
+  facet_grid(rows = 
+               vars(eruptions > 3)) #BREAK
+```
+
+
+---
+
+
+
+---
+class: inverse, center, bottom
+background-image: url(https://images.unsplash.com/photo-1482685945432-29a7abf2f466?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1532&q=80)
+background-size: cover
+
+
+# Thank you!
+
+--
+
+## {ggxmean} development package: https://evamaerey.github.io/ggxmean/
+
+--
+
+# Feedback welcome!
+
+
