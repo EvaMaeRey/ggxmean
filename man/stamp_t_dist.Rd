@@ -29,7 +29,11 @@ library(ggplot2)
 ggplot(cars, aes(x = dist)) +
   stamp_t_dist(alpha = .5, height = 1, fill = "magenta") +
   stamp_t_dist(x_min = -5, x_max = -1.96, height = 1) +
-  stamp_t_dist(x_min = 1.98, x_max = 5, height = 1)
+  stamp_t_dist(x_min = 1.98, x_max = 5, height = 1, df = 20)
+
+library(ggplot2)
+ggplot(cars, aes(x = dist)) +
+  stamp_t_dist(alpha = .5, height = 1, q_min = .3)
 
 ggplot(cars, aes(x = dist)) +
   stamp_t_dist(x_min = -1, x_max = 1, color = "slateblue",
