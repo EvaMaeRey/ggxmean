@@ -1,23 +1,27 @@
 GeomXmeanlabel <- ggplot2::ggproto("GeomXmeanlabel", ggplot2::Geom,
-                              draw_panel = function(data, panel_params, coord) {
+                                   draw_panel = function(data, panel_params, coord) {
 
-                                ranges <- coord$backtransform_range(panel_params)
+                                     ranges <- coord$backtransform_range(panel_params)
 
-                                data$x    <- mean(data$x)
-                                # data$yend <- mean(data$y)
-                                data$y    <- (ranges$y[1] + ranges$y[2])/2
-                                # data$xend <- ranges$x[2]
-                                data$label <- good_digits(mean(data$x), 3)
+                                     groups <- split(data, factor(data$group))
+                                     data <- lapply(groups, function(group) {
+                                       group$x <- mean(group$x)
+                                       group <- unique(group)
+                                       group$y <- (ranges$y[1] + ranges$y[2])/2
+                                       group$label <- good_digits(group$x, 3)
+                                       group
+                                     })
+                                     data <- do.call(rbind, data)
 
-                                GeomLabel$draw_panel(unique(data), panel_params, coord)
+                                     GeomLabel$draw_panel(unique(data), panel_params, coord)
 
-                              },
+                                   },
 
-                              default_aes = ggplot2::aes(colour = "black", size = 5,
-                                                         linetype = 1, fill = "white", alpha = 1),
-                              required_aes = "x",
+                                   default_aes = ggplot2::aes(colour = "black", size = 5,
+                                                              linetype = 1, fill = "white", alpha = 1),
+                                   required_aes = "x",
 
-                              draw_key = ggplot2::draw_key_label
+                                   draw_key = ggplot2::draw_key_label
 )
 
 
