@@ -1,30 +1,29 @@
-draw_panel_xline = function(data, panel_params, coord) {
+draw_panel_xlabel = function(data, panel_params, coord) {
 
   ranges <- coord$backtransform_range(panel_params)
 
   data$x    <- data$x
-  data$xend <- data$x
-  data$y    <- ranges$y[1]
-  data$yend <- ranges$y[2]
+  data$y    <- mean(ranges$y)
+  data$label <- good_digits(data$x, 3)
 
-  GeomSegment$draw_panel(data, panel_params, coord)
+  GeomLabel$draw_panel(data, panel_params, coord)
 
 }
 
 
-GeomXline <- ggplot2::ggproto("GeomXline", ggplot2::Geom,
-                     draw_panel = draw_panel_xline,
+GeomXlabel <- ggplot2::ggproto("GeomXlabel", ggplot2::Geom,
+                     draw_panel = draw_panel_xlabel,
 
                      default_aes = ggplot2::aes(colour = "black", size = 0.5,
-                                       linetype = 1, alpha = NA),
+                                       linetype = 1, alpha = 1),
                      required_aes = "x",
 
-                     draw_key = ggplot2::draw_key_vline
+                     draw_key = ggplot2::draw_key_label
 )
 
 
 
-#' Lines defined by values of x
+#' Labels defined by values of x
 #'
 #'
 #' @param mapping
@@ -38,11 +37,7 @@ GeomXline <- ggplot2::ggproto("GeomXline", ggplot2::Geom,
 #' @export
 #'
 #' @examples
-#' library(ggplot2)
-#' ggplot(data = cars, mapping = aes(x = speed, y = dist)) +
-#' geom_point() +
-#' geom_x_line(alpha = .25) + aes(color = speed > 15)
-geom_x_line <- function(mapping = NULL, data = NULL,
+geom_x_label <- function(mapping = NULL, data = NULL,
                        ...,
                        x,
                        na.rm = FALSE,
@@ -52,7 +47,7 @@ geom_x_line <- function(mapping = NULL, data = NULL,
     data = data,
     mapping = mapping,
     stat = ggplot2::StatIdentity,
-    geom = GeomXline,
+    geom = GeomXlabel,
     position = ggplot2::PositionIdentity,
     show.legend = show.legend,
     inherit.aes = TRUE,
