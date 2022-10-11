@@ -3,11 +3,15 @@ GeomXmeanlabel <- ggplot2::ggproto("GeomXmeanlabel", ggplot2::Geom,
 
                                      ranges <- coord$backtransform_range(panel_params)
 
-                                     data$x    <- mean(data$x)
-                                     # data$yend <- mean(data$y)
-                                     data$y    <- (ranges$y[1] + ranges$y[2])/2
-                                     # data$xend <- ranges$x[2]
-                                     data$label <- good_digits(mean(data$x), 3)
+                                     groups <- split(data, factor(data$group))
+                                     data <- lapply(groups, function(group) {
+                                       group$x <- mean(group$x)
+                                       group <- unique(group)
+                                       group$y <- (ranges$y[1] + ranges$y[2])/2
+                                       group$label <- good_digits(group$x, 3)
+                                       group
+                                     })
+                                     data <- do.call(rbind, data)
 
                                      GeomLabel$draw_panel(unique(data), panel_params, coord)
 
