@@ -42,7 +42,7 @@ GeomXmeanlabel <- ggplot2::ggproto("GeomXmeanlabel", ggplot2::Geom,
 #' @examples
 #' library(ggplot2)
 #' ggplot(data = cars, mapping = aes(x = speed, y = dist)) +
-#' geom_point() + geom_x_mean() + geom_x_mean_label()
+#' geom_point() + geom_x_mean() + geom_x_mean_label() + aes(color = speed > 15)
 geom_x_mean_label <- function(mapping = NULL, data = NULL,
                               ...,
                               x,
